@@ -13,12 +13,35 @@ public class TestCharacter : MonoBehaviour
 	public int initPos_X; // 初期X位置
 	[Header("初期Z位置(-4～4)")]
 	public int initPos_Z; // 初期Z位置
-
-	// ゲーム中に変化するキャラクターデータ
+	[Header("敵フラグ(ONで敵キャラとして扱う)")]
+	public bool isEnemy; // 敵フラグ
+						 // キャラクターデータ(初期ステータス)
+	[Header("キャラクター名")]
+	public string charaName; // キャラクター名
+	[Header("最大HP(初期HP)")]
+	public int maxHP; // 最大HP
+	[Header("攻撃力")]
+	public int atk; // 攻撃力
+	[Header("防御力")]
+	public int def; // 防御力
+	[Header("属性")]
+	public Attribute attribute; // 属性
+								// ゲーム中に変化するキャラクターデータ
 	[HideInInspector]
 	public int xPos; // 現在のx座標
 	[HideInInspector]
 	public int zPos; // 現在のz座標
+	[HideInInspector]
+	public int nowHP; // 現在HP
+
+	// キャラクター属性定義(列挙型)
+	public enum Attribute
+	{
+		Water, // 水属性
+		Fire,  // 火属性
+		Wind,  // 風属性
+		Soil,  // 土属性
+	}
 
 	void Start()
 	{
@@ -40,7 +63,7 @@ public class TestCharacter : MonoBehaviour
 		// その他変数初期化
 		xPos = initPos_X;
 		zPos = initPos_Z;
-
+		nowHP = maxHP;
 
 		path = GetComponent<Path>();
 	}

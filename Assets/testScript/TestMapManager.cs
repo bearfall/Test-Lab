@@ -42,21 +42,67 @@ public class TestMapManager : MonoBehaviour
     {
         for (int i = 0; i < testMapBlocks.Count; i++)
         {
-            testMapBlocks[i].SetSelectionMode(false);
+            testMapBlocks[i].SetSelectionMode(TestMapBlock.Highlight.Off);
         }
     }
 
-    /*public List<TestMapBlock> TestSearchReachableBlocks()
+    public List<TestMapBlock> SearchAttackableBlocks(int xPos, int zPos)
     {
         var results = new List<TestMapBlock>();
 
 
+        Vector3 hi2 = new Vector3(xPos+1, 0, zPos);
 
+        foreach (var gameObject in TestMapManager.testMapBlocks)
+        {
+            if (gameObject.transform.position == hi2)
+            {
+                gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                print(gameObject.transform.GetChild(0).gameObject);
+                results.Add(gameObject);
+            }
+        }
 
+        hi2 = new Vector3(xPos, 0, zPos+1);
 
+        foreach (var gameObject in TestMapManager.testMapBlocks)
+        {
+            if (gameObject.transform.position == hi2)
+            {
+                gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                print(gameObject.transform.GetChild(0).gameObject);
+                results.Add(gameObject);
+            }
+        }
 
+        hi2 = new Vector3(xPos-1, 0, zPos);
+
+        foreach (var gameObject in TestMapManager.testMapBlocks)
+        {
+            if (gameObject.transform.position == hi2)
+            {
+                gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                print(gameObject.transform.GetChild(0).gameObject);
+                results.Add(gameObject);
+            }
+        }
+
+        hi2 = new Vector3(xPos, 0, zPos-1);
+
+        foreach (var gameObject in TestMapManager.testMapBlocks)
+        {
+            if (gameObject.transform.position == hi2)
+            {
+                gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                print(gameObject.transform.GetChild(0).gameObject);
+                results.Add(gameObject);
+            }
+        }
 
         return results;
+
+
+
     }
-    */
+
 }

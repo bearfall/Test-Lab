@@ -6,8 +6,10 @@ public class TestGameManager : MonoBehaviour
 {
 	private TestMapManager testMapManager;
 	private TestCharactersManager testCharactersManager;
+	private TestGUIManager testGuiManager; // GUIマネージャ
 	private Path path;
 	private List<TestMapBlock> reachableBlocks;
+	private List<TestMapBlock> attackableBlocks;
 	private int charaStartPos_X; // 選択キャラクターの移動前の位置(X方向)
 	private int charaStartPos_Z; // 選択キャラクターの移動前の位置(Z方向)
 	private TestCharacter selectingChara; // 選中的角色（如果沒有選中則為 false）
@@ -33,8 +35,11 @@ public class TestGameManager : MonoBehaviour
     {
 		testMapManager = GetComponent<TestMapManager>();
 		testCharactersManager = GetComponent<TestCharactersManager>();
-		reachableBlocks = new List<TestMapBlock>();
 
+		reachableBlocks = new List<TestMapBlock>();
+		attackableBlocks = new List<TestMapBlock>();
+
+		testGuiManager = GetComponent<TestGUIManager>();
 		nowPhase = Phase.MyTurn_Start; // 開始時の進行モード
 	}
 
@@ -79,7 +84,7 @@ public class TestGameManager : MonoBehaviour
 				// 取消選擇所有塊
 				testMapManager.AllselectionModeClear();
 				// 將塊顯示為選中
-				targetBlock.SetSelectionMode(true);
+				targetBlock.SetSelectionMode(TestMapBlock.Highlight.Select);
 		// 選択した位置に居るキャラクターのデータを取得
 		var charaData =
 			testCharactersManager.GetCharacterDataByPos(targetBlock.xPos, targetBlock.zPos);
@@ -87,6 +92,7 @@ public class TestGameManager : MonoBehaviour
 				{// キャラクターが存在する
 				 // 選択中のキャラクター情報に記憶
 					selectingChara = charaData;
+					testGuiManager.ShowStatusWindow(selectingChara);
 
 					charaStartPos_X = selectingChara.xPos;
 					charaStartPos_Z = selectingChara.zPos;
@@ -101,6 +107,11 @@ public class TestGameManager : MonoBehaviour
 					// 進行モードを進める：移動先選択中
 					ChangePhase(Phase.MyTurn_Moving);
 				}
+				else
+				{// キャラクターが存在しない
+				 // 選択中のキャラクター情報を初期化する
+					ClearSelectingChara();
+				}
 				break;
 
 			// 自分のターン：移動先選択中
@@ -111,22 +122,111 @@ public class TestGameManager : MonoBehaviour
 					print(targetBlock.xPos);
 					print(targetBlock.zPos);
 					selectingChara.MovePosition(targetBlock.xPos, targetBlock.zPos);
+
+
 					Path.index = 0; //存入ppp[]用的索引值歸0(初值)
 					Path.Count = 0; //取出ppp[]用的索引值歸0(初值)
-
 					Path.ppp.Clear();   //清空儲存行走範圍的陣列
 					Path.mCount.Clear();    //清空儲存 m 值的陣列
+
+
 					reachableBlocks.Clear();
 					testMapManager.AllselectionModeClear();
-					ChangePhase(Phase.MyTurn_Start);
+					testGuiManager.ShowCommandButtons();
+					ChangePhase(Phase.MyTurn_Command);
 				}
 					break;
+
+
+			// 自分のターン：移動後のコマンド選択中
+			case Phase.MyTurn_Command:
+				// キャラクター攻撃処理
+				// (攻撃可能ブロックを選択した場合に攻撃処理を呼び出す)
+				if (attackableBlocks.Contains(targetBlock))
+				{// 攻撃可能ブロックをタップした時
+				 // 攻撃可能な場所リストを初期化する
+					attackableBlocks.Clear();
+					// 全ブロックの選択状態を解除
+					testMapManager.AllselectionModeClear();
+
+					// 攻撃対象の位置に居るキャラクターのデータを取得
+					var targetChara =
+						testCharactersManager.GetCharacterDataByPos(targetBlock.xPos, targetBlock.zPos);
+					if (targetChara != null)
+					{// 攻撃対象のキャラクターが存在する
+					 // キャラクター攻撃処理
+						CharaAttack(selectingChara, targetChara);
+
+						// 進行モードを進める(行動結果表示へ)
+						ChangePhase(Phase.MyTurn_Result);
+						return;
+					}
+					else
+					{// 攻撃対象が存在しない
+					 // 進行モードを進める(敵のターンへ)
+						ChangePhase(Phase.EnemyTurn_Start);
+					}
+				}
+				break;
+
+
 		}
 
+
+
 	}
+	/// <summary>
+	/// 選択中のキャラクター情報を初期化する
+	/// </summary>
+	private void ClearSelectingChara()
+	{
+		// 選択中のキャラクターを初期化する
+		selectingChara = null;
+		// キャラクターのステータスUIを非表示にする
+		testGuiManager.HideStatusWindow();
+	}
+
+
 	private void ChangePhase(Phase newPhase)
 	{
 		// モード変更を保存
 		nowPhase = newPhase;
+	}
+
+	public void AttackCommand()
+	{
+		// コマンドボタンを非表示にする
+		testGuiManager.HideCommandButtons();
+
+		// 攻撃可能な場所リストを取得する
+		attackableBlocks = testMapManager.SearchAttackableBlocks(selectingChara.xPos, selectingChara.zPos);
+		print(selectingChara.xPos);
+		print(selectingChara.zPos);
+		
+		// 攻撃可能な場所リストを表示する
+		foreach (TestMapBlock mapBlock in attackableBlocks)
+			mapBlock.SetSelectionMode(TestMapBlock.Highlight.Attackable);
+		// (ここに攻撃範囲取得処理)
+	}
+	/// <summary>
+	/// 待機コマンドボタン処理
+	/// </summary>
+	public void StandbyCommand()
+	{
+		// コマンドボタンを非表示にする
+		testGuiManager.HideCommandButtons();
+		// 進行モードを進める(敵のターンへ)
+		ChangePhase(Phase.EnemyTurn_Start);
+	}
+
+	/// <summary>
+	/// キャラクターが他のキャラクターに攻撃する処理
+	/// </summary>
+	/// <param name="attackChara">攻撃側キャラデータ</param>
+	/// <param name="defenseChara">防御側キャラデータ</param>
+	private void CharaAttack(TestCharacter attackChara, TestCharacter defenseChara)
+	{
+		// (ここに戦闘処理)
+		Debug.Log("攻撃側:" + attackChara.charaName + " 防御側:" + defenseChara.charaName);
 	}
 }

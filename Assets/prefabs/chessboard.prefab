@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 404599708554715476}
   - component: {fileID: 404599708545355348}
   - component: {fileID: 7283449607033039899}
-  - component: {fileID: 2653033950173221558}
+  - component: {fileID: 1220839669979981634}
   m_Layer: 0
   m_Name: chessboard
   m_TagString: Untagged
@@ -120,7 +120,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.099999994, y: 0.10000002, z: 0.010000003}
   m_Center: {x: 0, y: 0, z: 0.0050000013}
---- !u!114 &2653033950173221558
+--- !u!114 &1220839669979981634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,6 +134,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xPos: 0
   zPos: 0
+  passable: 0
+  selMat_Select: {fileID: 2100000, guid: 1f4489a2401af1a4e968cd2ec2512776, type: 2}
+  selMat_Reachable: {fileID: 2100000, guid: 5fa60765f4120ac4d998ee271f628d3f, type: 2}
+  selMat_Attackable: {fileID: 0}
 --- !u!1001 &314940274222506541
 PrefabInstance:
   m_ObjectHideFlags: 0

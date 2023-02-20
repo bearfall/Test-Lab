@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
  
-public class MapBlock : MonoBehaviour
+public class TestMapBlock : MonoBehaviour
 {
 	// ブロックデータ
 	[HideInInspector] // インスペクタ上で非表示にする属性

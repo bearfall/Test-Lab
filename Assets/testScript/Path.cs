@@ -17,7 +17,7 @@ public class Path : MonoBehaviour
 	public GameObject chessBox; //這個用來放棋盤格(ChessBox)
 	public GameObject chessBoard; //這個用來放棋盤基底(BigChessBoard)
 	public Button moveButton;
-
+	private TestMapBlock testMapBlock;
 	public List<TestMapBlock> results = new List<TestMapBlock>();
 
 
