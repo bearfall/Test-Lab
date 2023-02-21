@@ -11,10 +11,10 @@ public class PlayerController : MonoBehaviour
 
 
 	public int MoveSpeed;   //用來調整移動速度,數值越大越快
-	public Button moveButton;
-	private CharacterStats characterStats;
-	private GameObject target;
-	private bool _canBeAttack;
+	//public Button moveButton;
+	//private CharacterStats characterStats;
+	//private GameObject target;
+	//private bool _canBeAttack;
 	
 
 
@@ -37,20 +37,21 @@ public class PlayerController : MonoBehaviour
 
     void Update()
 	{
-		if (Input.GetButtonDown("Fire1") && ClickPosition.chose == true)    //按下滑鼠左鍵,而且判定是點擊了ChessBox
+		if (TestCharacter.chose == true)    //按下滑鼠左鍵,而且判定是點擊了ChessBox
 		{
 			StartCoroutine(move()); //啟動計數器,用於move()
-			ClickPosition.chose = false;    //令滑鼠左鍵失效,防止移動中重複點擊,造成計算錯誤
+			TestCharacter.chose = false;    //令滑鼠左鍵失效,防止移動中重複點擊,造成計算錯誤
 
 		}
 
 	}
-
+	/*
     private void OnTriggerstay(Collider enemy)
     {
 		target = enemy.gameObject;
 		print(target.name);
     }
+	*/
     //------------------------------------------------------------------------------------
 
     public IEnumerator move()
@@ -59,7 +60,7 @@ public class PlayerController : MonoBehaviour
 		{
 
 			//計算目標點和現在的座標差(這是一個向量)
-			Vector3 distance = ClickPosition.aaa[ClickPosition.targetChess - i] - this.transform.position;
+			Vector3 distance = TestCharacter.aaa[TestCharacter.targetChess - i] - this.transform.position;
 			//將座標差換算成長度(純量)
 			float len = distance.magnitude;
 
@@ -88,9 +89,9 @@ public class PlayerController : MonoBehaviour
 			if (len <= (distance.magnitude * Time.deltaTime * 2))   //distance.magnitude是一個純量
 			{
 				//把現在位置強制設定成目標位置
-				this.transform.position = ClickPosition.aaa[ClickPosition.targetChess - i];
+				this.transform.position = TestCharacter.aaa[TestCharacter.targetChess - i];
 				i++;    //索引值+1
-				if (ClickPosition.targetChess - i < 0)  //aaa[-1]不存在
+				if (TestCharacter.targetChess - i < 0)  //aaa[-1]不存在
 				{
 					i = 2;  //將 i 回歸初值
 					break;  //跳出迴圈
@@ -105,21 +106,21 @@ public class PlayerController : MonoBehaviour
 		}
 
 
-		ClickPosition.delete = false;   //把用於刪除chessbox的bool值,回歸false(初值)
+		TestCharacter.delete = false;   //把用於刪除chessbox的bool值,回歸false(初值)
 
 		Path.index = 0; //存入ppp[]用的索引值歸0(初值)
 		Path.Count = 0; //取出ppp[]用的索引值歸0(初值)
-		ClickPosition.mSave = 0;    //暫存最大 m 值的變數歸0(初值)
-		ClickPosition.targetChess = 0;  //存入和取出aaa[]用的索引值歸0(初值)
+		TestCharacter.mSave = 0;    //暫存最大 m 值的變數歸0(初值)
+		TestCharacter.targetChess = 0;  //存入和取出aaa[]用的索引值歸0(初值)
 
 		Path.ppp.Clear();   //清空儲存行走範圍的陣列
 		Path.mCount.Clear();    //清空儲存 m 值的陣列
-		ClickPosition.aaa.Clear(); //清空儲存最短行走路徑的陣列
+		TestCharacter.aaa.Clear(); //清空儲存最短行走路徑的陣列
 
-		moveButton.gameObject.SetActive(true);
+		//moveButton.gameObject.SetActive(true);
 		Path.button = true;//將"移動"Button顯示出來
 
-		ClickPosition.ChessBoard = false; //移動完畢後,將隱藏大棋盤的bool回歸初值(false)
+		//TestCharacter.ChessBoard = false; //移動完畢後,將隱藏大棋盤的bool回歸初值(false)
 
 
 	}

@@ -76,7 +76,7 @@ public class Path : MonoBehaviour
 		}
 
 
-		moveButton.onClick.AddListener(moveButtonActive);
+		//moveButton.onClick.AddListener(moveButtonActive);
 
 
 

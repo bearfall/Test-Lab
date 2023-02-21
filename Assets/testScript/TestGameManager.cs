@@ -134,10 +134,10 @@ public class TestGameManager : MonoBehaviour
 					selectingChara.MovePosition(targetBlock.xPos, targetBlock.zPos);
 
 
-					Path.index = 0; //存入ppp[]用的索引值歸0(初值)
-					Path.Count = 0; //取出ppp[]用的索引值歸0(初值)
-					Path.ppp.Clear();   //清空儲存行走範圍的陣列
-					Path.mCount.Clear();    //清空儲存 m 值的陣列
+					//Path.index = 0; //存入ppp[]用的索引值歸0(初值)
+					//Path.Count = 0; //取出ppp[]用的索引值歸0(初值)
+					//Path.ppp.Clear();   //清空儲存行走範圍的陣列
+					//Path.mCount.Clear();    //清空儲存 m 值的陣列
 
 
 					reachableBlocks.Clear();
