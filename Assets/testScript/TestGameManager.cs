@@ -47,9 +47,19 @@ public class TestGameManager : MonoBehaviour
     void Update()
     {
 		if (Input.GetMouseButtonDown(0) )
-				 // (←檢測對 UI 的點擊)
-		{// 在非 UI 部分進行了點擊
-		 // 在點擊目的地獲取塊並開始選擇過程
+		{// タップが行われた
+		 // バトル結果表示ウィンドウが出ている時の処理
+			if (testGuiManager.testBattleWindowUI.gameObject.activeInHierarchy)
+			{
+				// バトル結果表示ウィンドウを閉じる
+				testGuiManager.testBattleWindowUI.HideWindow();
+
+				// 進行モードを進める(デバッグ用)
+				ChangePhase(Phase.MyTurn_Start);
+				return;
+			}
+
+			// タップ先にあるブロックを取得して選択処理を開始する
 			GetMapBlockByTapPos();
 		}
 	}
@@ -226,7 +236,27 @@ public class TestGameManager : MonoBehaviour
 	/// <param name="defenseChara">防御側キャラデータ</param>
 	private void CharaAttack(TestCharacter attackChara, TestCharacter defenseChara)
 	{
-		// (ここに戦闘処理)
-		Debug.Log("攻撃側:" + attackChara.charaName + " 防御側:" + defenseChara.charaName);
+		// ダメージ計算処理
+		int damageValue; // ダメージ量
+		int attackPoint = attackChara.atk; // 攻撃側の攻撃力
+		int defencePoint = defenseChara.def; // 防御側の防御力
+											 // ダメージ＝攻撃力－防御力で計算
+		damageValue = attackPoint - defencePoint;
+		// ダメージ量が0以下なら0にする
+		if (damageValue < 0)
+			damageValue = 0;
+
+		// バトル結果表示ウィンドウの表示設定
+		// (HPの変更前に行う)
+		testGuiManager.testBattleWindowUI.ShowWindow(defenseChara, damageValue);
+
+		// ダメージ量分防御側のHPを減少
+		defenseChara.nowHP -= damageValue;
+		// HPが0～最大値の範囲に収まるよう補正
+		defenseChara.nowHP = Mathf.Clamp(defenseChara.nowHP, 0, defenseChara.maxHP);
+
+		// HP0になったキャラクターを削除する
+		if (defenseChara.nowHP == 0)
+			testCharactersManager.DeleteCharaData(defenseChara);
 	}
 }

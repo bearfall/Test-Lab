@@ -41,4 +41,16 @@ public class TestCharactersManager : MonoBehaviour
         // 如果沒有找到數據則返回 null
         return null;
     }
+
+
+    /// 指定したキャラクターを削除する
+	/// </summary>
+	/// <param name="charaData">対象キャラデータ</param>
+	public void DeleteCharaData(TestCharacter charaData)
+    {
+        // リストからデータを削除
+        testCharacters.Remove(charaData);
+        // オブジェクト削除
+        Destroy(charaData.gameObject);
+    }
 }

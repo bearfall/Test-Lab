@@ -22,6 +22,8 @@ public class TestGUIManager : MonoBehaviour
 
 	// キャラクターのコマンドボタン
 	public GameObject commandButtons; // 全コマンドボタンの親オブジェクト
+
+	public TestBattleWindowUI testBattleWindowUI;
 	void Start()
 	{
 		// UI初期化
