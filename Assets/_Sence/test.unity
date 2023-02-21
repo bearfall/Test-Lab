@@ -828,7 +828,7 @@ MonoBehaviour:
   path: {fileID: 0}
   initPos_X: 2
   initPos_Z: 3
-  isEnemy: 0
+  isEnemy: 1
   charaName: BOSS
   maxHP: 20
   atk: 20

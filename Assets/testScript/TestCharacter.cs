@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class TestCharacter : MonoBehaviour
 {
+
+
 	public Path path;
 	// メインカメラ
 	private Camera mainCamera;
@@ -188,4 +191,21 @@ public class TestCharacter : MonoBehaviour
 			aaa.Insert(targetChess, Path.ppp[i]); //把 m 值比較大的那格的座標丟入陣列,取代 m 值比較小的那格的座標
 		}
 	}
+
+	/// <summary>
+	/// キャラクターの近接攻撃アニメーション
+	/// </summary>
+	/// <param name="targetChara">相手キャラクター</param>
+	public void AttackAnimation(TestCharacter targetChara)
+	{
+		// 攻撃アニメーション(DoTween)
+		// 相手キャラクターの位置へジャンプで近づき、同じ動きで元の場所に戻る
+		transform.DOJump(targetChara.transform.position, // 指定座標までジャンプしながら移動する
+				1.0f, // ジャンプの高さ
+				1, // ジャンプ回数
+				0.5f) // アニメーション時間(秒)
+			.SetEase(Ease.Linear) // イージング(変化の度合)を設定
+			.SetLoops(2, LoopType.Yoyo); // ループ回数・方式を指定
+	}
+
 }

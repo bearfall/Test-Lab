@@ -1,18 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class TestGameManager : MonoBehaviour
 {
 	private TestMapManager testMapManager;
 	private TestCharactersManager testCharactersManager;
 	private TestGUIManager testGuiManager; // GUIマネージャ
 	private Path path;
+	private Path enemyPath;
 	private List<TestMapBlock> reachableBlocks;
 	private List<TestMapBlock> attackableBlocks;
 	private int charaStartPos_X; // 選択キャラクターの移動前の位置(X方向)
 	private int charaStartPos_Z; // 選択キャラクターの移動前の位置(Z方向)
 	private TestCharacter selectingChara; // 選中的角色（如果沒有選中則為 false）
+	private TestCharacter selectingEnemy;
 
 
 
@@ -46,7 +48,7 @@ public class TestGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (Input.GetMouseButtonDown(0) )
+		if (Input.GetMouseButtonDown(0) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) // (←UIへのタップを検出する) )
 		{// タップが行われた
 		 // バトル結果表示ウィンドウが出ている時の処理
 			if (testGuiManager.testBattleWindowUI.gameObject.activeInHierarchy)
@@ -134,16 +136,21 @@ public class TestGameManager : MonoBehaviour
 					selectingChara.MovePosition(targetBlock.xPos, targetBlock.zPos);
 
 
-					//Path.index = 0; //存入ppp[]用的索引值歸0(初值)
-					//Path.Count = 0; //取出ppp[]用的索引值歸0(初值)
-					//Path.ppp.Clear();   //清空儲存行走範圍的陣列
-					//Path.mCount.Clear();    //清空儲存 m 值的陣列
+					
 
 
 					reachableBlocks.Clear();
 					testMapManager.AllselectionModeClear();
-					testGuiManager.ShowCommandButtons();
+
+					// 指定秒数経過後に処理を実行する(DoTween)
+					DOVirtual.DelayedCall(
+						0.5f, // 遅延時間(秒)
+						() =>
+						{// 遅延実行する内容
+							testGuiManager.ShowCommandButtons();
 					ChangePhase(Phase.MyTurn_Command);
+						}
+					);
 				}
 					break;
 
@@ -199,8 +206,16 @@ public class TestGameManager : MonoBehaviour
 
 	private void ChangePhase(Phase newPhase)
 	{
-		// モード変更を保存
 		nowPhase = newPhase;
+		// 特定のモードに切り替わったタイミングで行う処理
+		switch (nowPhase)
+		{
+			// 敵のターン：開始時
+			case Phase.EnemyTurn_Start:
+				// 敵の行動処理を開始する
+				//EnemyCommand();
+				break;
+		}
 	}
 
 	public void AttackCommand()
@@ -246,6 +261,11 @@ public class TestGameManager : MonoBehaviour
 		if (damageValue < 0)
 			damageValue = 0;
 
+
+		// キャラクター攻撃アニメーション
+		attackChara.AttackAnimation(defenseChara);
+
+
 		// バトル結果表示ウィンドウの表示設定
 		// (HPの変更前に行う)
 		testGuiManager.testBattleWindowUI.ShowWindow(defenseChara, damageValue);
@@ -258,5 +278,91 @@ public class TestGameManager : MonoBehaviour
 		// HP0になったキャラクターを削除する
 		if (defenseChara.nowHP == 0)
 			testCharactersManager.DeleteCharaData(defenseChara);
+
+		// ターン切り替え処理(遅延実行)
+		DOVirtual.DelayedCall(
+			2.0f, // 遅延時間(秒)
+			() =>
+			{// 遅延実行する内容
+			 // ウィンドウを非表示化
+				testGuiManager.testBattleWindowUI.HideWindow();
+				// ターンを切り替える
+				if (nowPhase == Phase.MyTurn_Result) // 敵のターンへ
+					ChangePhase(Phase.EnemyTurn_Start);
+				else if (nowPhase == Phase.EnemyTurn_Result) // 自分のターンへ
+					ChangePhase(Phase.MyTurn_Start);
+			}
+		);
+
 	}
+
+	/// (敵のターン開始時に呼出)
+	/// 敵キャラクターのうちいずれか一体を行動させてターンを終了する
+	/// </summary>
+	/// 
+	/*
+	private void EnemyCommand()
+	{
+		// 生存中の敵キャラクターのリストを作成する
+		var enemyCharas = new List<TestCharacter>(); // 敵キャラクターリスト
+		foreach (TestCharacter charaData in testCharactersManager.testCharacters)
+		{// 全生存キャラクターから敵フラグの立っているキャラクターをリストに追加
+			if (charaData.isEnemy)
+				enemyCharas.Add(charaData);
+		}
+
+		// 攻撃可能な敵キャラクター１体を見つけるまで処理
+		foreach (TestCharacter enemyData in enemyCharas)
+		{
+			// 移動可能な場所リストを取得する
+			selectingEnemy = enemyData;
+			enemyPath = selectingEnemy.GetComponent<Path>();
+			//enemyPath.Startpath();
+			reachableBlocks = enemyPath.Startpath();
+			
+			// それぞれの移動可能な場所ごとの処理
+			foreach (TestMapBlock block in reachableBlocks)
+			{
+				// 攻撃可能な場所リストを取得する
+				attackableBlocks = testMapManager.SearchAttackableBlocks(block.xPos, block.zPos);
+				// それぞれの攻撃可能な場所ごとの処理
+				foreach (TestMapBlock attackBlock in attackableBlocks)
+				{
+					// 攻撃できる相手キャラクター(プレイヤー側のキャラクター)を探す
+					TestCharacter targetChara =
+						testCharactersManager.GetCharacterDataByPos(attackBlock.xPos, attackBlock.zPos);
+					if (targetChara != null &&
+						!targetChara.isEnemy)
+					{// 相手キャラクターが存在する
+					 // 敵キャラクター移動処理
+						enemyData.MovePosition(block.xPos, block.zPos);
+						// 敵キャラクター攻撃処理
+						// (移動後のタイミングで攻撃開始するよう遅延実行)
+						DOVirtual.DelayedCall(
+							1.0f, // 遅延時間(秒)
+							() =>
+							{// 遅延実行する内容
+								CharaAttack(enemyData, targetChara);
+							}
+						);
+
+						// 移動場所・攻撃場所リストをクリアする
+						reachableBlocks.Clear();
+						attackableBlocks.Clear();
+						// 進行モードを進める(行動結果表示へ)
+						ChangePhase(Phase.EnemyTurn_Result);
+						return;
+					}
+				}
+			}
+		}
+
+		// (攻撃可能な相手が見つからなかった場合何もせずターン終了)
+		// 移動場所・攻撃場所リストをクリアする
+		reachableBlocks.Clear();
+		attackableBlocks.Clear();
+		// 進行モードを進める(自分のターンへ)
+		ChangePhase(Phase.MyTurn_Start);
+	}
+	*/
 }

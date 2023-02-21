@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using DG.Tweening;
 public class TestBattleWindowUI : MonoBehaviour
 {
 	// バトル結果表示ウィンドウUI
@@ -37,9 +37,19 @@ public class TestBattleWindowUI : MonoBehaviour
 		nowHP = Mathf.Clamp(nowHP, 0, charaData.maxHP);
 
 		// HPゲージ表示
-		float ratio = (float)nowHP / charaData.maxHP;
-		// 最大値に対する現在HPの割合をゲージImageのfillAmountにセットする
-		hpGageImage.fillAmount = ratio;
+		float amount = (float)charaData.nowHP / charaData.maxHP;// 表示中のFillAmount(初期値はHP減少前のもの)
+		float endAmount = (float)nowHP / charaData.maxHP;// アニメーション後のFillAmount
+														 // HPゲージを徐々に減少させるアニメーション
+														 // (DOFillAmountメソッドを使ってもよい)
+		DOTween.To(// 変数を時間をかけて変化させる
+				() => amount, (n) => amount = n, // 変化させる変数を指定
+				endAmount, // 変化先の数値
+				1.0f) // アニメーション時間(秒)
+			.OnUpdate(() =>// アニメーション中毎フレーム実行される処理を指定
+			{
+				// 最大値に対する現在HPの割合をゲージImageのfillAmountにセットする
+				hpGageImage.fillAmount = amount;
+			});
 
 		// HPText表示(現在値と最大値両方を表示)
 		hpText.text = nowHP + "/" + charaData.maxHP;

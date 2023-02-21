@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class TestCharactersManager : MonoBehaviour
 {
     public Transform charactersParent;
@@ -51,6 +51,12 @@ public class TestCharactersManager : MonoBehaviour
         // リストからデータを削除
         testCharacters.Remove(charaData);
         // オブジェクト削除
-        Destroy(charaData.gameObject);
+        DOVirtual.DelayedCall(
+            0.5f, // 遅延時間(秒)
+            () =>
+            {// 遅延実行する内容
+                Destroy(charaData.gameObject);
+            }
+        );
     }
 }
