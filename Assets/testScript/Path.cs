@@ -379,6 +379,7 @@ public class Path : MonoBehaviour
             if (gameObject.transform.position == hi)
             {
 				gameObject.transform.GetChild(0).gameObject.SetActive(true);
+				gameObject.SetSelectionMode(TestMapBlock.Highlight.Reachable);
 				print(gameObject.transform.GetChild(0).gameObject);
 				results.Add(gameObject);
 			}

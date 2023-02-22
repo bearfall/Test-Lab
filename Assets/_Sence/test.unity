@@ -549,6 +549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   path: {fileID: 0}
+  enemyPath: {fileID: 0}
   initPos_X: 0
   initPos_Z: 0
   isEnemy: 0
@@ -737,8 +738,9 @@ GameObject:
   m_Component:
   - component: {fileID: 906475365}
   - component: {fileID: 906475366}
-  - component: {fileID: 906475368}
   - component: {fileID: 906475367}
+  - component: {fileID: 906475369}
+  - component: {fileID: 906475368}
   m_Layer: 0
   m_Name: BOSS
   m_TagString: Untagged
@@ -826,6 +828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   path: {fileID: 0}
+  enemyPath: {fileID: 0}
   initPos_X: 2
   initPos_Z: 3
   isEnemy: 1
@@ -846,7 +849,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 906475364}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a2e4b8cd83ec524790698aea1d02977, type: 3}
+  m_Script: {fileID: 11500000, guid: ed064675aaab9754e8847698abb356fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 5
+--- !u!114 &906475369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 906475364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0a7739b28b94754fbcb04d0d85a18b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   chessBox: {fileID: 0}
