@@ -294,7 +294,6 @@ GameObject:
   - component: {fileID: 435564987}
   - component: {fileID: 435564986}
   - component: {fileID: 435564985}
-  - component: {fileID: 435564984}
   m_Layer: 0
   m_Name: yaya
   m_TagString: Untagged
@@ -317,19 +316,6 @@ Transform:
   m_Father: {fileID: 431051707}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &435564984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 435564982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed064675aaab9754e8847698abb356fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 5
 --- !u!114 &435564985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,6 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 447b41742623895458808b11bf006b62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MoveSpeed: 5
   path: {fileID: 0}
   enemyPath: {fileID: 0}
   initPos_X: 3
@@ -692,6 +679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 447b41742623895458808b11bf006b62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MoveSpeed: 5
   path: {fileID: 0}
   enemyPath: {fileID: 0}
   initPos_X: 0
@@ -886,7 +874,6 @@ GameObject:
   - component: {fileID: 906475366}
   - component: {fileID: 906475367}
   - component: {fileID: 906475369}
-  - component: {fileID: 906475368}
   m_Layer: 0
   m_Name: BOSS
   m_TagString: Untagged
@@ -973,6 +960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 447b41742623895458808b11bf006b62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MoveSpeed: 5
   path: {fileID: 0}
   enemyPath: {fileID: 0}
   initPos_X: 2
@@ -986,19 +974,6 @@ MonoBehaviour:
   xPos: 0
   zPos: 0
   nowHP: 0
---- !u!114 &906475368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 906475364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed064675aaab9754e8847698abb356fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 5
 --- !u!114 &906475369
 MonoBehaviour:
   m_ObjectHideFlags: 0
