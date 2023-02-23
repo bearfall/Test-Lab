@@ -18,9 +18,9 @@ public static class TargetFinder
 	/// <summary>
 	/// 攻撃可能な行動プランを全て検索し、その内の１つをランダムに返す処理
 	/// </summary>
-	/// <param name="mapManager">シーン内のMapManagerの参照</param>
-	/// <param name="charactersManager">シーン内のCharactersManagerの参照</param>
-	/// <param name="enemyCharas">敵キャラクターのリスト</param>
+	/// <param name="mapManager">在場景中引用 MapManager</param>
+	/// <param name="charactersManager">在場景中引用 CharactersManager</param>
+	/// <param name="enemyCharas">敵人角色列表</param>
 	/// <returns></returns>
 	public static ActionPlan GetRandomActionPlan(TestMapManager mapManager, TestCharactersManager charactersManager, List<TestCharacter> enemyCharas)
 	{
