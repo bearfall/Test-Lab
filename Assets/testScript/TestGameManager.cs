@@ -210,19 +210,44 @@ public class TestGameManager : MonoBehaviour
 	}
 
 
+
+
+
 	private void ChangePhase(Phase newPhase)
 	{
 		nowPhase = newPhase;
 		// 特定のモードに切り替わったタイミングで行う処理
 		switch (nowPhase)
 		{
+			// 自分のターン：開始時
+			case Phase.MyTurn_Start:
+				// 自分のターン開始時のロゴを表示
+				testGuiManager.ShowLogo_PlayerTurn();
+				break;
 			// 敵のターン：開始時
 			case Phase.EnemyTurn_Start:
-				// 敵の行動処理を開始する
-				EnemyCommand();
+				// 敵のターン開始時のロゴを表示
+				testGuiManager.ShowLogo_EnemyTurn();
+
+				// 敵の行動を開始する処理
+				// (ロゴ表示後に開始したいので遅延処理にする)
+	//			DOVirtual.DelayedCall(
+	//				2.0f, // 遅延時間(秒)
+	//				() =>
+	//				{// 遅延実行する内容
+					 // 敵の行動処理を開始する
+						EnemyCommand();
+	//				}
+	//			);
 				break;
 		}
 	}
+
+
+
+
+
+
 
 	public void AttackCommand()
 	{
@@ -318,6 +343,31 @@ public class TestGameManager : MonoBehaviour
 			
 		}
 
+		// 攻撃可能なキャラクター・位置の組み合わせの内１つをランダムに取得
+		var actionPlan = TargetFinder.GetRandomActionPlan
+			(testMapManager, testCharactersManager, enemyCharas);
+		// 組み合わせのデータが存在すれば攻撃開始
+		if (actionPlan != null)
+		{
+			// 敵キャラクター移動処理
+			actionPlan.charaData.EnemyMovePosition(actionPlan.toMoveBlock.xPos, actionPlan.toMoveBlock.zPos);
+			// 敵キャラクター攻撃処理
+			// (移動後のタイミングで攻撃開始するよう遅延実行)
+			reachableBlocks.Clear();
+			DOVirtual.DelayedCall(
+				2.5f, // 遅延時間(秒)
+				() =>
+				{// 遅延実行する内容
+					CharaAttack(actionPlan.charaData, actionPlan.toAttackChara);
+				}
+			);
+
+			// 進行モードを進める(行動結果表示へ)
+			ChangePhase(Phase.EnemyTurn_Result);
+			return;
+		}
+
+		/*
 		// 攻撃可能な敵キャラクター１体を見つけるまで処理
 		foreach (TestCharacter enemyData in enemyCharas)
 		{
@@ -363,6 +413,29 @@ public class TestGameManager : MonoBehaviour
 				}
 			}
 		}
+		*/
+
+
+
+		// 攻撃可能な相手が見つからなかった場合
+		// 移動させる１体をランダムに選ぶ
+		int randId = Random.Range(0, enemyCharas.Count);
+		TestCharacter targetEnemy = enemyCharas[randId]; // 行動対象の敵データ
+
+		enemyPath = targetEnemy.GetComponent<EnemyPath>();
+		enemyPath.Startpath();
+		reachableBlocks = enemyPath.Startpath();
+
+		if (reachableBlocks.Count > 0)
+		{
+			randId = Random.Range(0, reachableBlocks.Count);
+			TestMapBlock targetBlock = reachableBlocks[randId]; // 移動対象のブロックデータ
+															// 敵キャラクター移動処理
+			targetEnemy.EnemyMovePosition(targetBlock.xPos, targetBlock.zPos);
+		}
+
+
+
 
 		// (攻撃可能な相手が見つからなかった場合何もせずターン終了)
 		// 移動場所・攻撃場所リストをクリアする
@@ -370,7 +443,13 @@ public class TestGameManager : MonoBehaviour
 		attackableBlocks.Clear();
 		testMapManager.AllselectionModeClear();
 		// 進行モードを進める(自分のターンへ)
-		ChangePhase(Phase.MyTurn_Start);
+		DOVirtual.DelayedCall(
+			1.0f, // 遅延時間(秒)
+			() =>
+			{// 遅延実行する内容
+				ChangePhase(Phase.MyTurn_Start);
+			}
+		);
 	}
 	
 }

@@ -19,7 +19,7 @@ public class EnemyController : MonoBehaviour
 
 
 	//aaa[targetChess - 2] = 起始位置的下一個位置,因為aaa[targetChess]是空的,aaa[targetChess-1]是起始位置
-	private int i = 2;
+	private int u = 2;
 
 
 	//------------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ public class EnemyController : MonoBehaviour
 		{
 
 			//計算目標點和現在的座標差(這是一個向量)
-			Vector3 distance = TestCharacter.aaa[TestCharacter.targetChess - i] - this.transform.position;
+			Vector3 distance = TestCharacter.aaa[TestCharacter.targetChess - u] - this.transform.position;
 			//將座標差換算成長度(純量)
 			float len = distance.magnitude;
 
@@ -91,11 +91,11 @@ public class EnemyController : MonoBehaviour
 			if (len <= (distance.magnitude * Time.deltaTime * 2))   //distance.magnitude是一個純量
 			{
 				//把現在位置強制設定成目標位置
-				this.transform.position = TestCharacter.aaa[TestCharacter.targetChess - i];
-				i++;    //索引值+1
-				if (TestCharacter.targetChess - i < 0)  //aaa[-1]不存在
+				this.transform.position = TestCharacter.aaa[TestCharacter.targetChess - u];
+				u++;    //索引值+1
+				if (TestCharacter.targetChess - u < 0)  //aaa[-1]不存在
 				{
-					i = 2;  //將 i 回歸初值
+					u = 2;  //將 i 回歸初值
 					break;  //跳出迴圈
 				}
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; // UIコンポーネントを扱うのに必要
-
+using DG.Tweening;
 public class TestGUIManager : MonoBehaviour
 {
 	// ステータスウィンドウUI
@@ -24,6 +24,12 @@ public class TestGUIManager : MonoBehaviour
 	public GameObject commandButtons; // 全コマンドボタンの親オブジェクト
 
 	public TestBattleWindowUI testBattleWindowUI;
+
+	// 各種ロゴ画像
+	public Image playerTurnImage; // プレイヤーターン開始時画像
+	public Image enemyTurnImage; // 敵ターン開始時画像
+
+
 	void Start()
 	{
 		// UI初期化
@@ -85,11 +91,43 @@ public class TestGUIManager : MonoBehaviour
 	{
 		commandButtons.SetActive(true);
 	}
+
+
+
+
 	/// <summary>
 	/// コマンドボタンを隠す
 	/// </summary>
 	public void HideCommandButtons()
 	{
 		commandButtons.SetActive(false);
+	}
+
+
+
+
+	/// <summary>
+	/// プレイヤーのターンに切り替わった時のロゴ画像を表示する
+	/// </summary>
+	public void ShowLogo_PlayerTurn()
+	{
+		// 徐々に表示→非表示を行うアニメーション(Tween)
+		playerTurnImage
+			.DOFade(1.0f, // 指定数値まで画像のalpha値を変化
+				1.0f) // アニメーション時間(秒)
+			.SetEase(Ease.OutCubic) // イージング(変化の度合)を設定
+			.SetLoops(2, LoopType.Yoyo); // ループ回数・方式を指定
+	}
+	/// <summary>
+	/// 敵のターンに切り替わった時のロゴ画像を表示する
+	/// </summary>
+	public void ShowLogo_EnemyTurn()
+	{
+		// 徐々に表示→非表示を行うアニメーション(Tween)
+		enemyTurnImage
+			.DOFade(1.0f, // 指定数値まで画像のalpha値を変化
+				1.0f) // アニメーション時間(秒)
+			.SetEase(Ease.OutCubic) // イージング(変化の度合)を設定
+			.SetLoops(2, LoopType.Yoyo); // ループ回数・方式を指定
 	}
 }

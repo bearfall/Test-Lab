@@ -14,7 +14,8 @@ public class MonsterPosition : MonoBehaviour {
 	public static List<Vector3> monsterPosition = new List<Vector3>();	//儲存怪物座標的陣列
 
 
-	void Start () {
+	void Start ()
+	{
 
 		monsterPosition.Insert (mIndex,this.transform.position);	//將攜帶此腳本的物件(此處為所有怪物)之座標,存入陣列
 		mIndex++;	//儲存用的引數+1

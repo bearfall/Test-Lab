@@ -31,7 +31,7 @@ public class EnemyPath : MonoBehaviour
 	public static bool cancel = false;  //用來取消任何戰鬥指令,在點選任意Button後,需將其變成true才能發揮作用
 
 	public int m; //m = 可移動數
-	public static int CanMove;  //記錄可移動數,第一輪需要
+	private int CanMove;  //記錄可移動數,第一輪需要
 	public static int index = 0;    //存入陣列用的引數
 	public int blockIndex;
 
