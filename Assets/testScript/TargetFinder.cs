@@ -36,15 +36,18 @@ public static class TargetFinder
 		foreach (TestCharacter enemyData in enemyCharas)
 		{
 			// 移動可能な場所リストを取得する
-			var selectingEnemy = enemyData;
-			var enemyPath = selectingEnemy.GetComponent<EnemyPath>();
-			enemyPath.StartEnemypath();
+			
+			var enemyPath = enemyData.GetComponent<EnemyPath>();
+			
+			
 			reachableBlocks = enemyPath.StartEnemypath();
+			
 			// それぞれの移動可能な場所ごとの処理
 			foreach (TestMapBlock block in reachableBlocks)
 			{
+				
 				// 攻撃可能な場所リストを取得する
-				attackableBlocks = mapManager.EnemySearchAttackableBlocks(block.xPos, block.zPos);
+				attackableBlocks = mapManager.SearchAttackableBlocks(block.xPos, block.zPos);
 				// それぞれの攻撃可能な場所ごとの処理
 				foreach (TestMapBlock attackBlock in attackableBlocks)
 				{

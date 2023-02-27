@@ -114,11 +114,11 @@ public class TestMapManager : MonoBehaviour
         var results = new List<TestMapBlock>();
 
 
-        Vector3 hi2 = new Vector3(xPos + 1, 0, zPos);
+        Vector3 hi3 = new Vector3(xPos + 1, 0, zPos);
 
         foreach (var gameObject in TestMapManager.testMapBlocks)
         {
-            if (gameObject.transform.position == hi2)
+            if (gameObject.transform.position == hi3)
             {
                // gameObject.transform.GetChild(0).gameObject.SetActive(true);
                 print(gameObject.transform.GetChild(0).gameObject);
@@ -126,11 +126,11 @@ public class TestMapManager : MonoBehaviour
             }
         }
 
-        hi2 = new Vector3(xPos, 0, zPos + 1);
+        hi3 = new Vector3(xPos, 0, zPos + 1);
 
         foreach (var gameObject in TestMapManager.testMapBlocks)
         {
-            if (gameObject.transform.position == hi2)
+            if (gameObject.transform.position == hi3)
             {
                 //gameObject.transform.GetChild(0).gameObject.SetActive(true);
                 print(gameObject.transform.GetChild(0).gameObject);
@@ -138,11 +138,11 @@ public class TestMapManager : MonoBehaviour
             }
         }
 
-        hi2 = new Vector3(xPos - 1, 0, zPos);
+        hi3 = new Vector3(xPos - 1, 0, zPos);
 
         foreach (var gameObject in TestMapManager.testMapBlocks)
         {
-            if (gameObject.transform.position == hi2)
+            if (gameObject.transform.position == hi3)
             {
                 //gameObject.transform.GetChild(0).gameObject.SetActive(true);
                 print(gameObject.transform.GetChild(0).gameObject);
@@ -150,11 +150,11 @@ public class TestMapManager : MonoBehaviour
             }
         }
 
-        hi2 = new Vector3(xPos, 0, zPos - 1);
+        hi3 = new Vector3(xPos, 0, zPos - 1);
 
         foreach (var gameObject in TestMapManager.testMapBlocks)
         {
-            if (gameObject.transform.position == hi2)
+            if (gameObject.transform.position == hi3)
             {
                 //gameObject.transform.GetChild(0).gameObject.SetActive(true);
                 print(gameObject.transform.GetChild(0).gameObject);

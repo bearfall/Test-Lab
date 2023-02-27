@@ -18,6 +18,8 @@ public class EnemyPath : MonoBehaviour
 	public GameObject chessBoard; //這個用來放棋盤基底(BigChessBoard)
 	public Button moveButton;
 	private TestMapBlock testMapBlock;
+
+   
 	public List<TestMapBlock> results = new List<TestMapBlock>();
 
 
@@ -27,12 +29,12 @@ public class EnemyPath : MonoBehaviour
 	private bool check = true;  //用來判斷某一格是不是已經走過,若走過則為false
 	private bool monsterCheck = true;   //用來判斷下一格是否有怪物
 	public static bool camera = false;  //用來控制攝影機拉近拉遠,false拉近,true拉遠. 點選"移動"前是拉近的,故此處初值為false
-	public static bool button = true;   //用來控制Button出現的時機,true出現,false消失
+	public     bool button = true;   //用來控制Button出現的時機,true出現,false消失
 	public static bool cancel = false;  //用來取消任何戰鬥指令,在點選任意Button後,需將其變成true才能發揮作用
 
 	public int m; //m = 可移動數
 	private int CanMove;  //記錄可移動數,第一輪需要
-	public static int index = 0;    //存入陣列用的引數
+	public    int index = 0;    //存入陣列用的引數
 	public int blockIndex;
 
 	public static object Combine(string dataPath, string v)
@@ -40,12 +42,12 @@ public class EnemyPath : MonoBehaviour
 		throw new NotImplementedException();
 	}
 
-	public static int Count = 0;    //取出陣例內容用的引數
+	public    int Count = 0;    //取出陣例內容用的引數
 
 	private int i = 0; //迴圈計數用
 
-	public static List<int> mCount = new List<int>();   //用來記錄每次移動過後,剩餘的m值
-	public static List<Vector3> ppp = new List<Vector3>();  //用來記錄每次移動過後的新位置
+	public    List<int> mCount = new List<int>();   //用來記錄每次移動過後,剩餘的m值
+	public     List<Vector3> ppp = new List<Vector3>();  //用來記錄每次移動過後的新位置
 
 
 	//--------------------------------------------------------------------------------------------------
@@ -54,9 +56,8 @@ public class EnemyPath : MonoBehaviour
 	{
 		//PlayerPosition = this.transform.position;	//用PlayerPosition儲存角色目前的位置
 		CanMove = m;    //把CanMove設定成最大移動數
-
-		var results = new List<TestMapBlock>();
-	}
+        
+    }
 
 	//--------------------------------------------------------------------------------------------------
 
@@ -402,6 +403,10 @@ public class EnemyPath : MonoBehaviour
 		mCount.Clear(); //清空儲存 m 值的陣列
 	}
 
+	public void ResetResults()
+	{
+		results.Clear();
+	}
 	//---------------------------------------------------------------------------------------
 
 }
