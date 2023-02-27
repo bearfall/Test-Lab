@@ -51,9 +51,9 @@ public class TestCharacter : MonoBehaviour
 	[Header("属性")]
 	public Attribute attribute; // 属性
 								// ゲーム中に変化するキャラクターデータ
-	//[HideInInspector]
+								//[HideInInspector]
 	public int xPos; // 現在のx座標
-	//[HideInInspector]
+					 //[HideInInspector]
 	public int zPos; // 現在のz座標
 	[HideInInspector]
 	public int nowHP; // 現在HP
@@ -108,15 +108,18 @@ public class TestCharacter : MonoBehaviour
 			enemyChose = false;    //令滑鼠左鍵失效,防止移動中重複點擊,造成計算錯誤
 
 		}
+
+		xPos = (int)this.transform.position.x;
+		zPos = (int)this.transform.position.z;
 	}
 	public void MovePosition(int targetXPos, int targetZPos)
 	{
 		// 移動物體
 		// 獲取目標坐標的相對坐標
 		//Vector3 movePos = Vector3.zero; // (0.0f, 0.0f, 0.0f)でVector3で初期化
-										//movePos.x = targetXPos - xPos; // x方向的相對距離
-										//movePos.z = targetZPos - zPos; // z方向的相對距離
-										//transform.position += movePos;
+		//movePos.x = targetXPos - xPos; // x方向的相對距離
+		//movePos.z = targetZPos - zPos; // z方向的相對距離
+		//transform.position += movePos;
 		Vector3 nowPosition = new Vector3(targetXPos, 0, targetZPos);
 		var b = PartnerPosition.partnerPosition.Exists(n => n == nowPosition); // <= b == true
 		if (!b)
@@ -178,7 +181,7 @@ public class TestCharacter : MonoBehaviour
 			//Path.camera = false;    //移動前拉近攝影機
 			chose = true;   //這時候角色才能開始移動(請見PlayerController的腳本)
 			Path.cancel = false;    //令滑鼠"右鍵"的功能失效,防止移動中亂按的誤判
-			//ChessBoard = true;  //隱藏大棋盤
+									//ChessBoard = true;  //隱藏大棋盤
 		}
 
 		// キャラクターデータに位置を保存
@@ -261,9 +264,9 @@ public class TestCharacter : MonoBehaviour
 						enemyCmpM();
 
 				}
-				
-					enemyNowPosition = Enemyaaa[enemyTargetChess];
-				
+
+				enemyNowPosition = Enemyaaa[enemyTargetChess];
+
 				//enemyNowPosition = Enemyaaa[enemyTargetChess]; //更換nowPosition的位置為 m 值最大的位置
 				enemyTargetChess++;  //探索完一遍後,把儲存用的引數+1
 
@@ -276,18 +279,19 @@ public class TestCharacter : MonoBehaviour
 			//Debug.Log ("Destination = " + nowPosition);	//可以查看路徑搜尋的結果,是不是從目標點回到原點
 
 
-			//delete = true;  //算完最短路徑之後,將delete設為true,藉此刪除棋盤
+			delete = true;  //算完最短路徑之後,將delete設為true,藉此刪除棋盤
 			//Path.camera = false;    //移動前拉近攝影機
 			enemyChose = true;   //這時候角色才能開始移動(請見PlayerController的腳本)
 			EnemyPath.cancel = false;    //令滑鼠"右鍵"的功能失效,防止移動中亂按的誤判
 										 //ChessBoard = true;  //隱藏大棋盤
 
-			
+
 		}
 
 		// キャラクターデータに位置を保存
-		xPos = targetXPos;
-		zPos = targetZPos;
+		//xPos = targetXPos;
+		//zPos = targetZPos;
+		
 	}
 
 
@@ -346,8 +350,8 @@ public class TestCharacter : MonoBehaviour
 
 			}
 
-            //Delay time 單位:秒
-            yield return new WaitForSeconds(1 / MoveSpeed);
+			//Delay time 單位:秒
+			yield return new WaitForSeconds(1 / MoveSpeed);
 			//隨時間移動目前座標
 			this.transform.position = this.transform.position + (distance * Time.deltaTime * 2); //distance是一個向量
 		}
@@ -366,7 +370,7 @@ public class TestCharacter : MonoBehaviour
 
 		//moveButton.gameObject.SetActive(true);
 		enemyPath.button = true;//將"移動"Button顯示出來
-		
+
 		//TestCharacter.ChessBoard = false; //移動完畢後,將隱藏大棋盤的bool回歸初值(false)
 
 

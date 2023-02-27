@@ -9,7 +9,7 @@ public static class TargetFinder
 	// (行動する敵キャラクター、移動先の位置、攻撃相手のキャラクターの３データを１まとめに扱う)
 	public class ActionPlan
 	{
-		
+
 		public TestCharacter charaData; // 行動中的敵人角色
 		public TestMapBlock toMoveBlock; // 目標位置
 		public TestCharacter toAttackChara; // 攻擊者角色
@@ -36,16 +36,16 @@ public static class TargetFinder
 		foreach (TestCharacter enemyData in enemyCharas)
 		{
 			// 移動可能な場所リストを取得する
-			
-			var enemyPath = enemyData.GetComponent<EnemyPath>();
-			
-			
+
+			EnemyPath enemyPath = enemyData.GetComponent<EnemyPath>();
+
+
 			reachableBlocks = enemyPath.StartEnemypath();
-			
+
 			// それぞれの移動可能な場所ごとの処理
 			foreach (TestMapBlock block in reachableBlocks)
 			{
-				
+
 				// 攻撃可能な場所リストを取得する
 				attackableBlocks = mapManager.SearchAttackableBlocks(block.xPos, block.zPos);
 				// それぞれの攻撃可能な場所ごとの処理

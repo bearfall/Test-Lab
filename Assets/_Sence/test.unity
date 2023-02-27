@@ -293,7 +293,7 @@ GameObject:
   - component: {fileID: 435564983}
   - component: {fileID: 435564987}
   - component: {fileID: 435564986}
-  - component: {fileID: 435564985}
+  - component: {fileID: 435564988}
   m_Layer: 0
   m_Name: yaya
   m_TagString: Untagged
@@ -316,24 +316,6 @@ Transform:
   m_Father: {fileID: 431051707}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &435564985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 435564982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0a7739b28b94754fbcb04d0d85a18b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chessBox: {fileID: 0}
-  chessBoard: {fileID: 0}
-  moveButton: {fileID: 0}
-  results: []
-  m: 3
-  blockIndex: 0
 --- !u!114 &435564986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,6 +394,29 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &435564988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435564982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0a7739b28b94754fbcb04d0d85a18b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chessBox: {fileID: 0}
+  chessBoard: {fileID: 0}
+  moveButton: {fileID: 0}
+  results: []
+  button: 1
+  m: 3
+  index: 0
+  blockIndex: 0
+  Count: 0
+  mCount: 
+  ppp: []
 --- !u!4 &442196484 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 404599708552815478, guid: 2827b16b3f8240641be3ef3c65fdc461, type: 3}
@@ -873,7 +878,7 @@ GameObject:
   - component: {fileID: 906475365}
   - component: {fileID: 906475366}
   - component: {fileID: 906475367}
-  - component: {fileID: 906475369}
+  - component: {fileID: 906475368}
   m_Layer: 0
   m_Name: BOSS
   m_TagString: Untagged
@@ -974,7 +979,7 @@ MonoBehaviour:
   xPos: 0
   zPos: 0
   nowHP: 0
---- !u!114 &906475369
+--- !u!114 &906475368
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -990,8 +995,13 @@ MonoBehaviour:
   chessBoard: {fileID: 0}
   moveButton: {fileID: 0}
   results: []
+  button: 1
   m: 4
+  index: 0
   blockIndex: 0
+  Count: 0
+  mCount: 0000000000000000000000000000000000000000
+  ppp: []
 --- !u!4 &906911886 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 404599708552815478, guid: 2827b16b3f8240641be3ef3c65fdc461, type: 3}

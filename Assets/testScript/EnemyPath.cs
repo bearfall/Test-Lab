@@ -63,7 +63,7 @@ public class EnemyPath : MonoBehaviour
 
 	void Update()
 	{
-		if (ClickPosition.delete == true)   //點完格子之後
+		if (TestCharacter.delete == true)   //點完格子之後
 			m = CanMove;    //把 m 值回歸最大值
 
 		if (Input.GetMouseButton(1) && cancel == true)  //點選右鍵,取消"移動"

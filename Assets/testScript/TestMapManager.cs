@@ -56,7 +56,7 @@ public class TestMapManager : MonoBehaviour
 
         Vector3 hi2 = new Vector3(xPos+1, 0, zPos);
 
-        foreach (var gameObject in TestMapManager.testMapBlocks)
+        foreach (var gameObject in testMapBlocks)
         {
             if (gameObject.transform.position == hi2)
             {
@@ -68,7 +68,7 @@ public class TestMapManager : MonoBehaviour
 
         hi2 = new Vector3(xPos, 0, zPos+1);
 
-        foreach (var gameObject in TestMapManager.testMapBlocks)
+        foreach (var gameObject in testMapBlocks)
         {
             if (gameObject.transform.position == hi2)
             {
@@ -80,7 +80,7 @@ public class TestMapManager : MonoBehaviour
 
         hi2 = new Vector3(xPos-1, 0, zPos);
 
-        foreach (var gameObject in TestMapManager.testMapBlocks)
+        foreach (var gameObject in testMapBlocks)
         {
             if (gameObject.transform.position == hi2)
             {
@@ -92,7 +92,7 @@ public class TestMapManager : MonoBehaviour
 
         hi2 = new Vector3(xPos, 0, zPos-1);
 
-        foreach (var gameObject in TestMapManager.testMapBlocks)
+        foreach (var gameObject in testMapBlocks)
         {
             if (gameObject.transform.position == hi2)
             {
@@ -116,7 +116,7 @@ public class TestMapManager : MonoBehaviour
 
         Vector3 hi3 = new Vector3(xPos + 1, 0, zPos);
 
-        foreach (var gameObject in TestMapManager.testMapBlocks)
+        foreach (var gameObject in testMapBlocks)
         {
             if (gameObject.transform.position == hi3)
             {
@@ -128,7 +128,7 @@ public class TestMapManager : MonoBehaviour
 
         hi3 = new Vector3(xPos, 0, zPos + 1);
 
-        foreach (var gameObject in TestMapManager.testMapBlocks)
+        foreach (var gameObject in testMapBlocks)
         {
             if (gameObject.transform.position == hi3)
             {
@@ -140,7 +140,7 @@ public class TestMapManager : MonoBehaviour
 
         hi3 = new Vector3(xPos - 1, 0, zPos);
 
-        foreach (var gameObject in TestMapManager.testMapBlocks)
+        foreach (var gameObject in testMapBlocks)
         {
             if (gameObject.transform.position == hi3)
             {
@@ -152,7 +152,7 @@ public class TestMapManager : MonoBehaviour
 
         hi3 = new Vector3(xPos, 0, zPos - 1);
 
-        foreach (var gameObject in TestMapManager.testMapBlocks)
+        foreach (var gameObject in testMapBlocks)
         {
             if (gameObject.transform.position == hi3)
             {
