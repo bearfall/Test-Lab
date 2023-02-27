@@ -371,7 +371,7 @@ public class TestGameManager : MonoBehaviour
 					CharaAttack(actionPlan.charaData, actionPlan.toAttackChara);
 				}
 			);
-
+			
 			// 進行モードを進める(行動結果表示へ)
 			ChangePhase(Phase.EnemyTurn_Result);
 			return;
@@ -439,7 +439,9 @@ public class TestGameManager : MonoBehaviour
 		if (reachableBlocks.Count > 0)
 		{
 			randId = Random.Range(0, reachableBlocks.Count);
-			TestMapBlock targetBlock = reachableBlocks[randId]; // 移動対象のブロックデータ
+			TestMapBlock targetBlock = reachableBlocks[randId];
+			print(targetBlock.xPos);
+			print(targetBlock.zPos);// 移動対象のブロックデータ
 																// 敵キャラクター移動処理
 			targetEnemy.EnemyMovePosition(targetBlock.xPos, targetBlock.zPos);
 		}

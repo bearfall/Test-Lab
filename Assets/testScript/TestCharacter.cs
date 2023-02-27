@@ -6,7 +6,7 @@ using DG.Tweening;
 public class TestCharacter : MonoBehaviour
 {
 	public int MoveSpeed;
-	private int u = 2;
+	//private int u = 2;
 
 	public Path path;
 	public EnemyPath enemyPath;
@@ -22,7 +22,7 @@ public class TestCharacter : MonoBehaviour
 
 	public static bool ChessBoard = false; //為true時,隱藏大棋盤
 	public static bool chose = false;   //防止移動中偵測到滑鼠"左鍵"被點擊的誤判
-	public static bool enemyChose = false;
+	public bool enemyChose = false;
 	public static bool delete = false;  //用於判斷刪除棋盤的時機
 
 	public static List<Vector3> aaa = new List<Vector3>();  //用來儲存最短路徑的陣列
@@ -101,14 +101,14 @@ public class TestCharacter : MonoBehaviour
 		cameraPos.y = transform.position.y; // キャラが地面と垂直に立つようにする
 		transform.LookAt(cameraPos);
 
-
+		/*
 		if (enemyChose == true)    //按下滑鼠左鍵,而且判定是點擊了ChessBox
 		{
-			StartCoroutine(enemyMove()); //啟動計數器,用於move()
+			StartCoroutine(EnemyMove()); //啟動計數器,用於move()
 			enemyChose = false;    //令滑鼠左鍵失效,防止移動中重複點擊,造成計算錯誤
 
 		}
-
+		*/
 		xPos = (int)this.transform.position.x;
 		zPos = (int)this.transform.position.z;
 	}
@@ -164,7 +164,7 @@ public class TestCharacter : MonoBehaviour
 						cmpM();
 
 				}
-
+				
 				nowPosition = aaa[targetChess]; //更換nowPosition的位置為 m 值最大的位置
 				targetChess++;  //探索完一遍後,把儲存用的引數+1
 
@@ -228,44 +228,51 @@ public class TestCharacter : MonoBehaviour
 
 
 			//先記錄目前點下的位置,它的 m 值是多少
-			for (int z = 0; z < enemyPath.Count; z++)
+			for (int z = 0; z < EnemyPath.Count; z++)
 			{
 				//在座標陣列裡,找尋和nowPosition座標相同的格子
-				if ((enemyNowPosition.x == enemyPath.ppp[z].x) && (enemyNowPosition.z == enemyPath.ppp[z].z))
+				if ((enemyNowPosition.x == EnemyPath.ppp[z].x) && (enemyNowPosition.z == EnemyPath.ppp[z].z))
 				{
 
-					mSave = enemyPath.mCount[z]; //暫存這格的 m 值
-					Enemyaaa.Insert(enemyTargetChess, enemyPath.ppp[z]);   //把這格的座標值,儲存到aaa陣列裡
+					mSave = EnemyPath.mCount[z]; //暫存這格的 m 值
+					Enemyaaa.Insert(enemyTargetChess, EnemyPath.ppp[z]);   //把這格的座標值,儲存到aaa陣列裡
 					enemyTargetChess++;  //把存取用的索引值+1
 				}
 			}
 
 			//Debug.Log ("mSave = " + mSave); //可以確認被點下的那格的 m 值是多少
 
-			while ((enemyNowPosition.x != enemyPath.ppp[0].x) || (enemyNowPosition.z != enemyPath.ppp[0].z))    //直到走回Player的位置為止
+			while ((enemyNowPosition.x != EnemyPath.ppp[0].x) || (enemyNowPosition.z != EnemyPath.ppp[0].z))    //直到走回Player的位置為止
 			{
 
-				for (i = 0; i < enemyPath.Count; i++)    //迴圈最大值 = ppp[]的最大值-1(因為最後一個是空的) = Count
+				for (i = 0; i < EnemyPath.Count; i++)    //迴圈最大值 = ppp[]的最大值-1(因為最後一個是空的) = Count
 				{
 					//向上探索
-					if ((enemyNowPosition.z + 1 == enemyPath.ppp[i].z) && (enemyNowPosition.x == enemyPath.ppp[i].x))
+					if ((enemyNowPosition.z + 1 == EnemyPath.ppp[i].z) && (enemyNowPosition.x == EnemyPath.ppp[i].x))
 						enemyCmpM(); //比較探索方向的 m(剩餘行動力) 值，是否比前一個探索方向的 m(剩餘行動力) 值大
 
 					//向下探索
-					if ((enemyNowPosition.z - 1 == enemyPath.ppp[i].z) && (enemyNowPosition.x == enemyPath.ppp[i].x))
+					if ((enemyNowPosition.z - 1 == EnemyPath.ppp[i].z) && (enemyNowPosition.x == EnemyPath.ppp[i].x))
 						enemyCmpM();
 
 					//向左探索
-					if ((enemyNowPosition.x - 1 == enemyPath.ppp[i].x) && (enemyNowPosition.z == enemyPath.ppp[i].z))
+					if ((enemyNowPosition.x - 1 == EnemyPath.ppp[i].x) && (enemyNowPosition.z == EnemyPath.ppp[i].z))
 						enemyCmpM();
 
 					//向右探索
-					if ((enemyNowPosition.x + 1 == enemyPath.ppp[i].x) && (enemyNowPosition.z == enemyPath.ppp[i].z))
+					if ((enemyNowPosition.x + 1 == EnemyPath.ppp[i].x) && (enemyNowPosition.z == EnemyPath.ppp[i].z))
 						enemyCmpM();
 
 				}
+                for (int i = 0; i < Enemyaaa.Count; i++)
+                {
+					print(Enemyaaa[i]);
+				}
 
+				print(enemyTargetChess);
 				enemyNowPosition = Enemyaaa[enemyTargetChess];
+				
+				
 
 				//enemyNowPosition = Enemyaaa[enemyTargetChess]; //更換nowPosition的位置為 m 值最大的位置
 				enemyTargetChess++;  //探索完一遍後,把儲存用的引數+1
@@ -273,13 +280,14 @@ public class TestCharacter : MonoBehaviour
 			}
 
 
-			//for(int j = targetChess - 1; j >= 0; j--)	//可以查看結果正不正確(將路徑搜尋的結果倒印)
-			//	Debug.Log ("aaa = " + aaa[j]);
+			for(int j = targetChess - 1; j >= 0; j--)	//可以查看結果正不正確(將路徑搜尋的結果倒印)
+				Debug.Log ("Enemyaaa = " + Enemyaaa[j]);
 
 			//Debug.Log ("Destination = " + nowPosition);	//可以查看路徑搜尋的結果,是不是從目標點回到原點
 
 
 			delete = true;  //算完最短路徑之後,將delete設為true,藉此刪除棋盤
+			print(delete);
 			//Path.camera = false;    //移動前拉近攝影機
 			enemyChose = true;   //這時候角色才能開始移動(請見PlayerController的腳本)
 			EnemyPath.cancel = false;    //令滑鼠"右鍵"的功能失效,防止移動中亂按的誤判
@@ -297,14 +305,14 @@ public class TestCharacter : MonoBehaviour
 
 	void enemyCmpM() //比較探索方向的 m(剩餘行動力) 值，是否比前一個探索方向的 m(剩餘行動力) 值大
 	{
-		if (enemyPath.mCount[i] > mSave)
+		if (EnemyPath.mCount[i] > mSave)
 		{
-			mSave = enemyPath.mCount[i]; //如果比較大，就把mSave換成比較大的
-			Enemyaaa.Insert(enemyTargetChess, enemyPath.ppp[i]); //把 m 值比較大的那格的座標丟入陣列,取代 m 值比較小的那格的座標
+			mSave = EnemyPath.mCount[i]; //如果比較大，就把mSave換成比較大的
+			Enemyaaa.Insert(enemyTargetChess, EnemyPath.ppp[i]); //把 m 值比較大的那格的座標丟入陣列,取代 m 值比較小的那格的座標
 		}
 	}
 
-
+	/*
 	public IEnumerator enemyMove()
 	{
 		while (true)
@@ -375,5 +383,5 @@ public class TestCharacter : MonoBehaviour
 
 
 	}
-
+	*/
 }

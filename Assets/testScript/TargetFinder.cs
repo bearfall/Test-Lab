@@ -54,8 +54,7 @@ public static class TargetFinder
 					// 攻撃できる相手キャラクター(プレイヤー側のキャラクター)を探す
 					TestCharacter targetChara =
 						charactersManager.GetCharacterDataByPos(attackBlock.xPos, attackBlock.zPos);
-					if (targetChara != null &&
-						!targetChara.isEnemy)
+					if (targetChara != null && !targetChara.isEnemy)
 					{// 相手キャラクターが存在する
 					 // 行動プランを新規作成する
 						var newPlan = new ActionPlan();
@@ -65,14 +64,23 @@ public static class TargetFinder
 
 						// 全行動プランリストに追加
 						actionPlans.Add(newPlan);
+						Debug.Log(actionPlans[0].charaData);
+						Debug.Log(actionPlans[0].toMoveBlock);
+						Debug.Log(actionPlans[0].toAttackChara);
+						
 					}
 				}
 			}
 		}
-
+		reachableBlocks.Clear();
+		attackableBlocks.Clear();
 		// 検索終了後、行動プランが１つでもあるならその内の１つをランダムに返す
 		if (actionPlans.Count > 0)
+		{
 			return actionPlans[Random.Range(0, actionPlans.Count)];
+			
+
+		}
 		else // 行動プランが無いならnullを返す
 			return null;
 	}
