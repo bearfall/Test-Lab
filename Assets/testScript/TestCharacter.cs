@@ -280,8 +280,11 @@ public class TestCharacter : MonoBehaviour
 						enemyCmpM();
 
 				}
-
-				enemyNowPosition = Enemyaaa[enemyTargetChess]; //更換nowPosition的位置為 m 值最大的位置
+				if (Enemyaaa.Count > enemyTargetChess)
+				{
+					enemyNowPosition = Enemyaaa[enemyTargetChess];
+				}
+				//enemyNowPosition = Enemyaaa[enemyTargetChess]; //更換nowPosition的位置為 m 值最大的位置
 				enemyTargetChess++;  //探索完一遍後,把儲存用的引數+1
 
 			}

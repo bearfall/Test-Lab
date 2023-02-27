@@ -331,21 +331,21 @@ public class TestGameManager : MonoBehaviour
 	/// 敵キャラクターのうちいずれか一体を行動させてターンを終了する
 	/// </summary>
 	/// 
-	
+
 	private void EnemyCommand()
 	{
+		reachableBlocks.Clear();
 		// 生存中の敵キャラクターのリストを作成する
 		var enemyCharas = new List<TestCharacter>(); // 敵キャラクターリスト
 		foreach (TestCharacter charaData in testCharactersManager.testCharacters)
 		{// 全生存キャラクターから敵フラグの立っているキャラクターをリストに追加
 			if (charaData.isEnemy)
 				enemyCharas.Add(charaData);
-			
+
 		}
 
 		// 攻撃可能なキャラクター・位置の組み合わせの内１つをランダムに取得
-		var actionPlan = TargetFinder.GetRandomActionPlan
-			(testMapManager, testCharactersManager, enemyCharas);
+		var actionPlan = TargetFinder.GetRandomActionPlan(testMapManager, testCharactersManager, enemyCharas);
 		// 組み合わせのデータが存在すれば攻撃開始
 		if (actionPlan != null)
 		{
@@ -358,7 +358,7 @@ public class TestGameManager : MonoBehaviour
 				2.5f, // 遅延時間(秒)
 				() =>
 				{// 遅延実行する内容
-					CharaAttack(actionPlan.charaData, actionPlan.toAttackChara);
+				CharaAttack(actionPlan.charaData, actionPlan.toAttackChara);
 				}
 			);
 
@@ -423,8 +423,8 @@ public class TestGameManager : MonoBehaviour
 		TestCharacter targetEnemy = enemyCharas[randId]; // 行動対象の敵データ
 
 		enemyPath = targetEnemy.GetComponent<EnemyPath>();
-		enemyPath.Startpath();
-		reachableBlocks = enemyPath.Startpath();
+		enemyPath.StartEnemypath();
+		reachableBlocks = enemyPath.StartEnemypath();
 
 		if (reachableBlocks.Count > 0)
 		{

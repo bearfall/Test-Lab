@@ -38,8 +38,8 @@ public static class TargetFinder
 			// 移動可能な場所リストを取得する
 			var selectingEnemy = enemyData;
 			var enemyPath = selectingEnemy.GetComponent<EnemyPath>();
-			enemyPath.Startpath();
-			reachableBlocks = enemyPath.Startpath();
+			enemyPath.StartEnemypath();
+			reachableBlocks = enemyPath.StartEnemypath();
 			// それぞれの移動可能な場所ごとの処理
 			foreach (TestMapBlock block in reachableBlocks)
 			{

@@ -97,15 +97,15 @@ public class EnemyPath : MonoBehaviour
 			button = false;
 			ClickPosition.delete = false;   //delete為false時,棋盤格才能被顯示(克隆)
 											//chessBoard.SetActive(true); //顯示大棋盤
-			Startpath(); //開始計算可行走範圍
+			StartEnemypath(); //開始計算可行走範圍
 		}
 	}
 	//----------------------------------------------------------------------------------------------
 
-	public List<TestMapBlock> Startpath()
+	public List<TestMapBlock> StartEnemypath()
 	{
 
-
+		//results.Clear();
 		for (i = 0; i < 500; i++)   //500最多可以算到16格
 		{
 
