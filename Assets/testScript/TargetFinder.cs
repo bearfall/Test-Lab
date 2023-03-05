@@ -38,7 +38,7 @@ public static class TargetFinder
 			// 移動可能な場所リストを取得する
 
 			EnemyPath enemyPath = enemyData.GetComponent<EnemyPath>();
-
+			enemyPath.results.Clear();
 
 			reachableBlocks = enemyPath.StartEnemypath();
 

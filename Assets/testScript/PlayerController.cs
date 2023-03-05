@@ -108,14 +108,7 @@ public class PlayerController : MonoBehaviour
 
 		TestCharacter.delete = false;   //把用於刪除chessbox的bool值,回歸false(初值)
 
-		Path.index = 0; //存入ppp[]用的索引值歸0(初值)
-		Path.Count = 0; //取出ppp[]用的索引值歸0(初值)
-		TestCharacter.mSave = 0;    //暫存最大 m 值的變數歸0(初值)
-		TestCharacter.targetChess = 0;  //存入和取出aaa[]用的索引值歸0(初值)
-
-		Path.ppp.Clear();   //清空儲存行走範圍的陣列
-		Path.mCount.Clear();    //清空儲存 m 值的陣列
-		TestCharacter.aaa.Clear(); //清空儲存最短行走路徑的陣列
+		AllClear();
 
 		//moveButton.gameObject.SetActive(true);
 		Path.button = true;//將"移動"Button顯示出來
@@ -124,7 +117,17 @@ public class PlayerController : MonoBehaviour
 
 
 	}
+	public void AllClear()
+    {
+		Path.index = 0; //存入ppp[]用的索引值歸0(初值)
+		Path.Count = 0; //取出ppp[]用的索引值歸0(初值)
+		TestCharacter.mSave = 0;    //暫存最大 m 值的變數歸0(初值)
+		TestCharacter.targetChess = 0;  //存入和取出aaa[]用的索引值歸0(初值)
 
+		Path.ppp.Clear();   //清空儲存行走範圍的陣列
+		Path.mCount.Clear();    //清空儲存 m 值的陣列
+		TestCharacter.aaa.Clear(); //清空儲存最短行走路徑的陣列
+	}
 	
 	
 
