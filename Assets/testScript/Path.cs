@@ -19,7 +19,7 @@ public class Path : MonoBehaviour
 	public Button moveButton;
 	private TestMapBlock testMapBlock;
 	public List<TestMapBlock> results = new List<TestMapBlock>();
-
+	TestCharacter testCharacter;
 
 	public static Vector3 Position; //用來記錄下一步的位置
 									//public static Vector3 PlayerPosition;	//玩家位置
@@ -32,7 +32,7 @@ public class Path : MonoBehaviour
 
 	public int m; //m = 可移動數
 	public static int CanMove;  //記錄可移動數,第一輪需要
-	public static int index = 0;    //存入陣列用的引數
+	public  int index = 0;    //存入陣列用的引數
 	public int blockIndex;
 
     public static object Combine(string dataPath, string v)
@@ -40,18 +40,19 @@ public class Path : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    public static int Count = 0;    //取出陣例內容用的引數
+    public  int Count = 0;    //取出陣例內容用的引數
 
 	private int i = 0; //迴圈計數用
 
-	public static List<int> mCount = new List<int>();   //用來記錄每次移動過後,剩餘的m值
-	public static List<Vector3> ppp = new List<Vector3>();  //用來記錄每次移動過後的新位置
+	public  List<int> mCount = new List<int>();   //用來記錄每次移動過後,剩餘的m值
+	public  List<Vector3> ppp = new List<Vector3>();  //用來記錄每次移動過後的新位置
 
 
 	//--------------------------------------------------------------------------------------------------
 
 	void Start()
 	{
+		testCharacter = gameObject.GetComponent<TestCharacter>();
 		//PlayerPosition = this.transform.position;	//用PlayerPosition儲存角色目前的位置
 		CanMove = m;    //把CanMove設定成最大移動數
 
@@ -62,14 +63,14 @@ public class Path : MonoBehaviour
 
 	void Update()
 	{
-		if (ClickPosition.delete == true)   //點完格子之後
+		if (testCharacter.delete == true)   //點完格子之後
 			m = CanMove;    //把 m 值回歸最大值
 
 		if (Input.GetMouseButton(1) && cancel == true)  //點選右鍵,取消"移動"
 		{
 			cancel = false; //按一次後就變成false,防止重複點擊造成錯誤
 			camera = false; //拉近攝影機
-			ClickPosition.delete = true;    //將delete設為true,藉此刪除棋盤
+			testCharacter.delete = true;    //將delete設為true,藉此刪除棋盤
 			//.SetActive(false);    //隱藏大棋盤
 			Reset();    //重置部份參數,回歸點選"移動"前的初值
 
@@ -95,7 +96,7 @@ public class Path : MonoBehaviour
 			camera = true;  //將鏡頭拉遠
 			moveButton.gameObject.SetActive(false); //讓"移動"Button消失,防止重複點擊
 			button = false;
-			ClickPosition.delete = false;   //delete為false時,棋盤格才能被顯示(克隆)
+			testCharacter.delete = false;   //delete為false時,棋盤格才能被顯示(克隆)
 			//chessBoard.SetActive(true); //顯示大棋盤
 			Startpath(); //開始計算可行走範圍
 		}

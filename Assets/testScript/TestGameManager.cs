@@ -15,8 +15,9 @@ public class TestGameManager : MonoBehaviour
 	private int charaStartPos_Z; // 選択キャラクターの移動前の位置(Z方向)
 	private TestCharacter selectingChara; // 選中的角色（如果沒有選中則為 false）
 	private TestCharacter selectingEnemy;
+	private TestCharacter testCharacter;
 
-
+	
 
 
 
@@ -102,16 +103,17 @@ public class TestGameManager : MonoBehaviour
 				// 選択した位置に居るキャラクターのデータを取得
 				var charaData =
 					testCharactersManager.GetCharacterDataByPos(targetBlock.xPos, targetBlock.zPos);
-				if (charaData != null && !charaData.isEnemy)
+//				print(charaData.name);
+				if (charaData != null && !charaData.isEnemy && charaData.hasActed == false)
 				{// キャラクターが存在する
 				 // 選択中のキャラクター情報に記憶
 					selectingChara = charaData;
 					testGuiManager.ShowStatusWindow(selectingChara);
 
-
+					testCharacter = selectingChara.GetComponent<TestCharacter>();
 
 					path = selectingChara.GetComponent<Path>();
-					path.Startpath();
+					//path.Startpath();
 					reachableBlocks = path.Startpath();
 
 					/*
@@ -179,15 +181,21 @@ public class TestGameManager : MonoBehaviour
 					{// 攻撃対象のキャラクターが存在する
 					 // キャラクター攻撃処理
 						CharaAttack(selectingChara, targetChara);
+						testCharacter.hasActed = true;
+
 
 						// 進行モードを進める(行動結果表示へ)
 						ChangePhase(Phase.MyTurn_Result);
 						return;
 					}
+
+
 					else
 					{// 攻撃対象が存在しない
 					 // 進行モードを進める(敵のターンへ)
-						ChangePhase(Phase.EnemyTurn_Start);
+						testCharacter.hasActed = true;
+						CheckIsAllActive();
+//						ChangePhase(Phase.EnemyTurn_Start);
 					}
 				}
 				break;
@@ -270,9 +278,10 @@ public class TestGameManager : MonoBehaviour
 	public void StandbyCommand()
 	{
 		// コマンドボタンを非表示にする
+		testCharacter.hasActed = true;
 		testGuiManager.HideCommandButtons();
 		// 進行モードを進める(敵のターンへ)
-		ChangePhase(Phase.EnemyTurn_Start);
+		CheckIsAllActive();
 	}
 
 	/// <summary>
@@ -318,8 +327,14 @@ public class TestGameManager : MonoBehaviour
 			 // ウィンドウを非表示化
 				testGuiManager.testBattleWindowUI.HideWindow();
 				// ターンを切り替える
-				if (nowPhase == Phase.MyTurn_Result) // 敵のターンへ
-					ChangePhase(Phase.EnemyTurn_Start);
+				if (nowPhase == Phase.MyTurn_Result)
+				{ // 敵のターンへ
+
+					testCharacter.hasActed = true;
+					CheckIsAllActive();
+						//ChangePhase(Phase.EnemyTurn_Start);
+
+				}
 				else if (nowPhase == Phase.EnemyTurn_Result) // 自分のターンへ
 					ChangePhase(Phase.MyTurn_Start);
 			}
@@ -462,6 +477,42 @@ public class TestGameManager : MonoBehaviour
 				ChangePhase(Phase.MyTurn_Start);
 			}
 		);
+	}
+
+
+	public void CheckIsAllActive()
+    {
+		bool allActed = true;
+		foreach (var character in testCharactersManager.testCharacters)
+        {
+			if (!character.isEnemy)
+			{
+
+
+				testCharacter = character.GetComponent<TestCharacter>();
+				if (!testCharacter.hasActed)
+				{
+					allActed = false;
+					ChangePhase(Phase.MyTurn_Start);
+					break;
+				}
+			}
+		}
+		if (allActed)
+		{
+			foreach (var character in testCharactersManager.testCharacters)
+			{
+				if (!character.isEnemy)
+				{
+					testCharacter = character.GetComponent<TestCharacter>();
+					testCharacter.hasActed = false;
+					ChangePhase(Phase.EnemyTurn_Start);
+				}
+			}
+		}
+
+		
+
 	}
 
 }

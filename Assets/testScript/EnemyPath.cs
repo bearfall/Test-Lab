@@ -19,7 +19,7 @@ public class EnemyPath : MonoBehaviour
 	public Button moveButton;
 	private TestMapBlock testMapBlock;
 
-   
+	TestCharacter testCharacter;
 	public List<TestMapBlock> results = new List<TestMapBlock>();
 
 
@@ -29,12 +29,12 @@ public class EnemyPath : MonoBehaviour
 	private bool check = true;  //用來判斷某一格是不是已經走過,若走過則為false
 	private bool monsterCheck = true;   //用來判斷下一格是否有怪物
 	public static bool camera = false;  //用來控制攝影機拉近拉遠,false拉近,true拉遠. 點選"移動"前是拉近的,故此處初值為false
-	public static bool button = true;   //用來控制Button出現的時機,true出現,false消失
+	public  bool button = true;   //用來控制Button出現的時機,true出現,false消失
 	public static bool cancel = false;  //用來取消任何戰鬥指令,在點選任意Button後,需將其變成true才能發揮作用
 
 	public int m; //m = 可移動數
 	private int CanMove;  //記錄可移動數,第一輪需要
-	public  static  int index = 0;    //存入陣列用的引數
+	public    int index = 0;    //存入陣列用的引數
 	public int blockIndex;
 
 	public static object Combine(string dataPath, string v)
@@ -42,18 +42,20 @@ public class EnemyPath : MonoBehaviour
 		throw new NotImplementedException();
 	}
 
-	public static int Count = 0;    //取出陣例內容用的引數
+	public  int Count = 0;    //取出陣例內容用的引數
 
 	private int i = 0; //迴圈計數用
 
-	public static List<int> mCount = new List<int>();   //用來記錄每次移動過後,剩餘的m值
-	public static List<Vector3> ppp = new List<Vector3>();  //用來記錄每次移動過後的新位置
+	public  List<int> mCount = new List<int>();   //用來記錄每次移動過後,剩餘的m值
+	public  List<Vector3> ppp = new List<Vector3>();  //用來記錄每次移動過後的新位置
 
 
 	//--------------------------------------------------------------------------------------------------
 
 	void Start()
 	{
+		testCharacter = gameObject.GetComponent<TestCharacter>();
+
 		//PlayerPosition = this.transform.position;	//用PlayerPosition儲存角色目前的位置
 		CanMove = m;    //把CanMove設定成最大移動數
         
@@ -63,14 +65,14 @@ public class EnemyPath : MonoBehaviour
 
 	void Update()
 	{
-		if (TestCharacter.delete == true)   //點完格子之後
+		if (testCharacter.EnemyDelete == true)   //點完格子之後
 			m = CanMove;    //把 m 值回歸最大值
 
 		if (Input.GetMouseButton(1) && cancel == true)  //點選右鍵,取消"移動"
 		{
 			cancel = false; //按一次後就變成false,防止重複點擊造成錯誤
 			camera = false; //拉近攝影機
-			ClickPosition.delete = true;    //將delete設為true,藉此刪除棋盤
+			testCharacter.EnemyDelete = true;    //將delete設為true,藉此刪除棋盤
 											//.SetActive(false);    //隱藏大棋盤
 			Reset();    //重置部份參數,回歸點選"移動"前的初值
 
@@ -96,7 +98,7 @@ public class EnemyPath : MonoBehaviour
 			camera = true;  //將鏡頭拉遠
 			moveButton.gameObject.SetActive(false); //讓"移動"Button消失,防止重複點擊
 			button = false;
-			ClickPosition.delete = false;   //delete為false時,棋盤格才能被顯示(克隆)
+//			ClickPosition.delete = false;   //delete為false時,棋盤格才能被顯示(克隆)
 											//chessBoard.SetActive(true); //顯示大棋盤
 			StartEnemypath(); //開始計算可行走範圍
 		}

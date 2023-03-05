@@ -10,6 +10,9 @@ public class EnemyController : MonoBehaviour
 {
 	private int u = 2;
 	private TestCharacter testCharacter;
+	EnemyPath enemyPath;
+
+
 	public int MoveSpeed;   //用來調整移動速度,數值越大越快
 							//public Button moveButton;
 							//private CharacterStats characterStats;
@@ -32,7 +35,8 @@ public class EnemyController : MonoBehaviour
 	private void Start()
 	{
 		//characterStats.MaxHealth = 30;
-		testCharacter = GetComponent<TestCharacter>();
+		testCharacter =gameObject.GetComponent<TestCharacter>();
+		enemyPath = gameObject.GetComponent<EnemyPath>();
 	}
 
 
@@ -61,7 +65,7 @@ public class EnemyController : MonoBehaviour
 		{
 
 			//計算目標點和現在的座標差(這是一個向量)
-			Vector3 distance = TestCharacter.Enemyaaa[TestCharacter.enemyTargetChess - u] - this.transform.position;
+			Vector3 distance = testCharacter.Enemyaaa[testCharacter.enemyTargetChess - u] - this.transform.position;
 			//將座標差換算成長度(純量)
 			float len = distance.magnitude;
 
@@ -90,9 +94,9 @@ public class EnemyController : MonoBehaviour
 			if (len <= (distance.magnitude * Time.deltaTime * 2))   //distance.magnitude是一個純量
 			{
 				//把現在位置強制設定成目標位置
-				this.transform.position = TestCharacter.Enemyaaa[TestCharacter.enemyTargetChess - u];
+				this.transform.position = testCharacter.Enemyaaa[testCharacter.enemyTargetChess - u];
 				u++;    //索引值+1
-				if (TestCharacter.enemyTargetChess - u < 0)  //aaa[-1]不存在
+				if (testCharacter.enemyTargetChess - u < 0)  //aaa[-1]不存在
 				{
 					u = 2;  //將 i 回歸初值
 					break;  //跳出迴圈
@@ -109,17 +113,17 @@ public class EnemyController : MonoBehaviour
 
 		//TestCharacter.delete = false;   //把用於刪除chessbox的bool值,回歸false(初值)
 
-		EnemyPath.index = 0; //存入ppp[]用的索引值歸0(初值)
-		EnemyPath.Count = 0; //取出ppp[]用的索引值歸0(初值)
-		TestCharacter.mSave = 0;    //暫存最大 m 值的變數歸0(初值)
-		TestCharacter.enemyTargetChess = 0;  //存入和取出aaa[]用的索引值歸0(初值)
+		enemyPath.index = 0; //存入ppp[]用的索引值歸0(初值)
+		enemyPath.Count = 0; //取出ppp[]用的索引值歸0(初值)
+		testCharacter.mSave = 0;    //暫存最大 m 值的變數歸0(初值)
+		testCharacter.enemyTargetChess = 0;  //存入和取出aaa[]用的索引值歸0(初值)
 
-		EnemyPath.ppp.Clear();   //清空儲存行走範圍的陣列
-		EnemyPath.mCount.Clear();    //清空儲存 m 值的陣列
-		TestCharacter.Enemyaaa.Clear(); //清空儲存最短行走路徑的陣列
+		enemyPath.ppp.Clear();   //清空儲存行走範圍的陣列
+		enemyPath.mCount.Clear();    //清空儲存 m 值的陣列
+		testCharacter.Enemyaaa.Clear(); //清空儲存最短行走路徑的陣列
 
 		//moveButton.gameObject.SetActive(true);
-		EnemyPath.button = true;//將"移動"Button顯示出來
+		enemyPath.button = true;//將"移動"Button顯示出來
 
 		//TestCharacter.ChessBoard = false; //移動完畢後,將隱藏大棋盤的bool回歸初值(false)
 

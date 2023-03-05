@@ -9,14 +9,14 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
 
-
+	private TestCharacter testCharacter;
 	public int MoveSpeed;   //用來調整移動速度,數值越大越快
 	//public Button moveButton;
 	//private CharacterStats characterStats;
 	//private GameObject target;
 	//private bool _canBeAttack;
 	
-
+	Path path;
 
 	//aaa[targetChess - 2] = 起始位置的下一個位置,因為aaa[targetChess]是空的,aaa[targetChess-1]是起始位置
 	private int i = 2;
@@ -26,8 +26,9 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
 		//characterStats = GetComponent<CharacterStats>();
-		
-    }
+		testCharacter = gameObject.GetComponent<TestCharacter>();
+		path = gameObject.GetComponent<Path>();
+	}
 
     private void Start()
     {
@@ -37,10 +38,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
 	{
-		if (TestCharacter.chose == true)    //按下滑鼠左鍵,而且判定是點擊了ChessBox
+		if (testCharacter.chose == true)    //按下滑鼠左鍵,而且判定是點擊了ChessBox
 		{
 			StartCoroutine(move()); //啟動計數器,用於move()
-			TestCharacter.chose = false;    //令滑鼠左鍵失效,防止移動中重複點擊,造成計算錯誤
+			testCharacter.chose = false;    //令滑鼠左鍵失效,防止移動中重複點擊,造成計算錯誤
 
 		}
 
@@ -60,7 +61,7 @@ public class PlayerController : MonoBehaviour
 		{
 
 			//計算目標點和現在的座標差(這是一個向量)
-			Vector3 distance = TestCharacter.aaa[TestCharacter.targetChess - i] - this.transform.position;
+			Vector3 distance = testCharacter.aaa[testCharacter.targetChess - i] - this.transform.position;
 			//將座標差換算成長度(純量)
 			float len = distance.magnitude;
 
@@ -89,9 +90,9 @@ public class PlayerController : MonoBehaviour
 			if (len <= (distance.magnitude * Time.deltaTime * 2))   //distance.magnitude是一個純量
 			{
 				//把現在位置強制設定成目標位置
-				this.transform.position = TestCharacter.aaa[TestCharacter.targetChess - i];
+				this.transform.position = testCharacter.aaa[testCharacter.targetChess - i];
 				i++;    //索引值+1
-				if (TestCharacter.targetChess - i < 0)  //aaa[-1]不存在
+				if (testCharacter.targetChess - i < 0)  //aaa[-1]不存在
 				{
 					i = 2;  //將 i 回歸初值
 					break;  //跳出迴圈
@@ -106,7 +107,7 @@ public class PlayerController : MonoBehaviour
 		}
 
 
-		TestCharacter.delete = false;   //把用於刪除chessbox的bool值,回歸false(初值)
+		testCharacter.delete = false;   //把用於刪除chessbox的bool值,回歸false(初值)
 
 		AllClear();
 
@@ -119,14 +120,14 @@ public class PlayerController : MonoBehaviour
 	}
 	public void AllClear()
     {
-		Path.index = 0; //存入ppp[]用的索引值歸0(初值)
-		Path.Count = 0; //取出ppp[]用的索引值歸0(初值)
-		TestCharacter.mSave = 0;    //暫存最大 m 值的變數歸0(初值)
-		TestCharacter.targetChess = 0;  //存入和取出aaa[]用的索引值歸0(初值)
+		path.index = 0; //存入ppp[]用的索引值歸0(初值)
+		path.Count = 0; //取出ppp[]用的索引值歸0(初值)
+		testCharacter.mSave = 0;    //暫存最大 m 值的變數歸0(初值)
+		testCharacter.targetChess = 0;  //存入和取出aaa[]用的索引值歸0(初值)
 
-		Path.ppp.Clear();   //清空儲存行走範圍的陣列
-		Path.mCount.Clear();    //清空儲存 m 值的陣列
-		TestCharacter.aaa.Clear(); //清空儲存最短行走路徑的陣列
+		path.ppp.Clear();   //清空儲存行走範圍的陣列
+		path.mCount.Clear();    //清空儲存 m 值的陣列
+		testCharacter.aaa.Clear(); //清空儲存最短行走路徑的陣列
 	}
 	
 	
