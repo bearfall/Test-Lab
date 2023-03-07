@@ -13,7 +13,7 @@ using Unity.VisualScripting;
 
 public class Path : MonoBehaviour
 {
-
+	private TestCharactersManager testCharactersManager;
 	public GameObject chessBox; //這個用來放棋盤格(ChessBox)
 	public GameObject chessBoard; //這個用來放棋盤基底(BigChessBoard)
 	public Button moveButton;
@@ -52,10 +52,12 @@ public class Path : MonoBehaviour
 
 	void Start()
 	{
+		
+
 		testCharacter = gameObject.GetComponent<TestCharacter>();
 		//PlayerPosition = this.transform.position;	//用PlayerPosition儲存角色目前的位置
 		CanMove = m;    //把CanMove設定成最大移動數
-
+		testCharactersManager = GetComponent<TestCharactersManager>();
 		var results = new List<TestMapBlock>();
 	}
 
@@ -348,6 +350,8 @@ public class Path : MonoBehaviour
 		}
 
 		cancel = true;  //這時候按"右鍵"才有取消行動的功能
+        
+		
 		return results;
 	}
 

@@ -147,7 +147,7 @@ public class TestGameManager : MonoBehaviour
 
 					reachableBlocks.Clear();
 					testMapManager.AllselectionModeClear();
-
+					testGuiManager.HideStatusWindow();
 					// 指定秒数経過後に処理を実行する(DoTween)
 					DOVirtual.DelayedCall(
 						0.5f, // 遅延時間(秒)
@@ -326,6 +326,7 @@ public class TestGameManager : MonoBehaviour
 			{// 遅延実行する内容
 			 // ウィンドウを非表示化
 				testGuiManager.testBattleWindowUI.HideWindow();
+				testGuiManager.HideStatusWindow();
 				// ターンを切り替える
 				if (nowPhase == Phase.MyTurn_Result)
 				{ // 敵のターンへ

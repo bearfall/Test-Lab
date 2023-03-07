@@ -54,7 +54,7 @@ public class TestBattleWindowUI : MonoBehaviour
 		// HPText表示(現在値と最大値両方を表示)
 		hpText.text = nowHP + "/" + charaData.maxHP;
 		// ダメージ量Text表示
-		damageText.text = damageValue + "ダメージ！";
+		damageText.text = "受到" + damageValue + "傷害";
 	}
 	/// <summary>
 	/// バトル結果ウィンドウを隠す

@@ -137,7 +137,7 @@ MonoBehaviour:
   passable: 0
   selMat_Select: {fileID: 2100000, guid: 1f4489a2401af1a4e968cd2ec2512776, type: 2}
   selMat_Reachable: {fileID: 2100000, guid: 5fa60765f4120ac4d998ee271f628d3f, type: 2}
-  selMat_Attackable: {fileID: 0}
+  selMat_Attackable: {fileID: 2100000, guid: 0a8eee71a1e30bb41ba2a8608cb7c4d8, type: 2}
 --- !u!1001 &314940274222506541
 PrefabInstance:
   m_ObjectHideFlags: 0

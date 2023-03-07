@@ -76,7 +76,7 @@ public class TestCharacter : MonoBehaviour
 		// 初期位置に対応する座標へオブジェクトを移動させる
 		Vector3 pos = new Vector3();
 		pos.x = initPos_X; // x座標：1ブロックのサイズが1(1.0f)なのでそのまま代入
-		pos.y = 0f; // y座標（固定）
+		pos.y = 0.36f; // y座標（固定）
 		pos.z = initPos_Z; // z座標
 		transform.position = pos; // オブジェクトの座標を変更
 
