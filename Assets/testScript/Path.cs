@@ -13,14 +13,17 @@ using Unity.VisualScripting;
 
 public class Path : MonoBehaviour
 {
-	private TestCharactersManager testCharactersManager;
+
+
+
+	public TestCharactersManager testCharactersManager;
 	public GameObject chessBox; //這個用來放棋盤格(ChessBox)
 	public GameObject chessBoard; //這個用來放棋盤基底(BigChessBoard)
 	public Button moveButton;
 	private TestMapBlock testMapBlock;
 	public List<TestMapBlock> results = new List<TestMapBlock>();
 	TestCharacter testCharacter;
-
+	
 	public static Vector3 Position; //用來記錄下一步的位置
 									//public static Vector3 PlayerPosition;	//玩家位置
 
@@ -57,7 +60,7 @@ public class Path : MonoBehaviour
 		testCharacter = gameObject.GetComponent<TestCharacter>();
 		//PlayerPosition = this.transform.position;	//用PlayerPosition儲存角色目前的位置
 		CanMove = m;    //把CanMove設定成最大移動數
-		testCharactersManager = GetComponent<TestCharactersManager>();
+		testCharactersManager = GameObject.Find("Manager").GetComponent<TestCharactersManager>();
 		var results = new List<TestMapBlock>();
 	}
 
@@ -350,8 +353,31 @@ public class Path : MonoBehaviour
 		}
 
 		cancel = true;  //這時候按"右鍵"才有取消行動的功能
-        
-		
+
+
+		var enemyCharas = new List<TestCharacter>(); // 敵キャラクターリスト
+		foreach (TestCharacter charaData in testCharactersManager.testCharacters)
+		{// 全生存キャラクターから敵フラグの立っているキャラクターをリストに追加
+			if (charaData.isEnemy)
+			{
+				enemyCharas.Add(charaData);
+				print(enemyCharas[0]);
+
+			}
+		}
+        for (int i = 0; i < enemyCharas.Count; i++)
+        {
+            for (int j = 0; j < results.Count; j++)
+            {
+				if (results[j].xPos == enemyCharas[i].xPos && results[j].zPos == enemyCharas[i].zPos)
+				{
+					results[j].transform.GetChild(0).gameObject.SetActive(false);
+					results.Remove(results[j]);
+				}
+			}
+            
+        }
+
 		return results;
 	}
 
@@ -374,14 +400,15 @@ public class Path : MonoBehaviour
 
 	public void PathCount()    //用來記錄、計算每一格的座標位置，以及每一格的 m(剩餘行動力) 值
 	{
+		
 		//在新位置上,克隆一個棋盤格
 		//Position.x(新位置的X座標),Position.z(新位置的Z座標)
 		//Instantiate(chessBox, new Vector3(Position.x, 0, Position.z), chessBox.transform.rotation);
-		 Vector3 hi = new Vector3(Position.x, 0, Position.z);
+		Vector3 hi = new Vector3(Position.x, 0, Position.z);
 
         foreach (var gameObject in TestMapManager.testMapBlocks)
         {
-            if (gameObject.transform.position == hi)
+            if (gameObject.transform.position == hi )
             {
 				gameObject.transform.GetChild(0).gameObject.SetActive(true);
 				gameObject.SetSelectionMode(TestMapBlock.Highlight.Reachable);
