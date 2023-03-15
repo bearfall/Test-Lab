@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -7,15 +7,15 @@ using Unity.VisualScripting;
 
 
 //=================================================================
-//	(1)¥Î©ó­pºâ³Ì¤j¥i¦æ¨«½d³ò,¨Ã©óÂI¿ï§¹¦¨«á,±N³¡¥÷»P"²¾°Ê"¦³Ãöªº°Ñ¼Æ¦^Âkªì­È
-//	(2)ÂI¿ï¥kÁä¥i¥H¨ú®ø"²¾°Ê"
+//	(1)ç”¨æ–¼è¨ˆç®—æœ€å¤§å¯è¡Œèµ°ç¯„åœ,ä¸¦æ–¼é»é¸å®Œæˆå¾Œ,å°‡éƒ¨ä»½èˆ‡"ç§»å‹•"æœ‰é—œçš„åƒæ•¸å›æ­¸åˆå€¼
+//	(2)é»é¸å³éµå¯ä»¥å–æ¶ˆ"ç§»å‹•"
 //=================================================================
 
 public class EnemyPath : MonoBehaviour
 {
-
-	public GameObject chessBox; //³o­Ó¥Î¨Ó©ñ´Ñ½L®æ(ChessBox)
-	public GameObject chessBoard; //³o­Ó¥Î¨Ó©ñ´Ñ½L°ò©³(BigChessBoard)
+	public TestCharactersManager testCharactersManager;
+	public GameObject chessBox; //é€™å€‹ç”¨ä¾†æ”¾æ£‹ç›¤æ ¼(ChessBox)
+	public GameObject chessBoard; //é€™å€‹ç”¨ä¾†æ”¾æ£‹ç›¤åŸºåº•(BigChessBoard)
 	public Button moveButton;
 	private TestMapBlock testMapBlock;
 
@@ -23,18 +23,18 @@ public class EnemyPath : MonoBehaviour
 	public List<TestMapBlock> results = new List<TestMapBlock>();
 
 
-	public static Vector3 Position; //¥Î¨Ó°O¿ı¤U¤@¨Bªº¦ì¸m
-									//public static Vector3 PlayerPosition;	//ª±®a¦ì¸m
+	public static Vector3 Position; //ç”¨ä¾†è¨˜éŒ„ä¸‹ä¸€æ­¥çš„ä½ç½®
+									//public static Vector3 PlayerPosition;	//ç©å®¶ä½ç½®
 
-	private bool check = true;  //¥Î¨Ó§PÂ_¬Y¤@®æ¬O¤£¬O¤w¸g¨«¹L,­Y¨«¹L«h¬°false
-	private bool monsterCheck = true;   //¥Î¨Ó§PÂ_¤U¤@®æ¬O§_¦³©Çª«
-	public static bool camera = false;  //¥Î¨Ó±±¨îÄá¼v¾÷©Ôªñ©Ô»·,false©Ôªñ,true©Ô»·. ÂI¿ï"²¾°Ê"«e¬O©Ôªñªº,¬G¦¹³Bªì­È¬°false
-	public  bool button = true;   //¥Î¨Ó±±¨îButton¥X²{ªº®É¾÷,true¥X²{,false®ø¥¢
-	public static bool cancel = false;  //¥Î¨Ó¨ú®ø¥ô¦ó¾Ô°««ü¥O,¦bÂI¿ï¥ô·NButton«á,»İ±N¨äÅÜ¦¨true¤~¯àµo´§§@¥Î
+	private bool check = true;  //ç”¨ä¾†åˆ¤æ–·æŸä¸€æ ¼æ˜¯ä¸æ˜¯å·²ç¶“èµ°é,è‹¥èµ°éå‰‡ç‚ºfalse
+	private bool monsterCheck = true;   //ç”¨ä¾†åˆ¤æ–·ä¸‹ä¸€æ ¼æ˜¯å¦æœ‰æ€ªç‰©
+	public static bool camera = false;  //ç”¨ä¾†æ§åˆ¶æ”å½±æ©Ÿæ‹‰è¿‘æ‹‰é ,falseæ‹‰è¿‘,trueæ‹‰é . é»é¸"ç§»å‹•"å‰æ˜¯æ‹‰è¿‘çš„,æ•…æ­¤è™•åˆå€¼ç‚ºfalse
+	public  bool button = true;   //ç”¨ä¾†æ§åˆ¶Buttonå‡ºç¾çš„æ™‚æ©Ÿ,trueå‡ºç¾,falseæ¶ˆå¤±
+	public static bool cancel = false;  //ç”¨ä¾†å–æ¶ˆä»»ä½•æˆ°é¬¥æŒ‡ä»¤,åœ¨é»é¸ä»»æ„Buttonå¾Œ,éœ€å°‡å…¶è®Šæˆtrueæ‰èƒ½ç™¼æ®ä½œç”¨
 
-	public int m; //m = ¥i²¾°Ê¼Æ
-	private int CanMove;  //°O¿ı¥i²¾°Ê¼Æ,²Ä¤@½ü»İ­n
-	public    int index = 0;    //¦s¤J°}¦C¥Îªº¤Ş¼Æ
+	public int m; //m = å¯ç§»å‹•æ•¸
+	private int CanMove;  //è¨˜éŒ„å¯ç§»å‹•æ•¸,ç¬¬ä¸€è¼ªéœ€è¦
+	public    int index = 0;    //å­˜å…¥é™£åˆ—ç”¨çš„å¼•æ•¸
 	public int blockIndex;
 
 	public static object Combine(string dataPath, string v)
@@ -42,12 +42,12 @@ public class EnemyPath : MonoBehaviour
 		throw new NotImplementedException();
 	}
 
-	public  int Count = 0;    //¨ú¥X°}¨Ò¤º®e¥Îªº¤Ş¼Æ
+	public  int Count = 0;    //å–å‡ºé™£ä¾‹å…§å®¹ç”¨çš„å¼•æ•¸
 
-	private int i = 0; //°j°é­p¼Æ¥Î
+	private int i = 0; //è¿´åœˆè¨ˆæ•¸ç”¨
 
-	public  List<int> mCount = new List<int>();   //¥Î¨Ó°O¿ı¨C¦¸²¾°Ê¹L«á,³Ñ¾lªºm­È
-	public  List<Vector3> ppp = new List<Vector3>();  //¥Î¨Ó°O¿ı¨C¦¸²¾°Ê¹L«áªº·s¦ì¸m
+	public  List<int> mCount = new List<int>();   //ç”¨ä¾†è¨˜éŒ„æ¯æ¬¡ç§»å‹•éå¾Œ,å‰©é¤˜çš„må€¼
+	public  List<Vector3> ppp = new List<Vector3>();  //ç”¨ä¾†è¨˜éŒ„æ¯æ¬¡ç§»å‹•éå¾Œçš„æ–°ä½ç½®
 
 
 	//--------------------------------------------------------------------------------------------------
@@ -55,9 +55,9 @@ public class EnemyPath : MonoBehaviour
 	void Start()
 	{
 		testCharacter = gameObject.GetComponent<TestCharacter>();
-
-		//PlayerPosition = this.transform.position;	//¥ÎPlayerPositionÀx¦s¨¤¦â¥Ø«eªº¦ì¸m
-		CanMove = m;    //§âCanMove³]©w¦¨³Ì¤j²¾°Ê¼Æ
+		testCharactersManager = GameObject.Find("Manager").GetComponent<TestCharactersManager>();
+		//PlayerPosition = this.transform.position;	//ç”¨PlayerPositionå„²å­˜è§’è‰²ç›®å‰çš„ä½ç½®
+		CanMove = m;    //æŠŠCanMoveè¨­å®šæˆæœ€å¤§ç§»å‹•æ•¸
         
     }
 
@@ -65,16 +65,16 @@ public class EnemyPath : MonoBehaviour
 
 	void Update()
 	{
-		if (testCharacter.EnemyDelete == true)   //ÂI§¹®æ¤l¤§«á
-			m = CanMove;    //§â m ­È¦^Âk³Ì¤j­È
+		if (testCharacter.EnemyDelete == true)   //é»å®Œæ ¼å­ä¹‹å¾Œ
+			m = CanMove;    //æŠŠ m å€¼å›æ­¸æœ€å¤§å€¼
 
-		if (Input.GetMouseButton(1) && cancel == true)  //ÂI¿ï¥kÁä,¨ú®ø"²¾°Ê"
+		if (Input.GetMouseButton(1) && cancel == true)  //é»é¸å³éµ,å–æ¶ˆ"ç§»å‹•"
 		{
-			cancel = false; //«ö¤@¦¸«á´NÅÜ¦¨false,¨¾¤î­«½ÆÂIÀ»³y¦¨¿ù»~
-			camera = false; //©ÔªñÄá¼v¾÷
-			testCharacter.EnemyDelete = true;    //±Ndelete³]¬°true,ÂÇ¦¹§R°£´Ñ½L
-											//.SetActive(false);    //ÁôÂÃ¤j´Ñ½L
-			Reset();    //­«¸m³¡¥÷°Ñ¼Æ,¦^ÂkÂI¿ï"²¾°Ê"«eªºªì­È
+			cancel = false; //æŒ‰ä¸€æ¬¡å¾Œå°±è®Šæˆfalse,é˜²æ­¢é‡è¤‡é»æ“Šé€ æˆéŒ¯èª¤
+			camera = false; //æ‹‰è¿‘æ”å½±æ©Ÿ
+			testCharacter.EnemyDelete = true;    //å°‡deleteè¨­ç‚ºtrue,è—‰æ­¤åˆªé™¤æ£‹ç›¤
+											//.SetActive(false);    //éš±è—å¤§æ£‹ç›¤
+			Reset();    //é‡ç½®éƒ¨ä»½åƒæ•¸,å›æ­¸é»é¸"ç§»å‹•"å‰çš„åˆå€¼
 
 		}
 
@@ -95,67 +95,76 @@ public class EnemyPath : MonoBehaviour
 	{
 		if (button == true)
 		{
-			camera = true;  //±NÃèÀY©Ô»·
-			moveButton.gameObject.SetActive(false); //Åı"²¾°Ê"Button®ø¥¢,¨¾¤î­«½ÆÂIÀ»
+			camera = true;  //å°‡é¡é ­æ‹‰é 
+			moveButton.gameObject.SetActive(false); //è®“"ç§»å‹•"Buttonæ¶ˆå¤±,é˜²æ­¢é‡è¤‡é»æ“Š
 			button = false;
-//			ClickPosition.delete = false;   //delete¬°false®É,´Ñ½L®æ¤~¯à³QÅã¥Ü(§J¶©)
-											//chessBoard.SetActive(true); //Åã¥Ü¤j´Ñ½L
-			StartEnemypath(); //¶}©l­pºâ¥i¦æ¨«½d³ò
+//			ClickPosition.delete = false;   //deleteç‚ºfalseæ™‚,æ£‹ç›¤æ ¼æ‰èƒ½è¢«é¡¯ç¤º(å…‹éš†)
+											//chessBoard.SetActive(true); //é¡¯ç¤ºå¤§æ£‹ç›¤
+			StartEnemypath(); //é–‹å§‹è¨ˆç®—å¯è¡Œèµ°ç¯„åœ
 		}
 	}
 	//----------------------------------------------------------------------------------------------
 
 	public List<TestMapBlock> StartEnemypath()
 	{
+		var Charas = new List<TestCharacter>(); // æ•µã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ãƒªã‚¹ãƒˆ
+		foreach (TestCharacter charaData in testCharactersManager.testCharacters)
+		{// å…¨ç”Ÿå­˜ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‹ã‚‰æ•µãƒ•ãƒ©ã‚°ã®ç«‹ã£ã¦ã„ã‚‹ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’ãƒªã‚¹ãƒˆã«è¿½åŠ 
+			if (!charaData.isEnemy)
+			{
+				Charas.Add(charaData);
+				print(Charas[0]);
 
+			}
+		}
 		results.Clear();
-		for (i = 0; i < 500; i++)   //500³Ì¦h¥i¥Hºâ¨ì16®æ
+		for (i = 0; i < 500; i++)   //500æœ€å¤šå¯ä»¥ç®—åˆ°16æ ¼
 		{
 
-			//²Ä¤@½ü,±qPlayer¦ì¸m¥Xµo,¨Ì§Ç¨«¤W¤U¥ª¥k
-			if (i == 0) //²Ä¤@½ü
+			//ç¬¬ä¸€è¼ª,å¾Playerä½ç½®å‡ºç™¼,ä¾åºèµ°ä¸Šä¸‹å·¦å³
+			if (i == 0) //ç¬¬ä¸€è¼ª
 			{
-				//§â°_©l¦ì¸m¦s¤J°}¦C
+				//æŠŠèµ·å§‹ä½ç½®å­˜å…¥é™£åˆ—
 				mCount.Insert(index, m);
 				ppp.Insert(index, this.transform.position);
 				index++;
 
 
-				//¦V¤W¨«
-				for (int j = 0; j < MonsterPosition.mIndex; j++)
+				//å‘ä¸Šèµ°
+				for (int i = 0; i < Charas.Count; i++)//å‘ä¸Šèµ°
 				{
-					if (((this.transform.position.z + 1) == MonsterPosition.monsterPosition[j].z) && (this.transform.position.x == MonsterPosition.monsterPosition[j].x))   //¦pªG±µ¤U¨Ó­n²¾°Êªº¨º®æ¦³©Çª«
-						monsterCheck = false;   //´N§âmonsterCheckÅÜ¦¨false
-				}
-				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)    //**·sªº°j°é,¥Î¨Ó§PÂ_¶¤¤Í
-				{
-					if (((this.transform.position.z + 1) == PartnerPosition.partnerPosition[j].z) && (this.transform.position.x == PartnerPosition.partnerPosition[j].x))   //¦pªG±µ¤U¨Ó­n²¾°Êªº¨º®æ¦³©Çª«
-						monsterCheck = false;   //´N§âmonsterCheckÅÜ¦¨false
-				}
-				*/
-
-				if (monsterCheck == true)   //¦pªG¬Oture,ªí¥Ü±µ¤U¨Ó­n²¾°Êªº¨º®æ¨S¦³©Çª«
-				{
-					Position = this.transform.position + new Vector3(0, 0, 1);  //¨º´N¨«,µM«á¥ÑPosition°O¿ı·s¦ì¸m
-					PathCount();    //°O¿ı·s¦ì¸m,¥H¤Î·s¦ì¸mªº³Ñ¾l m(¦æ°Ê¤O) ­È
-					m = CanMove;    //§â m ¦^Âk³Ì¤j­È
-
-				}
-
-				monsterCheck = true;    //±´¯Á§¹¤@­Ó¤è¦V´N¦^Âkªì­È
-
-
-				//¦V¤U¨«
-				for (int j = 0; j < MonsterPosition.mIndex; j++)
-				{
-					if (((this.transform.position.z - 1) == MonsterPosition.monsterPosition[j].z) && (this.transform.position.x == MonsterPosition.monsterPosition[j].x))   //¦pªG±µ¤U¨Ó­n²¾°Êªº¨º®æ¦³©Çª«
+					if (((this.transform.position.z + 1) == Charas[i].zPos) && (this.transform.position.x == Charas[i].xPos))   //å¦‚æœæ¥ä¸‹ä¾†è¦ç§»å‹•çš„é‚£æ ¼æœ‰æ€ªç‰©
 						monsterCheck = false;
 				}
 				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)//**·sªº°j°é,¥Î¨Ó§PÂ_¶¤¤Í
+				for (int j = 0; j < PartnerPosition.pIndex; j++)    //**æ–°çš„è¿´åœˆ,ç”¨ä¾†åˆ¤æ–·éšŠå‹
 				{
-					if (((this.transform.position.z - 1) == PartnerPosition.partnerPosition[j].z) && (this.transform.position.x == PartnerPosition.partnerPosition[j].x))   //¦pªG±µ¤U¨Ó­n²¾°Êªº¨º®æ¦³©Çª«
+					if (((this.transform.position.z + 1) == PartnerPosition.partnerPosition[j].z) && (this.transform.position.x == PartnerPosition.partnerPosition[j].x))   //å¦‚æœæ¥ä¸‹ä¾†è¦ç§»å‹•çš„é‚£æ ¼æœ‰æ€ªç‰©
+						monsterCheck = false;   //å°±æŠŠmonsterCheckè®Šæˆfalse
+				}
+				*/
+
+				if (monsterCheck == true)   //å¦‚æœæ˜¯ture,è¡¨ç¤ºæ¥ä¸‹ä¾†è¦ç§»å‹•çš„é‚£æ ¼æ²’æœ‰æ€ªç‰©
+				{
+					Position = this.transform.position + new Vector3(0, 0, 1);  //é‚£å°±èµ°,ç„¶å¾Œç”±Positionè¨˜éŒ„æ–°ä½ç½®
+					PathCount();    //è¨˜éŒ„æ–°ä½ç½®,ä»¥åŠæ–°ä½ç½®çš„å‰©é¤˜ m(è¡Œå‹•åŠ›) å€¼
+					m = CanMove;    //æŠŠ m å›æ­¸æœ€å¤§å€¼
+
+				}
+
+				monsterCheck = true;    //æ¢ç´¢å®Œä¸€å€‹æ–¹å‘å°±å›æ­¸åˆå€¼
+
+
+				//å‘ä¸‹èµ°
+				for (int i = 0; i < Charas.Count; i++)//å‘ä¸‹èµ°
+				{
+					if (((this.transform.position.z - 1) == Charas[i].zPos) && (this.transform.position.x == Charas[i].xPos))   //å¦‚æœæ¥ä¸‹ä¾†è¦ç§»å‹•çš„é‚£æ ¼æœ‰æ€ªç‰©
+						monsterCheck = false;
+				}
+				/*
+				for (int j = 0; j < PartnerPosition.pIndex; j++)//**æ–°çš„è¿´åœˆ,ç”¨ä¾†åˆ¤æ–·éšŠå‹
+				{
+					if (((this.transform.position.z - 1) == PartnerPosition.partnerPosition[j].z) && (this.transform.position.x == PartnerPosition.partnerPosition[j].x))   //å¦‚æœæ¥ä¸‹ä¾†è¦ç§»å‹•çš„é‚£æ ¼æœ‰æ€ªç‰©
 						monsterCheck = false;
 				}
 				*/
@@ -171,16 +180,15 @@ public class EnemyPath : MonoBehaviour
 				monsterCheck = true;
 
 
-				//¦V¥ª¨«
-				for (int j = 0; j < MonsterPosition.mIndex; j++)
+				for (int i = 0; i < Charas.Count; i++)//å‘å·¦èµ°
 				{
-					if (((this.transform.position.x - 1) == MonsterPosition.monsterPosition[j].x) && (this.transform.position.z == MonsterPosition.monsterPosition[j].z))   //¦pªG±µ¤U¨Ó­n²¾°Êªº¨º®æ¦³©Çª«
+					if (((this.transform.position.z) == Charas[i].zPos) && (this.transform.position.x - 1 == Charas[i].xPos))   //å¦‚æœæ¥ä¸‹ä¾†è¦ç§»å‹•çš„é‚£æ ¼æœ‰æ€ªç‰©
 						monsterCheck = false;
 				}
 				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)//**·sªº°j°é,¥Î¨Ó§PÂ_¶¤¤Í
+				for (int j = 0; j < PartnerPosition.pIndex; j++)//**æ–°çš„è¿´åœˆ,ç”¨ä¾†åˆ¤æ–·éšŠå‹
 				{
-					if (((this.transform.position.x - 1) == PartnerPosition.partnerPosition[j].x) && (this.transform.position.z == PartnerPosition.partnerPosition[j].z))   //¦pªG±µ¤U¨Ó­n²¾°Êªº¨º®æ¦³©Çª«
+					if (((this.transform.position.x - 1) == PartnerPosition.partnerPosition[j].x) && (this.transform.position.z == PartnerPosition.partnerPosition[j].z))   //å¦‚æœæ¥ä¸‹ä¾†è¦ç§»å‹•çš„é‚£æ ¼æœ‰æ€ªç‰©
 						monsterCheck = false;
 				}
 				*/
@@ -196,16 +204,16 @@ public class EnemyPath : MonoBehaviour
 				monsterCheck = true;
 
 
-				//¦V¥k¨«
-				for (int j = 0; j < MonsterPosition.mIndex; j++)
+				//å‘å³èµ°
+				for (int i = 0; i < Charas.Count; i++)//å‘å³èµ°
 				{
-					if (((this.transform.position.x + 1) == MonsterPosition.monsterPosition[j].x) && (this.transform.position.z == MonsterPosition.monsterPosition[j].z))   //¦pªG±µ¤U¨Ó­n²¾°Êªº¨º®æ¦³©Çª«
+					if (((this.transform.position.z) == Charas[i].zPos) && (this.transform.position.x + 1 == Charas[i].xPos))   //å¦‚æœæ¥ä¸‹ä¾†è¦ç§»å‹•çš„é‚£æ ¼æœ‰æ€ªç‰©
 						monsterCheck = false;
 				}
 				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)//**·sªº°j°é,¥Î¨Ó§PÂ_¶¤¤Í
+				for (int j = 0; j < PartnerPosition.pIndex; j++)//**æ–°çš„è¿´åœˆ,ç”¨ä¾†åˆ¤æ–·éšŠå‹
 				{
-					if (((this.transform.position.x + 1) == PartnerPosition.partnerPosition[j].x) && (this.transform.position.z == PartnerPosition.partnerPosition[j].z))   //¦pªG±µ¤U¨Ó­n²¾°Êªº¨º®æ¦³©Çª«
+					if (((this.transform.position.x + 1) == PartnerPosition.partnerPosition[j].x) && (this.transform.position.z == PartnerPosition.partnerPosition[j].z))   //å¦‚æœæ¥ä¸‹ä¾†è¦ç§»å‹•çš„é‚£æ ¼æœ‰æ€ªç‰©
 						monsterCheck = false;
 				}
 				*/
@@ -214,29 +222,28 @@ public class EnemyPath : MonoBehaviour
 				{
 					Position = this.transform.position + new Vector3(1, 0, 0);
 					PathCount();
-					m = CanMove;    // ³Ì«á¤@­Ó¥i¥H¤£»İ­n,¦]¬°²Ä¤G½ü¶}©lªºm,¬O±q­è¤~°}¦C¸Ì§ì¨úªº
+					m = CanMove;    // æœ€å¾Œä¸€å€‹å¯ä»¥ä¸éœ€è¦,å› ç‚ºç¬¬äºŒè¼ªé–‹å§‹çš„m,æ˜¯å¾å‰›æ‰é™£åˆ—è£¡æŠ“å–çš„
 
 				}
 
 				monsterCheck = true;
-				Count++;    //¨C¨«§¹¤@½ü´N+1,¥Î¥H¹F¨ì"§ó´«¥XµoÂI"ªº®ÄªG
+				Count++;    //æ¯èµ°å®Œä¸€è¼ªå°±+1,ç”¨ä»¥é”åˆ°"æ›´æ›å‡ºç™¼é»"çš„æ•ˆæœ
 
 			}
 
 
-			//²Ä2~n½ü,´«·s¥XµoÂI,¤W¤U¥ª¥k
-			if (i != 0) //²Ä2~n½ü
+			//ç¬¬2~nè¼ª,æ›æ–°å‡ºç™¼é»,ä¸Šä¸‹å·¦å³
+			if (i != 0) //ç¬¬2~nè¼ª
 			{
 
-				//¦V¤W¨«
-				//¨ú¥X°}¦C¥Ø«e³Ì«eºİªº­È,±N´¿¸g¨«¹Lªº¬Y¤@ÂI§@¬°·s¥XµoÂI,¨Ã§PÂ_¤U¤@¨Bªº¦ì¸m¬O§_¦³©Çª«. ¥t¥~,¦pªG·s¥XµoÂIªºm­È<=0,ªí¥Ü¤£¯à¦A¨«
-				for (int j = 0; j < MonsterPosition.mIndex; j++)
+				//å‘ä¸Šèµ°
+				for (int i = 0; i < Charas.Count; i++)//å‘ä¸‹èµ°
 				{
-					if (((ppp[Count].z + 1) == MonsterPosition.monsterPosition[j].z) && (ppp[Count].x == MonsterPosition.monsterPosition[j].x) && (mCount[Count] > 0))
+					if (((ppp[Count].z + 1) == Charas[i].zPos) && (ppp[Count].x == Charas[i].xPos) && (mCount[Count] > 0))   //å¦‚æœæ¥ä¸‹ä¾†è¦ç§»å‹•çš„é‚£æ ¼æœ‰æ€ªç‰©
 						monsterCheck = false;
 				}
 				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)//**·sªº°j°é,¥Î¨Ó§PÂ_¶¤¤Í
+				for (int j = 0; j < PartnerPosition.pIndex; j++)//**æ–°çš„è¿´åœˆ,ç”¨ä¾†åˆ¤æ–·éšŠå‹
 				{
 					if (((ppp[Count].z + 1) == PartnerPosition.partnerPosition[j].z) && (ppp[Count].x == PartnerPosition.partnerPosition[j].x) && (mCount[Count] > 0))
 						monsterCheck = false;
@@ -244,27 +251,26 @@ public class EnemyPath : MonoBehaviour
 				*/
 				if (monsterCheck == true)
 				{
-					Position = ppp[Count] + new Vector3(0, 0, 1);   //±q·s¥XµoÂI©¹¤W¨«¤@®æ,µM«á¥ÑPosition°O¿ı²¾°Ê«áªº¦ì¸m
-					pppCheck(); //ÀË¬d²{¦b¸Õ±´ªº³o®æ,¤§«e¬O§_¨«¹L
+					Position = ppp[Count] + new Vector3(0, 0, 1);   //å¾æ–°å‡ºç™¼é»å¾€ä¸Šèµ°ä¸€æ ¼,ç„¶å¾Œç”±Positionè¨˜éŒ„ç§»å‹•å¾Œçš„ä½ç½®
+					pppCheck(); //æª¢æŸ¥ç¾åœ¨è©¦æ¢çš„é€™æ ¼,ä¹‹å‰æ˜¯å¦èµ°é
 				}
 
-				if (check == true && monsterCheck == true && (mCount[Count] > 0))   //¦pªGcheck = true,ªí¥Ü±µ¤U¨Ó³o¨BÁÙ¨S¨«¹L. monsterCheck = true,ªí¥Ü±µ¤U¨Ó³o®æ¨S©Çª«
-					PathCount();    //°O¿ı·s¦ì¸m,¥H¤Î·s¦ì¸mªº³Ñ¾l m(¦æ°Ê¤O) ­È
+				if (check == true && monsterCheck == true && (mCount[Count] > 0))   //å¦‚æœcheck = true,è¡¨ç¤ºæ¥ä¸‹ä¾†é€™æ­¥é‚„æ²’èµ°é. monsterCheck = true,è¡¨ç¤ºæ¥ä¸‹ä¾†é€™æ ¼æ²’æ€ªç‰©
+					PathCount();    //è¨˜éŒ„æ–°ä½ç½®,ä»¥åŠæ–°ä½ç½®çš„å‰©é¤˜ m(è¡Œå‹•åŠ›) å€¼
 
-				check = true;   //§âcheck¦^Âkªì­È
-				monsterCheck = true;    //§âmonsterCheck¦^Âkªì­È
+				check = true;   //æŠŠcheckå›æ­¸åˆå€¼
+				monsterCheck = true;    //æŠŠmonsterCheckå›æ­¸åˆå€¼
 
 
 
-				//¦V¤U¨«
-				for (int j = 0; j < MonsterPosition.mIndex; j++)
+				//å‘ä¸‹èµ°
+				for (int i = 0; i < Charas.Count; i++)
 				{
-
-					if (((ppp[Count].z - 1) == MonsterPosition.monsterPosition[j].z) && (ppp[Count].x == MonsterPosition.monsterPosition[j].x) && (mCount[Count] > 0))
+					if (((ppp[Count].z - 1) == Charas[i].zPos) && (ppp[Count].x == Charas[i].xPos) && (mCount[Count] > 0))   //å¦‚æœæ¥ä¸‹ä¾†è¦ç§»å‹•çš„é‚£æ ¼æœ‰æ€ªç‰©
 						monsterCheck = false;
 				}
 				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)//**·sªº°j°é,¥Î¨Ó§PÂ_¶¤¤Í
+				for (int j = 0; j < PartnerPosition.pIndex; j++)//**æ–°çš„è¿´åœˆ,ç”¨ä¾†åˆ¤æ–·éšŠå‹
 				{
 
 					if (((ppp[Count].z - 1) == PartnerPosition.partnerPosition[j].z) && (ppp[Count].x == PartnerPosition.partnerPosition[j].x) && (mCount[Count] > 0))
@@ -284,14 +290,14 @@ public class EnemyPath : MonoBehaviour
 				monsterCheck = true;
 
 
-				//¦V¥ª¨«
-				for (int j = 0; j < MonsterPosition.mIndex; j++)
+				//å‘å·¦èµ°
+				for (int i = 0; i < Charas.Count; i++)
 				{
-					if (((ppp[Count].x - 1) == MonsterPosition.monsterPosition[j].x) && (ppp[Count].z == MonsterPosition.monsterPosition[j].z) && (mCount[Count] > 0))
+					if (((ppp[Count].z) == Charas[i].zPos) && (ppp[Count].x - 1 == Charas[i].xPos) && (mCount[Count] > 0))   //å¦‚æœæ¥ä¸‹ä¾†è¦ç§»å‹•çš„é‚£æ ¼æœ‰æ€ªç‰©
 						monsterCheck = false;
 				}
 				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)//**·sªº°j°é,¥Î¨Ó§PÂ_¶¤¤Í
+				for (int j = 0; j < PartnerPosition.pIndex; j++)//**æ–°çš„è¿´åœˆ,ç”¨ä¾†åˆ¤æ–·éšŠå‹
 				{
 					if (((ppp[Count].x - 1) == PartnerPosition.partnerPosition[j].x) && (ppp[Count].z == PartnerPosition.partnerPosition[j].z) && (mCount[Count] > 0))
 						monsterCheck = false;
@@ -310,14 +316,14 @@ public class EnemyPath : MonoBehaviour
 				monsterCheck = true;
 
 
-				//¦V¥k¨«
-				for (int j = 0; j < MonsterPosition.mIndex; j++)
+				//å‘å³èµ°
+				for (int i = 0; i < Charas.Count; i++)
 				{
-					if (((ppp[Count].x + 1) == MonsterPosition.monsterPosition[j].x) && (ppp[Count].z == MonsterPosition.monsterPosition[j].z) && (mCount[Count] > 0))
+					if (((ppp[Count].z) == Charas[i].zPos) && (ppp[Count].x + 1 == Charas[i].xPos) && (mCount[Count] > 0))   //å¦‚æœæ¥ä¸‹ä¾†è¦ç§»å‹•çš„é‚£æ ¼æœ‰æ€ªç‰©
 						monsterCheck = false;
 				}
 				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)//**·sªº°j°é,¥Î¨Ó§PÂ_¶¤¤Í
+				for (int j = 0; j < PartnerPosition.pIndex; j++)//**æ–°çš„è¿´åœˆ,ç”¨ä¾†åˆ¤æ–·éšŠå‹
 				{
 					if (((ppp[Count].x + 1) == PartnerPosition.partnerPosition[j].x) && (ppp[Count].z == PartnerPosition.partnerPosition[j].z) && (mCount[Count] > 0))
 						monsterCheck = false;
@@ -336,44 +342,44 @@ public class EnemyPath : MonoBehaviour
 				monsterCheck = true;
 
 
-				//²Ä¤@½üµ²§ô®É,Count=1. ²Ä¤G½ü­è¶}©l,·|±q²Ä1­Ó¦ì¸m¶}©l¨ú¥X°}¦C­È,·N§Yppp[1],mCount[1]
-				//²Ä¤G½üµ²§ô®É,§âCount+1,¤U¤@½ü¤~·|¨ú¥X°}¦Cªº²Ä2­Ó¦ì¸m,·N§Yppp[2],mCount[2]
-				//¥Î¥H¹F¨ì"§ó´«·s¥XµoÂI"ªº®ÄªG
+				//ç¬¬ä¸€è¼ªçµæŸæ™‚,Count=1. ç¬¬äºŒè¼ªå‰›é–‹å§‹,æœƒå¾ç¬¬1å€‹ä½ç½®é–‹å§‹å–å‡ºé™£åˆ—å€¼,æ„å³ppp[1],mCount[1]
+				//ç¬¬äºŒè¼ªçµæŸæ™‚,æŠŠCount+1,ä¸‹ä¸€è¼ªæ‰æœƒå–å‡ºé™£åˆ—çš„ç¬¬2å€‹ä½ç½®,æ„å³ppp[2],mCount[2]
+				//ç”¨ä»¥é”åˆ°"æ›´æ›æ–°å‡ºç™¼é»"çš„æ•ˆæœ
 				Count++;
 
 			}
 
-			//index¬°¦s¤J°}¦C¥Îªº¯Á¤Ş­È,­Y¨ú¥X°}¦C¥Îªº¯Á¤Ş­È(Count)>=index,»¡©ú°}¦C¤w¸g·j¯Á§¹²¦
+			//indexç‚ºå­˜å…¥é™£åˆ—ç”¨çš„ç´¢å¼•å€¼,è‹¥å–å‡ºé™£åˆ—ç”¨çš„ç´¢å¼•å€¼(Count)>=index,èªªæ˜é™£åˆ—å·²ç¶“æœç´¢å®Œç•¢
 			if (Count >= index)
-				break;  //¸õ¥X°j°é
+				break;  //è·³å‡ºè¿´åœˆ
 
 		}
 
-		cancel = true;  //³o®É­Ô«ö"¥kÁä"¤~¦³¨ú®ø¦æ°Êªº¥\¯à
+		cancel = true;  //é€™æ™‚å€™æŒ‰"å³éµ"æ‰æœ‰å–æ¶ˆè¡Œå‹•çš„åŠŸèƒ½
 		return results;
 	}
 
 
 	//-------------------------------------------------------------------------------------
 
-	public void pppCheck() //¥Î¨ÓÀË¬d¬Y¤@®æ¬O§_¤w¸g¨«¹L
+	public void pppCheck() //ç”¨ä¾†æª¢æŸ¥æŸä¸€æ ¼æ˜¯å¦å·²ç¶“èµ°é
 	{
-		for (int k = 0; k < index; k++) //¶]¹Mppp°}¦C¸Ì©Ò¦³ªº­È
+		for (int k = 0; k < index; k++) //è·‘épppé™£åˆ—è£¡æ‰€æœ‰çš„å€¼
 		{
-			if (Position == ppp[k]) //¦pªG±µ¤U¨Ó­n¨«ªº¤@¨B,¦b°}¦C¸Ì¤w¸g¦³¤F(ªí¥Ü´¿¸g¨«¹L)
+			if (Position == ppp[k]) //å¦‚æœæ¥ä¸‹ä¾†è¦èµ°çš„ä¸€æ­¥,åœ¨é™£åˆ—è£¡å·²ç¶“æœ‰äº†(è¡¨ç¤ºæ›¾ç¶“èµ°é)
 			{
-				check = false;  //§âcheckÅÜ¦¨false
-				break;  //¸õ¥X°j°é
+				check = false;  //æŠŠcheckè®Šæˆfalse
+				break;  //è·³å‡ºè¿´åœˆ
 			}
 		}
 	}
 
 	//--------------------------------------------------------------------------------------
 
-	public void PathCount()    //¥Î¨Ó°O¿ı¡B­pºâ¨C¤@®æªº®y¼Ğ¦ì¸m¡A¥H¤Î¨C¤@®æªº m(³Ñ¾l¦æ°Ê¤O) ­È
+	public void PathCount()    //ç”¨ä¾†è¨˜éŒ„ã€è¨ˆç®—æ¯ä¸€æ ¼çš„åº§æ¨™ä½ç½®ï¼Œä»¥åŠæ¯ä¸€æ ¼çš„ m(å‰©é¤˜è¡Œå‹•åŠ›) å€¼
 	{
-		//¦b·s¦ì¸m¤W,§J¶©¤@­Ó´Ñ½L®æ
-		//Position.x(·s¦ì¸mªºX®y¼Ğ),Position.z(·s¦ì¸mªºZ®y¼Ğ)
+		//åœ¨æ–°ä½ç½®ä¸Š,å…‹éš†ä¸€å€‹æ£‹ç›¤æ ¼
+		//Position.x(æ–°ä½ç½®çš„Xåº§æ¨™),Position.z(æ–°ä½ç½®çš„Zåº§æ¨™)
 		//Instantiate(chessBox, new Vector3(Position.x, 0, Position.z), chessBox.transform.rotation);
 		Vector3 hi = new Vector3(Position.x, 0, Position.z);
 
@@ -387,10 +393,10 @@ public class EnemyPath : MonoBehaviour
 			}
 		}
 
-		m = mCount[Count] - 1;  //¦æ°Ê¼Æ-1(mCount[Count]¬O²¾°Ê«eªºm­È,¦]¬°ppp[Count]¬O²¾°Ê«eªº¦ì¸m)
-		mCount.Insert(index, m);    //§â³o¦¸²¾°Ê¹L«á³Ñ¾lªºm­È,¦s¤J°}¦C
-		ppp.Insert(index, Position);    //§â³o¦¸²¾°Ê¹L«áªº·s¦ì¸m,¦s¤J°}¦C
-		index++;    //§âÀx¦s¥Îªº¤Ş¼Æ+1
+		m = mCount[Count] - 1;  //è¡Œå‹•æ•¸-1(mCount[Count]æ˜¯ç§»å‹•å‰çš„må€¼,å› ç‚ºppp[Count]æ˜¯ç§»å‹•å‰çš„ä½ç½®)
+		mCount.Insert(index, m);    //æŠŠé€™æ¬¡ç§»å‹•éå¾Œå‰©é¤˜çš„må€¼,å­˜å…¥é™£åˆ—
+		ppp.Insert(index, Position);    //æŠŠé€™æ¬¡ç§»å‹•éå¾Œçš„æ–°ä½ç½®,å­˜å…¥é™£åˆ—
+		index++;    //æŠŠå„²å­˜ç”¨çš„å¼•æ•¸+1
 	}
 
 	//---------------------------------------------------------------------------------------
@@ -398,11 +404,11 @@ public class EnemyPath : MonoBehaviour
 	void Reset()
 	{
 		moveButton.gameObject.SetActive(true);
-		button = true;//±N"²¾°Ê"ButtonÅã¥Ü¥X¨Ó
-		index = 0;  //¦s¤Jppp[]¥Îªº¯Á¤Ş­ÈÂk0(ªì­È)
-		Count = 0;  //¨ú¥Xppp[]¥Îªº¯Á¤Ş­ÈÂk0(ªì­È)
-		ppp.Clear();    //²MªÅÀx¦s¦æ¨«½d³òªº°}¦C
-		mCount.Clear(); //²MªÅÀx¦s m ­Èªº°}¦C
+		button = true;//å°‡"ç§»å‹•"Buttoné¡¯ç¤ºå‡ºä¾†
+		index = 0;  //å­˜å…¥ppp[]ç”¨çš„ç´¢å¼•å€¼æ­¸0(åˆå€¼)
+		Count = 0;  //å–å‡ºppp[]ç”¨çš„ç´¢å¼•å€¼æ­¸0(åˆå€¼)
+		ppp.Clear();    //æ¸…ç©ºå„²å­˜è¡Œèµ°ç¯„åœçš„é™£åˆ—
+		mCount.Clear(); //æ¸…ç©ºå„²å­˜ m å€¼çš„é™£åˆ—
 	}
 
 	public void ResetResults()

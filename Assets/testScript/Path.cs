@@ -110,7 +110,16 @@ public class Path : MonoBehaviour
 
 	public List<TestMapBlock> Startpath()
 	{
-		
+		var enemyCharas = new List<TestCharacter>(); // 敵キャラクターリスト
+		foreach (TestCharacter charaData in testCharactersManager.testCharacters)
+		{// 全生存キャラクターから敵フラグの立っているキャラクターをリストに追加
+			if (charaData.isEnemy)
+			{
+				enemyCharas.Add(charaData);
+				print(enemyCharas[0]);
+
+			}
+		}
 
 		for (i = 0; i < 500; i++)   //500最多可以算到16格
 		{
@@ -124,12 +133,20 @@ public class Path : MonoBehaviour
 				index++;
 
 
-				//向上走
-				for (int j = 0; j < MonsterPosition.mIndex; j++)
+				for (int i = 0; i < enemyCharas.Count; i++)//向上走
 				{
-					if (((this.transform.position.z + 1) == MonsterPosition.monsterPosition[j].z) && (this.transform.position.x == MonsterPosition.monsterPosition[j].x))   //如果接下來要移動的那格有怪物
+					if (((this.transform.position.z + 1) == enemyCharas[i].zPos) && (this.transform.position.x == enemyCharas[i].xPos))   //如果接下來要移動的那格有怪物
+						monsterCheck = false;
+				}
+				/*
+					//向上走
+					for (int j = 0; j < MonsterPosition.mIndex; j++)
+				{
+					if (((this.transform.position.z + 1) == enemyCharas[i].zPos) && (this.transform.position.x == enemyCharas[i].xPos))   //如果接下來要移動的那格有怪物
 						monsterCheck = false;   //就把monsterCheck變成false
 				}
+				*/
+
 				/*
 				for (int j = 0; j < PartnerPosition.pIndex; j++)    //**新的迴圈,用來判斷隊友
 				{
@@ -149,12 +166,21 @@ public class Path : MonoBehaviour
 				monsterCheck = true;    //探索完一個方向就回歸初值
 
 
-				//向下走
+
+				for (int i = 0; i < enemyCharas.Count; i++)//向下走
+				{
+					if (((this.transform.position.z - 1) == enemyCharas[i].zPos) && (this.transform.position.x == enemyCharas[i].xPos))   //如果接下來要移動的那格有怪物
+						monsterCheck = false;
+				}
+
+				/*/
 				for (int j = 0; j < MonsterPosition.mIndex; j++)
 				{
 					if (((this.transform.position.z - 1) == MonsterPosition.monsterPosition[j].z) && (this.transform.position.x == MonsterPosition.monsterPosition[j].x))   //如果接下來要移動的那格有怪物
 						monsterCheck = false;
 				}
+				*/
+
 				/*
 				for (int j = 0; j < PartnerPosition.pIndex; j++)//**新的迴圈,用來判斷隊友
 				{
@@ -174,12 +200,21 @@ public class Path : MonoBehaviour
 				monsterCheck = true;
 
 
-				//向左走
+				for (int i = 0; i < enemyCharas.Count; i++)//向左走
+				{
+					if (((this.transform.position.z) == enemyCharas[i].zPos) && (this.transform.position.x - 1 == enemyCharas[i].xPos))   //如果接下來要移動的那格有怪物
+						monsterCheck = false;
+				}
+
+				/*
 				for (int j = 0; j < MonsterPosition.mIndex; j++)
 				{
 					if (((this.transform.position.x - 1) == MonsterPosition.monsterPosition[j].x) && (this.transform.position.z == MonsterPosition.monsterPosition[j].z))   //如果接下來要移動的那格有怪物
 						monsterCheck = false;
 				}
+				*/
+
+				
 				/*
 				for (int j = 0; j < PartnerPosition.pIndex; j++)//**新的迴圈,用來判斷隊友
 				{
@@ -199,12 +234,21 @@ public class Path : MonoBehaviour
 				monsterCheck = true;
 
 
-				//向右走
+				for (int i = 0; i < enemyCharas.Count; i++)//向右走
+				{
+					if (((this.transform.position.z) == enemyCharas[i].zPos) && (this.transform.position.x + 1 == enemyCharas[i].xPos))   //如果接下來要移動的那格有怪物
+						monsterCheck = false;
+				}
+
+				/*
 				for (int j = 0; j < MonsterPosition.mIndex; j++)
 				{
 					if (((this.transform.position.x + 1) == MonsterPosition.monsterPosition[j].x) && (this.transform.position.z == MonsterPosition.monsterPosition[j].z))   //如果接下來要移動的那格有怪物
 						monsterCheck = false;
 				}
+				*/
+
+
 				/*
 				for (int j = 0; j < PartnerPosition.pIndex; j++)//**新的迴圈,用來判斷隊友
 				{
@@ -233,11 +277,21 @@ public class Path : MonoBehaviour
 
 				//向上走
 				//取出陣列目前最前端的值,將曾經走過的某一點作為新出發點,並判斷下一步的位置是否有怪物. 另外,如果新出發點的m值<=0,表示不能再走
+
+				for (int i = 0; i < enemyCharas.Count; i++)//向下走
+				{
+					if (((ppp[Count].z + 1) == enemyCharas[i].zPos) && (ppp[Count].x == enemyCharas[i].xPos) && (mCount[Count] > 0))   //如果接下來要移動的那格有怪物
+						monsterCheck = false;
+				}
+
+				/*
 				for (int j = 0; j < MonsterPosition.mIndex; j++)
 				{
 					if (((ppp[Count].z + 1) == MonsterPosition.monsterPosition[j].z) && (ppp[Count].x == MonsterPosition.monsterPosition[j].x) && (mCount[Count] > 0))
 						monsterCheck = false;
 				}
+				*/
+
 				/*
 				for (int j = 0; j < PartnerPosition.pIndex; j++)//**新的迴圈,用來判斷隊友
 				{
@@ -260,12 +314,21 @@ public class Path : MonoBehaviour
 
 
 				//向下走
+				for (int i = 0; i < enemyCharas.Count; i++)
+				{
+					if (((ppp[Count].z - 1) == enemyCharas[i].zPos) && (ppp[Count].x == enemyCharas[i].xPos) && (mCount[Count] > 0))   //如果接下來要移動的那格有怪物
+						monsterCheck = false;
+				}
+				/*
 				for (int j = 0; j < MonsterPosition.mIndex; j++)
 				{
 
 					if (((ppp[Count].z - 1) == MonsterPosition.monsterPosition[j].z) && (ppp[Count].x == MonsterPosition.monsterPosition[j].x) && (mCount[Count] > 0))
 						monsterCheck = false;
 				}
+				*/
+
+
 				/*
 				for (int j = 0; j < PartnerPosition.pIndex; j++)//**新的迴圈,用來判斷隊友
 				{
@@ -288,11 +351,21 @@ public class Path : MonoBehaviour
 
 
 				//向左走
+				for (int i = 0; i < enemyCharas.Count; i++)
+				{
+					if (((ppp[Count].z) == enemyCharas[i].zPos) && (ppp[Count].x - 1 == enemyCharas[i].xPos) && (mCount[Count] > 0))   //如果接下來要移動的那格有怪物
+						monsterCheck = false;
+				}
+
+				/*
 				for (int j = 0; j < MonsterPosition.mIndex; j++)
 				{
 					if (((ppp[Count].x - 1) == MonsterPosition.monsterPosition[j].x) && (ppp[Count].z == MonsterPosition.monsterPosition[j].z) && (mCount[Count] > 0))
 						monsterCheck = false;
 				}
+				*/
+
+
 				/*
 				for (int j = 0; j < PartnerPosition.pIndex; j++)//**新的迴圈,用來判斷隊友
 				{
@@ -314,11 +387,21 @@ public class Path : MonoBehaviour
 
 
 				//向右走
+				for (int i = 0; i < enemyCharas.Count; i++)
+				{
+					if (((ppp[Count].z) == enemyCharas[i].zPos) && (ppp[Count].x + 1 == enemyCharas[i].xPos) && (mCount[Count] > 0))   //如果接下來要移動的那格有怪物
+						monsterCheck = false;
+				}
+
+				/*
 				for (int j = 0; j < MonsterPosition.mIndex; j++)
 				{
 					if (((ppp[Count].x + 1) == MonsterPosition.monsterPosition[j].x) && (ppp[Count].z == MonsterPosition.monsterPosition[j].z) && (mCount[Count] > 0))
 						monsterCheck = false;
 				}
+				*/
+
+
 				/*
 				for (int j = 0; j < PartnerPosition.pIndex; j++)//**新的迴圈,用來判斷隊友
 				{
@@ -355,16 +438,7 @@ public class Path : MonoBehaviour
 		cancel = true;  //這時候按"右鍵"才有取消行動的功能
 
 
-		var enemyCharas = new List<TestCharacter>(); // 敵キャラクターリスト
-		foreach (TestCharacter charaData in testCharactersManager.testCharacters)
-		{// 全生存キャラクターから敵フラグの立っているキャラクターをリストに追加
-			if (charaData.isEnemy)
-			{
-				enemyCharas.Add(charaData);
-				print(enemyCharas[0]);
-
-			}
-		}
+		/*
         for (int i = 0; i < enemyCharas.Count; i++)
         {
             for (int j = 0; j < results.Count; j++)
@@ -372,11 +446,13 @@ public class Path : MonoBehaviour
 				if (results[j].xPos == enemyCharas[i].xPos && results[j].zPos == enemyCharas[i].zPos)
 				{
 					results[j].transform.GetChild(0).gameObject.SetActive(false);
+					
 					results.Remove(results[j]);
 				}
 			}
             
         }
+		*/
 
 		return results;
 	}
@@ -399,8 +475,18 @@ public class Path : MonoBehaviour
 	//--------------------------------------------------------------------------------------
 
 	public void PathCount()    //用來記錄、計算每一格的座標位置，以及每一格的 m(剩餘行動力) 值
-	{
-		
+	{/*
+		var enemyCharas = new List<TestCharacter>(); // 敵キャラクターリスト
+		foreach (TestCharacter charaData in testCharactersManager.testCharacters)
+		{// 全生存キャラクターから敵フラグの立っているキャラクターをリストに追加
+			if (charaData.isEnemy)
+			{
+				enemyCharas.Add(charaData);
+				print(enemyCharas[0]);
+
+			}
+		}
+		*/
 		//在新位置上,克隆一個棋盤格
 		//Position.x(新位置的X座標),Position.z(新位置的Z座標)
 		//Instantiate(chessBox, new Vector3(Position.x, 0, Position.z), chessBox.transform.rotation);
@@ -419,6 +505,20 @@ public class Path : MonoBehaviour
 	  
 		m = mCount[Count] - 1;  //行動數-1(mCount[Count]是移動前的m值,因為ppp[Count]是移動前的位置)
 		mCount.Insert(index, m);    //把這次移動過後剩餘的m值,存入陣列
+		/*
+		for (int i = 0; i < enemyCharas.Count; i++)
+		{
+			if (Position.x == enemyCharas[i].xPos && Position.z == enemyCharas[i].zPos)
+            {
+				break;
+			}
+            else
+            {
+				ppp.Insert(index, Position);
+			}
+		}
+			*/
+        
 		ppp.Insert(index, Position);    //把這次移動過後的新位置,存入陣列
 		index++;    //把儲存用的引數+1
 	}
