@@ -388,7 +388,7 @@ public class EnemyPath : MonoBehaviour
 			if (gameObject.transform.position == hi)
 			{
 				//gameObject.transform.GetChild(0).gameObject.SetActive(true);
-				print(gameObject.transform.GetChild(0).gameObject);
+				//print(gameObject.transform.GetChild(0).gameObject);
 				results.Add(gameObject);
 			}
 		}

@@ -265,12 +265,13 @@ public class TestCharacter : MonoBehaviour
 						enemyCmpM();
 
 				}
+				/*
                 for (int i = 0; i < Enemyaaa.Count; i++)
                 {
 					print(Enemyaaa[i]);
 				}
-
-				print(enemyTargetChess);
+				*/
+				//print(enemyTargetChess);
 				enemyNowPosition = Enemyaaa[enemyTargetChess];
 				
 				
@@ -288,7 +289,7 @@ public class TestCharacter : MonoBehaviour
 
 
 			EnemyDelete = true;  //算完最短路徑之後,將delete設為true,藉此刪除棋盤
-			print(delete);
+			//print(delete);
 			//Path.camera = false;    //移動前拉近攝影機
 			enemyChose = true;   //這時候角色才能開始移動(請見PlayerController的腳本)
 			EnemyPath.cancel = false;    //令滑鼠"右鍵"的功能失效,防止移動中亂按的誤判

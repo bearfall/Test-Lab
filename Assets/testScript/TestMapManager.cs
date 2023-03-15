@@ -61,7 +61,7 @@ public class TestMapManager : MonoBehaviour
             if (gameObject.transform.position == hi2)
             {
                 //gameObject.transform.GetChild(0).gameObject.SetActive(true);
-                print(gameObject.transform.GetChild(0).gameObject);
+                //print(gameObject.transform.GetChild(0).gameObject);
                 results.Add(gameObject);
             }
         }
@@ -73,7 +73,7 @@ public class TestMapManager : MonoBehaviour
             if (gameObject.transform.position == hi2)
             {
                // gameObject.transform.GetChild(0).gameObject.SetActive(true);
-                print(gameObject.transform.GetChild(0).gameObject);
+                //print(gameObject.transform.GetChild(0).gameObject);
                 results.Add(gameObject);
             }
         }
@@ -85,7 +85,7 @@ public class TestMapManager : MonoBehaviour
             if (gameObject.transform.position == hi2)
             {
                // gameObject.transform.GetChild(0).gameObject.SetActive(true);
-                print(gameObject.transform.GetChild(0).gameObject);
+               // print(gameObject.transform.GetChild(0).gameObject);
                 results.Add(gameObject);
             }
         }
@@ -97,7 +97,7 @@ public class TestMapManager : MonoBehaviour
             if (gameObject.transform.position == hi2)
             {
                // gameObject.transform.GetChild(0).gameObject.SetActive(true);
-                print(gameObject.transform.GetChild(0).gameObject);
+                //print(gameObject.transform.GetChild(0).gameObject);
                 results.Add(gameObject);
             }
         }

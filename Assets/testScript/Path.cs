@@ -498,7 +498,7 @@ public class Path : MonoBehaviour
             {
 				gameObject.transform.GetChild(0).gameObject.SetActive(true);
 				gameObject.SetSelectionMode(TestMapBlock.Highlight.Reachable);
-				print(gameObject.transform.GetChild(0).gameObject);
+				//print(gameObject.transform.GetChild(0).gameObject);
 				results.Add(gameObject);
 			}
 		}
