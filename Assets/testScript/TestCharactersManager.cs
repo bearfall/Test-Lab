@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
+
 public class TestCharactersManager : MonoBehaviour
 {
     public Transform charactersParent;
@@ -44,6 +46,30 @@ public class TestCharactersManager : MonoBehaviour
         // 如果沒有找到數據則返回 null
         return null;
     }
+
+
+
+    public bool isCharacterDataByPos(float xPos, float zPos)
+    {
+        // 検索処理
+        // （使用foreach對地圖中的所有角色數據一一做同樣的處理）
+        foreach (TestCharacter charaData in testCharacters)
+        {
+            if (!charaData.isEnemy)
+            {
+                 // 檢查角色的位置是否與指定位置匹配
+                if ((charaData.xPos == xPos) && // 相同的 X 位置
+                    (charaData.zPos == zPos)) // 相同的 Z 位置
+                {// 匹配位置
+                    return true; // 返回數據並退出
+                }
+            }
+        }
+
+        // 如果沒有找到數據則返回 null
+        return false;
+    }
+
 
 
     /// 指定したキャラクターを削除する
