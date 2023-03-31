@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 // Staticでクラスを定義する
@@ -40,6 +41,8 @@ public static class TargetFinder
 			EnemyPath enemyPath = enemyData.gameObject.GetComponent<EnemyPath>();
 			enemyPath.results.Clear();
 
+			Debug.Log(enemyPath.gameObject.name);
+
 			reachableBlocks = enemyPath.StartEnemypath();
 
 			// それぞれの移動可能な場所ごとの処理
@@ -47,7 +50,7 @@ public static class TargetFinder
 			{
 
 				// 攻撃可能な場所リストを取得する
-				attackableBlocks = mapManager.SearchAttackableBlocks(block.xPos, block.zPos);
+				attackableBlocks = mapManager.EnemySearchAttackableBlocks(block.xPos, block.zPos);
 				// それぞれの攻撃可能な場所ごとの処理
 				foreach (TestMapBlock attackBlock in attackableBlocks)
 				{
@@ -64,22 +67,22 @@ public static class TargetFinder
 
 						// 全行動プランリストに追加
 						actionPlans.Add(newPlan);
-						Debug.Log(actionPlans[0].charaData);
-						Debug.Log(actionPlans[0].toMoveBlock);
-						Debug.Log(actionPlans[0].toAttackChara);
+
+
+					//	Debug.Log(actionPlans[0].charaData);
+					//	Debug.Log(actionPlans[0].toMoveBlock);
+					//	Debug.Log(actionPlans[0].toAttackChara);
 						
 					}
 				}
 			}
 		}
-		reachableBlocks.Clear();
-		attackableBlocks.Clear();
+		//reachableBlocks.Clear();
+		//attackableBlocks.Clear();
 		// 検索終了後、行動プランが１つでもあるならその内の１つをランダムに返す
 		if (actionPlans.Count > 0)
 		{
 			return actionPlans[Random.Range(0, actionPlans.Count)];
-			
-
 		}
 		else // 行動プランが無いならnullを返す
 			return null;

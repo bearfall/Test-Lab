@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEditor.Experimental.GraphView;
+using Unity.VisualScripting;
+
 public class TestGameManager : MonoBehaviour
 {
 	private TestMapManager testMapManager;
@@ -364,12 +367,13 @@ public class TestGameManager : MonoBehaviour
 
 			}
 		}
+/*
 		print(enemyCharas.Count);
 		foreach (var item in enemyCharas)
 		{
 			print(item.name);
 		};
-
+*/
 		// 攻撃可能なキャラクター・位置の組み合わせの内１つをランダムに取得
 		var actionPlan = TargetFinder.GetRandomActionPlan(testMapManager, testCharactersManager, enemyCharas);
 		// 組み合わせのデータが存在すれば攻撃開始
@@ -380,105 +384,74 @@ public class TestGameManager : MonoBehaviour
 			//print(actionPlan.charaData.name);
 			// 敵キャラクター移動処理
 			actionPlan.charaData.EnemyMovePosition(actionPlan.toMoveBlock.xPos, actionPlan.toMoveBlock.zPos);
+
+
 			// 敵キャラクター攻撃処理
 			// (移動後のタイミングで攻撃開始するよう遅延実行)
-			actionPlan.charaData.hasActed = true;
+			
 			//reachableBlocks.Clear();
 			DOVirtual.DelayedCall(
 				2.5f, // 遅延時間(秒)
 				() =>
 				{// 遅延実行する内容
 					CharaAttack(actionPlan.charaData, actionPlan.toAttackChara);
+
+					actionPlan.charaData.hasActed = true;
+
+
+
+
+                    foreach (var item in enemyCharas)
+                    {
+						item.gameObject.GetComponent<EnemyController>().delete();
+                    }
+
+					ChangePhase(Phase.EnemyTurn_Result);
 				}
 			);
 			
 			// 進行モードを進める(行動結果表示へ)
-			ChangePhase(Phase.EnemyTurn_Result);
+			
 			return;
 		}
 
-        /*
-		// 攻撃可能な敵キャラクター１体を見つけるまで処理
-		foreach (TestCharacter enemyData in enemyCharas)
-		{
-			// 移動可能な場所リストを取得する
-			selectingEnemy = enemyData;
-			enemyPath = selectingEnemy.GetComponent<EnemyPath>();
-			enemyPath.Startpath();
-			reachableBlocks = enemyPath.Startpath();
-			
-			// それぞれの移動可能な場所ごとの処理
-			foreach (TestMapBlock block in reachableBlocks)
-			{
-				// 攻撃可能な場所リストを取得する
-				attackableBlocks = testMapManager.EnemySearchAttackableBlocks(block.xPos, block.zPos);
-				// それぞれの攻撃可能な場所ごとの処理
-				foreach (TestMapBlock attackBlock in attackableBlocks)
-				{
-					// 攻撃できる相手キャラクター(プレイヤー側のキャラクター)を探す
-					TestCharacter targetChara =
-						testCharactersManager.GetCharacterDataByPos(attackBlock.xPos, attackBlock.zPos);
-					if (targetChara != null &&
-						!targetChara.isEnemy)
-					{// 相手キャラクターが存在する
-					 // 敵キャラクター移動処理
-						enemyData.EnemyMovePosition(block.xPos, block.zPos);
-						// 敵キャラクター攻撃処理
-						// (移動後のタイミングで攻撃開始するよう遅延実行)
-						DOVirtual.DelayedCall(
-							3.0f, // 遅延時間(秒)
-							() =>
-							{// 遅延実行する内容
-								CharaAttack(enemyData, targetChara);
-							}
-						);
-						// 移動場所・攻撃場所リストをクリアする
-						reachableBlocks.Clear();
-						attackableBlocks.Clear();
-						// 進行モードを進める(行動結果表示へ)
-						ChangePhase(Phase.EnemyTurn_Result);
-						return;
-					}
-				}
-			}
-		}
-		*/
-
-
-
-        // 攻撃可能な相手が見つからなかった場合
-        // 移動させる１体をランダムに選ぶ
-       
-
+		
 		int randId = Random.Range(0, enemyCharas.Count);
-		print(enemyCharas.Count);
-        if (enemyCharas.Count == 1)
-        {
-			randId = 0;
-			print(enemyCharas[0]);
-		}
+		//print(enemyCharas[0]);
+
 		TestCharacter targetEnemy = enemyCharas[randId];
+
 		print(targetEnemy.name);// 行動対象の敵データ
-		targetEnemy.hasActed = true;
+
+
+		
 
 
 		enemyPath = targetEnemy.GetComponent<EnemyPath>();
-		//enemyPath.StartEnemypath();
+		print(enemyPath.gameObject.name);
+
 		reachableBlocks = enemyPath.StartEnemypath();
+
+		print(reachableBlocks.Count);
+
+		/*
+        foreach (var item in reachableBlocks)
+        {
+			item.SetSelectionMode(TestMapBlock.Highlight.Reachable);
+        }
+		*/
 
 		if (reachableBlocks.Count > 0)
 		{
 			randId = Random.Range(0, reachableBlocks.Count);
 			TestMapBlock targetBlock = reachableBlocks[randId];
-			//print(targetBlock.xPos);
-			//print(targetBlock.zPos);// 移動対象のブロックデータ
-																// 敵キャラクター移動処理
+
 			targetEnemy.EnemyMovePosition(targetBlock.xPos, targetBlock.zPos);
 
 			
 			
 		}
-		
+		targetEnemy.hasActed = true;
 
 
 
@@ -487,8 +460,10 @@ public class TestGameManager : MonoBehaviour
 		// 移動場所・攻撃場所リストをクリアする
 		reachableBlocks.Clear();
 		attackableBlocks.Clear();
-		CheckIsAllEnemyActive();
 
+
+
+		CheckIsAllEnemyActive();
 		//ChangePhase(Phase.EnemyTurn_Result);
 
 		//testMapManager.AllselectionModeClear();
@@ -570,6 +545,7 @@ public class TestGameManager : MonoBehaviour
 					testCharacter = character.GetComponent<TestCharacter>();
 					testCharacter.hasActed = false;
 					ChangePhase(Phase.MyTurn_Start);
+					print("Phase.MyTurn_Start");
 				}
 			}
 		}

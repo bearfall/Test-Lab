@@ -113,7 +113,7 @@ public class EnemyPath : MonoBehaviour
 			if (!charaData.isEnemy)
 			{
 				Charas.Add(charaData);
-				print(Charas[0]);
+				//print(Charas[0]);
 
 			}
 		}
@@ -356,6 +356,8 @@ public class EnemyPath : MonoBehaviour
 		}
 
 		cancel = true;  //這時候按"右鍵"才有取消行動的功能
+
+		print(results.Count);
 		return results;
 	}
 

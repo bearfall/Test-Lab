@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
 {
 	private int u = 2;
 	private TestCharacter testCharacter;
-	EnemyPath enemyPath;
+	public EnemyPath enemyPath;
 
 
 	public int MoveSpeed;   //用來調整移動速度,數值越大越快
@@ -110,7 +110,10 @@ public class EnemyController : MonoBehaviour
 			this.transform.position = this.transform.position + (distance * Time.deltaTime * 2); //distance是一個向量
 		}
 
+		delete();
 
+/*
+		
 		//TestCharacter.delete = false;   //把用於刪除chessbox的bool值,回歸false(初值)
 
 		enemyPath.index = 0; //存入ppp[]用的索引值歸0(初值)
@@ -127,7 +130,22 @@ public class EnemyController : MonoBehaviour
 
 		//TestCharacter.ChessBoard = false; //移動完畢後,將隱藏大棋盤的bool回歸初值(false)
 
+*/
+	}
 
+	public void delete()
+	{
+		enemyPath.index = 0; //存入ppp[]用的索引值歸0(初值)
+		enemyPath.Count = 0; //取出ppp[]用的索引值歸0(初值)
+		testCharacter.mSave = 0;    //暫存最大 m 值的變數歸0(初值)
+		testCharacter.enemyTargetChess = 0;  //存入和取出aaa[]用的索引值歸0(初值)
+
+		enemyPath.ppp.Clear();   //清空儲存行走範圍的陣列
+		enemyPath.mCount.Clear();    //清空儲存 m 值的陣列
+		testCharacter.Enemyaaa.Clear(); //清空儲存最短行走路徑的陣列
+
+		//moveButton.gameObject.SetActive(true);
+		enemyPath.button = true;//將"移動"Button顯示出來
 	}
 
 }

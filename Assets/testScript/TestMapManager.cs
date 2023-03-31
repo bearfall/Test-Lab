@@ -220,10 +220,6 @@ public class TestMapManager : MonoBehaviour
         }
 
 
-        foreach (var item in results)
-        {
-            print(item.transform.position);
-        }
         return results;
 
 
@@ -243,7 +239,7 @@ public class TestMapManager : MonoBehaviour
             if (gameObject.transform.position == hi3)
             {
                // gameObject.transform.GetChild(0).gameObject.SetActive(true);
-                print(gameObject.transform.GetChild(0).gameObject);
+                //print(gameObject.transform.GetChild(0).gameObject);
                 results.Add(gameObject);
             }
         }
@@ -255,7 +251,7 @@ public class TestMapManager : MonoBehaviour
             if (gameObject.transform.position == hi3)
             {
                 //gameObject.transform.GetChild(0).gameObject.SetActive(true);
-                print(gameObject.transform.GetChild(0).gameObject);
+               // print(gameObject.transform.GetChild(0).gameObject);
                 results.Add(gameObject);
             }
         }
@@ -267,7 +263,7 @@ public class TestMapManager : MonoBehaviour
             if (gameObject.transform.position == hi3)
             {
                 //gameObject.transform.GetChild(0).gameObject.SetActive(true);
-                print(gameObject.transform.GetChild(0).gameObject);
+                //print(gameObject.transform.GetChild(0).gameObject);
                 results.Add(gameObject);
             }
         }
@@ -279,7 +275,7 @@ public class TestMapManager : MonoBehaviour
             if (gameObject.transform.position == hi3)
             {
                 //gameObject.transform.GetChild(0).gameObject.SetActive(true);
-                print(gameObject.transform.GetChild(0).gameObject);
+              //  print(gameObject.transform.GetChild(0).gameObject);
                 results.Add(gameObject);
             }
         }

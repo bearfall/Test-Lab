@@ -116,7 +116,7 @@ public class Path : MonoBehaviour
 			if (charaData.isEnemy)
 			{
 				enemyCharas.Add(charaData);
-				print(enemyCharas[0]);
+				//print(enemyCharas[0]);
 
 			}
 		}
