@@ -5,7 +5,7 @@ using DG.Tweening;
 using UnityEditor.Experimental.GraphView;
 using Unity.VisualScripting;
 
-public class TestGameManager : MonoBehaviour
+public class TestGameManager1 : MonoBehaviour
 {
 	private TestMapManager testMapManager;
 	private TestCharactersManager testCharactersManager;
@@ -242,10 +242,11 @@ public class TestGameManager : MonoBehaviour
 				// 敵のターン開始時のロゴを表示
 				testGuiManager.ShowLogo_EnemyTurn();
 
-				
 
 
-				EnemyCommand();
+				print(gameObject.name + "我要執行下面的EnemyCommand");
+
+				StartCoroutine( EnemyCommand() );
 				//				}
 				//			);
 				break;
@@ -339,7 +340,7 @@ public class TestGameManager : MonoBehaviour
 				}
 				else if (nowPhase == Phase.EnemyTurn_Result)
 					// 自分のターンへ
-					CheckIsAllEnemyActive();
+					ChangePhase(Phase.EnemyTurn_Start);
 			}
 		);
 
@@ -350,8 +351,10 @@ public class TestGameManager : MonoBehaviour
 	/// </summary>
 	/// 
 
-	private void EnemyCommand()
+	private IEnumerator EnemyCommand()
 	{
+
+		int randId;
 
 		// 生存中の敵キャラクターのリストを作成する
 		var enemyCharas = new List<TestCharacter>(); // 敵キャラクターリスト
@@ -365,132 +368,73 @@ public class TestGameManager : MonoBehaviour
 
 			}
 		}
-/*
-		print(enemyCharas.Count);
-		foreach (var item in enemyCharas)
-		{
-			print(item.name);
-		};
-*/
-		// 攻撃可能なキャラクター・位置の組み合わせの内１つをランダムに取得
-		var actionPlan = TargetFinder.GetRandomActionPlan(testMapManager, testCharactersManager, enemyCharas);
-		// 組み合わせのデータが存在すれば攻撃開始
-		if (actionPlan != null)
-		{
-			actionPlan.charaData.EnemyMovePosition(actionPlan.toMoveBlock.xPos, actionPlan.toMoveBlock.zPos);
 
-			DOVirtual.DelayedCall(
-				2.5f, // 遅延時間(秒)
-				() =>
-				{// 遅延実行する内容
-					CharaAttack(actionPlan.charaData, actionPlan.toAttackChara);
-
-					actionPlan.charaData.hasActed = true;
-
-
-
-
-                    foreach (var item in enemyCharas)
-                    {
-						item.gameObject.GetComponent<EnemyController>().delete();
-                    }
-
-					ChangePhase(Phase.EnemyTurn_Result);
-				}
-			);
-			
-			// 進行モードを進める(行動結果表示へ)
-			
-			return;
-		}
-
-
-
-		
-
-
-		int randId = Random.Range(0, enemyCharas.Count);
-		//print(enemyCharas[0]);
-
-		TestCharacter targetEnemy = enemyCharas[randId];
-
-//		targetEnemy.gameObject.GetComponent<EnemyController>().delete();
-
-		print(targetEnemy.name);// 行動対象の敵データ
-
-
-		
-
-
-		enemyPath = targetEnemy.GetComponent<EnemyPath>();
-		print(enemyPath.gameObject.name);
-
-
-		
-		reachableBlocks = enemyPath.StartEnemypath();
-
-		print(reachableBlocks.Count);
-
-		/*
-        foreach (var item in reachableBlocks)
+        for (int i = 0; i < enemyCharas.Count; i++)
         {
-			item.SetSelectionMode(TestMapBlock.Highlight.Reachable);
-        }
-		*/
+			print("執行第" + i + "次運算回合");
+			// 攻撃可能なキャラクター・位置の組み合わせの内１つをランダムに取得
+			var actionPlan = TargetFinder1.GetActionPlan(testMapManager, testCharactersManager, enemyCharas[i]);
+			// 組み合わせのデータが存在すれば攻撃開始
+			if (actionPlan != null)
+			{
+				enemyCharas[i].EnemyMovePosition(actionPlan.toMoveBlock.xPos, actionPlan.toMoveBlock.zPos);
 
-		if (reachableBlocks.Count > 0)
-		{
-			randId = Random.Range(0, reachableBlocks.Count);
-			TestMapBlock targetBlock = reachableBlocks[randId];
+				enemyCharas[i].hasActed = true;
+				print(enemyCharas[i] + "行動過了");
 
+				DOVirtual.DelayedCall(
+					2.5f, // 遅延時間(秒)
+					() =>
+					{// 遅延実行する内容
 
-			DOVirtual.DelayedCall(
-				2.5f, // 遅延時間(秒)
-				() =>
-				{// 遅延実行する内容
-					targetEnemy.EnemyMovePosition(targetBlock.xPos, targetBlock.zPos);
-					targetEnemy.hasActed = true;
+					CharaAttack(enemyCharas[i], actionPlan.toAttackChara);
 
-
-	//				reachableBlocks.Clear();
-	//				attackableBlocks.Clear();
-
-					/*
-					foreach (var item in enemyCharas)
-					{
-						item.gameObject.GetComponent<EnemyController>().delete();
 					}
-					*/
+					);
+
+				CheckIsAllEnemyActive();
+
+				yield return new WaitForSeconds(3f);
+				
+			}
+            else if(actionPlan == null)
+            {
+
+				//				enemyCharas[i].GetComponent<EnemyController>().delete();
+
+
+
+
+				reachableBlocks = enemyCharas[i].GetComponent<EnemyPath>().results;
+				print(reachableBlocks.Count);
+
+				if (reachableBlocks.Count > 0)
+				{
+					randId = Random.Range(0, reachableBlocks.Count);
+					TestMapBlock targetBlock = reachableBlocks[randId];
+
+					print(targetBlock.transform.position);
+
+
+					
+					enemyCharas[i].EnemyMovePosition(targetBlock.xPos, targetBlock.zPos);
+					enemyCharas[i].hasActed = true;
+					print(enemyCharas[i] + "行動過了");
+
 
 					CheckIsAllEnemyActive();
+
+
+					yield return new WaitForSeconds(3f);
 				}
-			);
-
-			
-		}
-		
-
-
-
-
-		// (攻撃可能な相手が見つからなかった場合何もせずターン終了)
-		// 移動場所・攻撃場所リストをクリアする
-		
-		//ChangePhase(Phase.EnemyTurn_Result);
-
-		//testMapManager.AllselectionModeClear();
-		// 進行モードを進める(自分のターンへ)
-
-
-		/*
-		DOVirtual.DelayedCall(
-			1.0f, // 遅延時間(秒)
-			() =>
-			{// 遅延実行する内容
-				ChangePhase(Phase.MyTurn_Start);
 			}
-		);
-		*/
+		}
+
+
+
+
+		
+
 	}
 
 
@@ -520,15 +464,21 @@ public class TestGameManager : MonoBehaviour
 				{
 					testCharacter = character.GetComponent<TestCharacter>();
 					testCharacter.hasActed = false;
-					ChangePhase(Phase.EnemyTurn_Start);
+				
 				}
+
 			}
+
+			ChangePhase(Phase.EnemyTurn_Start);
 		}
 
 		
 
 	}
 
+
+
+	
 	public void CheckIsAllEnemyActive()
 	{
 		bool allEnemyActed = true;
@@ -542,14 +492,6 @@ public class TestGameManager : MonoBehaviour
 				if (!testCharacter.hasActed)
 				{
 					allEnemyActed = false;
-
-
-				
-					EnemyCommand();
-
-					
-					
-					//ChangePhase(Phase.EnemyTurn_Start);
 					break;
 				}
 			}
@@ -571,7 +513,7 @@ public class TestGameManager : MonoBehaviour
 
 
 	}
-
+	
 
 
 

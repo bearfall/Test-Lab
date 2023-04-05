@@ -107,6 +107,8 @@ public class EnemyPath : MonoBehaviour
 
 	public List<TestMapBlock> StartEnemypath()
 	{
+	  //this.GetComponent<EnemyController>().delete();
+
 		var Charas = new List<TestCharacter>(); // 敵キャラクターリスト
 		foreach (TestCharacter charaData in testCharactersManager.testCharacters)
 		{// 全生存キャラクターから敵フラグの立っているキャラクターをリストに追加
@@ -117,7 +119,9 @@ public class EnemyPath : MonoBehaviour
 
 			}
 		}
+
 		results.Clear();
+
 		for (i = 0; i < 500; i++)   //500最多可以算到16格
 		{
 
