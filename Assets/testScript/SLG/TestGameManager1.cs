@@ -281,6 +281,7 @@ public class TestGameManager1 : MonoBehaviour
 	{
 		// コマンドボタンを非表示にする
 		testCharacter.hasActed = true;
+		testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
 		testGuiManager.HideCommandButtons();
 		// 進行モードを進める(敵のターンへ)
 		CheckIsAllActive();
@@ -334,6 +335,7 @@ public class TestGameManager1 : MonoBehaviour
 				{ // 敵のターンへ
 
 					testCharacter.hasActed = true;
+					testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
 					CheckIsAllActive();
 						//ChangePhase(Phase.EnemyTurn_Start);
 
@@ -464,7 +466,8 @@ public class TestGameManager1 : MonoBehaviour
 				{
 					testCharacter = character.GetComponent<TestCharacter>();
 					testCharacter.hasActed = false;
-				
+					testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1);
+
 				}
 
 			}
