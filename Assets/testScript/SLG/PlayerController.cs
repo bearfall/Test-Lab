@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
 
 	private TestCharacter testCharacter;
 	public int MoveSpeed;   //用來調整移動速度,數值越大越快
+
+	private Animator playerAni;
 	//public Button moveButton;
 	//private CharacterStats characterStats;
 	//private GameObject target;
@@ -28,11 +30,13 @@ public class PlayerController : MonoBehaviour
 		//characterStats = GetComponent<CharacterStats>();
 		testCharacter = gameObject.GetComponent<TestCharacter>();
 		path = gameObject.GetComponent<Path>();
+		playerAni = gameObject.GetComponent<Animator>();
 	}
 
     private void Start()
     {
 		//characterStats.MaxHealth = 30;
+
     }
 
 
@@ -60,6 +64,8 @@ public class PlayerController : MonoBehaviour
 		while (true)
 		{
 
+			playerAni.SetBool("Run", true);
+
 			//計算目標點和現在的座標差(這是一個向量)
 			Vector3 distance = testCharacter.aaa[testCharacter.targetChess - i] - this.transform.position;
 			//將座標差換算成長度(純量)
@@ -67,7 +73,7 @@ public class PlayerController : MonoBehaviour
 
 			distance.Normalize();   //將座標差轉換成單位向量的資料型態(向量)
 
-
+/*
 			//往右的旋轉值
 			if (distance.x > 0.1f)
 				this.transform.eulerAngles = new Vector3(0, 90, 0);
@@ -75,7 +81,7 @@ public class PlayerController : MonoBehaviour
 			//往左的旋轉值
 			if (distance.x < -0.1f)
 				this.transform.eulerAngles = new Vector3(0, -90, 0);
-
+/*
 			//往上的旋轉值
 			if (distance.z > 0.9f)
 				this.transform.eulerAngles = new Vector3(0, 0, 0);
@@ -83,7 +89,7 @@ public class PlayerController : MonoBehaviour
 			//往下的旋轉值
 			if (distance.z < -0.9f)
 				this.transform.eulerAngles = new Vector3(0, 180, 0);
-
+*/
 
 
 			//如果目標點與現在的位置,距離低於這一幀的長度
@@ -110,7 +116,7 @@ public class PlayerController : MonoBehaviour
 		testCharacter.delete = false;   //把用於刪除chessbox的bool值,回歸false(初值)
 
 		AllClear();
-
+		playerAni.SetBool("Run", false);
 		//moveButton.gameObject.SetActive(true);
 		Path.button = true;//將"移動"Button顯示出來
 

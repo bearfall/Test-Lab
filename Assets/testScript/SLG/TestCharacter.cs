@@ -96,6 +96,10 @@ public class TestCharacter : MonoBehaviour
 
 	void Update()
 	{
+
+		/*
+
+
 		// ビルボード処理
 		// (スプライトオブジェクトをメインカメラの方向に向ける)
 		Vector3 cameraPos = mainCamera.transform.position; // 現在のカメラ座標を取得
