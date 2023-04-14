@@ -20,8 +20,8 @@ public class TestGameManager1 : MonoBehaviour
 	private TestCharacter selectingEnemy;
 	private TestCharacter testCharacter;
 
-	
-
+	private DiceManager2 DiceManager2;
+	public int indexResult;
 
 
 
@@ -31,6 +31,7 @@ public class TestGameManager1 : MonoBehaviour
 		MyTurn_Moving,      // 我的回合：移動先選択中
 		MyTurn_Command,     // 我的回合：移動後のコマンド選択中
 		MyTurn_Targeting,   // 我的回合：攻撃の対象を選択中
+		MyTurn_ThrowDice,
 		MyTurn_Result,      // 我的回合：行動結果表示中
 		EnemyTurn_Start,    // 敵方的回合：開始時
 		EnemyTurn_Result    // 敵方的回合：行動結果表示中
@@ -47,6 +48,9 @@ public class TestGameManager1 : MonoBehaviour
 
 		testGuiManager = GetComponent<TestGUIManager>();
 		nowPhase = Phase.MyTurn_Start; // 開始時の進行モード
+
+
+		DiceManager2 = GetComponent<DiceManager2>();
 	}
 
 	// Update is called once per frame
@@ -185,6 +189,9 @@ public class TestGameManager1 : MonoBehaviour
 					if (targetChara != null)
 					{// 攻撃対象のキャラクターが存在する
 					 // キャラクター攻撃処理
+
+						
+
 						CharaAttack(selectingChara, targetChara);
 						testCharacter.hasActed = true;
 
@@ -250,6 +257,11 @@ public class TestGameManager1 : MonoBehaviour
 				//				}
 				//			);
 				break;
+
+
+
+		
+
 		}
 	}
 
@@ -294,6 +306,10 @@ public class TestGameManager1 : MonoBehaviour
 	/// <param name="defenseChara">防御側キャラデータ</param>
 	private void CharaAttack(TestCharacter attackChara, TestCharacter defenseChara)
 	{
+		
+
+
+
 		// ダメージ計算処理
 		int damageValue; // ダメージ量
 		int attackPoint = attackChara.atk; // 攻撃側の攻撃力
@@ -517,6 +533,8 @@ public class TestGameManager1 : MonoBehaviour
 
 	}
 	
+
+
 
 
 

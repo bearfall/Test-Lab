@@ -8,8 +8,10 @@ public class DiceManager2 : MonoBehaviour
 {
     public TextMeshProUGUI TMP_Number;
     public Rigidbody rb;
+    public GameObject DicePrefab;
+    public Dice dice;
     public GameObject[] faceDetectors;
-
+    //   public List<Dice> faceDetectors = new List<Dice>();
 
     [Header("Debug")]
     public int defaultFaceResult = -1;
@@ -17,11 +19,13 @@ public class DiceManager2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        rb = gameObject.GetComponent<Rigidbody>();
+        rb = GameObject.Find("PlayerDice").GetComponent<Rigidbody>();
+      //  DicePrefab = GameObject.Find("PlayerDice").GetComponent<GameObject>();
+        dice = GameObject.Find("PlayerDice").GetComponent<Dice>();
         TMP_Number = GameObject.Find("Number").GetComponent<TextMeshProUGUI>();
-        
-        
+        faceDetectors = dice.faceDetectors;
+
+
     }
 
     // Update is called once per frame
@@ -72,12 +76,30 @@ public class DiceManager2 : MonoBehaviour
         InitialState initial = SetInitialState();
 
 
-        gameObject.transform.position =new Vector3(0, 5, 1);
-     //   gameObject.transform.rotation = initial.rotation;
+        DicePrefab.transform.position =new Vector3(-10, 5, 2);
+        //   gameObject.transform.rotation = initial.rotation;
         rb.useGravity = true;
         rb.isKinematic = false;
         rb.velocity = initial.force;
         rb.AddTorque(initial.torque, ForceMode.VelocityChange);
+    }
+
+
+    public int FindFaceResult()
+    {
+        //Since we have all child objects for each face,
+        //We just need to find the highest Y value
+        int maxIndex = 0;
+        for (int i = 1; i < faceDetectors.Length; i++)
+        {
+            if (faceDetectors[maxIndex].transform.position.y <
+                faceDetectors[i].transform.position.y)
+            {
+                maxIndex = i;
+            }
+        }
+        defaultFaceResult = maxIndex;
+        return maxIndex;
     }
 
     public struct InitialState
@@ -97,22 +119,7 @@ public class DiceManager2 : MonoBehaviour
         }
     }
 
-    public int FindFaceResult()
-    {
-        //Since we have all child objects for each face,
-        //We just need to find the highest Y value
-        int maxIndex = 0;
-        for (int i = 1; i < faceDetectors.Length; i++)
-        {
-            if (faceDetectors[maxIndex].transform.position.y <
-                faceDetectors[i].transform.position.y)
-            {
-                maxIndex = i;
-            }
-        }
-        defaultFaceResult = maxIndex;
-        return maxIndex;
-    }
+   
 
     public bool CheckObjectHasStopped()
     {
@@ -145,7 +152,7 @@ public class DiceManager2 : MonoBehaviour
                 TMP_Number.text = "5";
                 break;
             case 5:
-                TMP_Number.text = "61";
+                TMP_Number.text = "6";
                 break;
 
         }
