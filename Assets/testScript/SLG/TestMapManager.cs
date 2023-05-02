@@ -16,6 +16,7 @@ public class TestMapManager : MonoBehaviour
     {
         FindChild(parent);
         testCharactersManager = GetComponent<TestCharactersManager>();
+        print(testMapBlocks.Count);
     }
 
     // Update is called once per frame

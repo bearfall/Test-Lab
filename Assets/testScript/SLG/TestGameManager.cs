@@ -120,6 +120,9 @@ public class TestGameManager : MonoBehaviour
 					reachableBlocks = path.Startpath();
 
 
+					print("這是可以移動的格子數量" + reachableBlocks.Count);
+
+
 
 					/*
                     foreach (var item in reachableBlocks)

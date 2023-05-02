@@ -1,0 +1,23 @@
+{
+  "prompt_text": "concrete paving street, extreme fine details, road, walkway, sidewalk",
+  "patch": {
+    "ext": "png",
+    "dtype": "uint8",
+    "width": 512,
+    "height": 512,
+    "url": "https://static-dev.withpoly.com/v3-voronoi/textures/patches/377d8f57-10fd-4c70-bb2b-1c74da71a58b.png",
+    "patch_id": "4JfvpV5HHF"
+  },
+  "seamless_prompt_text": "concrete paving street, extreme fine details, road, walkway, sidewalk",
+  "seamless_patch_scale": 0.9,
+  "upscale_prompt_text": "concrete paving street, extreme fine details, road, walkway, sidewalk",
+  "upscale_resolution": 4096,
+  "is_seamless": true,
+  "pbr_mode": "organic",
+  "pbr_generate_color": true,
+  "pbr_generate_normal": true,
+  "pbr_generate_height": true,
+  "pbr_generate_ao": true,
+  "pbr_generate_roughness": true,
+  "pbr_generate_metallic": false
+}

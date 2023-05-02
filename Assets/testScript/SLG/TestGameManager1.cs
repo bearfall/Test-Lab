@@ -123,7 +123,7 @@ public class TestGameManager1 : MonoBehaviour
 					//path.Startpath();
 					reachableBlocks = path.Startpath();
 
-
+					print("這是可以移動的格子數量" + reachableBlocks.Count);
 
 					/*
                     foreach (var item in reachableBlocks)
@@ -425,6 +425,19 @@ public class TestGameManager1 : MonoBehaviour
 
 				reachableBlocks = enemyCharas[i].GetComponent<EnemyPath>().results;
 				print(reachableBlocks.Count);
+
+
+				for (int u = 0; u < reachableBlocks.Count; u++)
+				{
+					for (int j = 0; j < testCharactersManager.testCharacters.Count; j++)
+					{
+						if (reachableBlocks[u].xPos == testCharactersManager.testCharacters[j].xPos && reachableBlocks[u].zPos == testCharactersManager.testCharacters[j].zPos)
+						{
+							reachableBlocks.Remove(reachableBlocks[u]);
+
+						}
+					}
+				}
 
 				if (reachableBlocks.Count > 0)
 				{

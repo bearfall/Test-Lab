@@ -76,7 +76,7 @@ public class DiceManager2 : MonoBehaviour
         InitialState initial = SetInitialState();
 
 
-        DicePrefab.transform.position =new Vector3(-10, 5, 2);
+        DicePrefab.transform.position =new Vector3(-2, 5, -1);
         //   gameObject.transform.rotation = initial.rotation;
         rb.useGravity = true;
         rb.isKinematic = false;

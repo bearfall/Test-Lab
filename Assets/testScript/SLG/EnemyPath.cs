@@ -32,6 +32,8 @@ public class EnemyPath : MonoBehaviour
 	public  bool button = true;   //用來控制Button出現的時機,true出現,false消失
 	public static bool cancel = false;  //用來取消任何戰鬥指令,在點選任意Button後,需將其變成true才能發揮作用
 
+	private bool gridExists = false;
+
 	public int m; //m = 可移動數
 	private int CanMove;  //記錄可移動數,第一輪需要
 	public    int index = 0;    //存入陣列用的引數
@@ -140,15 +142,20 @@ public class EnemyPath : MonoBehaviour
 					if (((this.transform.position.z + 1) == Charas[i].zPos) && (this.transform.position.x == Charas[i].xPos))   //如果接下來要移動的那格有怪物
 						monsterCheck = false;
 				}
-				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)    //**新的迴圈,用來判斷隊友
-				{
-					if (((this.transform.position.z + 1) == PartnerPosition.partnerPosition[j].z) && (this.transform.position.x == PartnerPosition.partnerPosition[j].x))   //如果接下來要移動的那格有怪物
-						monsterCheck = false;   //就把monsterCheck變成false
-				}
-				*/
 
-				if (monsterCheck == true)   //如果是ture,表示接下來要移動的那格沒有怪物
+
+				Vector3 temp = new Vector3(this.transform.position.x, 0, this.transform.position.z + 1);
+
+				foreach (var gameObject in TestMapManager.testMapBlocks)
+				{
+					if (gameObject.transform.position == temp)
+					{
+						gridExists = true;
+						break;
+					}
+				}
+
+				if (monsterCheck == true && gridExists)   //如果是ture,表示接下來要移動的那格沒有怪物
 				{
 					Position = this.transform.position + new Vector3(0, 0, 1);  //那就走,然後由Position記錄新位置
 					PathCount();    //記錄新位置,以及新位置的剩餘 m(行動力) 值
@@ -157,7 +164,7 @@ public class EnemyPath : MonoBehaviour
 				}
 
 				monsterCheck = true;    //探索完一個方向就回歸初值
-
+				gridExists = false;
 
 				//向下走
 				for (int i = 0; i < Charas.Count; i++)//向下走
@@ -165,15 +172,20 @@ public class EnemyPath : MonoBehaviour
 					if (((this.transform.position.z - 1) == Charas[i].zPos) && (this.transform.position.x == Charas[i].xPos))   //如果接下來要移動的那格有怪物
 						monsterCheck = false;
 				}
-				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)//**新的迴圈,用來判斷隊友
-				{
-					if (((this.transform.position.z - 1) == PartnerPosition.partnerPosition[j].z) && (this.transform.position.x == PartnerPosition.partnerPosition[j].x))   //如果接下來要移動的那格有怪物
-						monsterCheck = false;
-				}
-				*/
 
-				if (monsterCheck == true)
+				temp = new Vector3(this.transform.position.x, 0, this.transform.position.z - 1);
+
+				foreach (var gameObject in TestMapManager.testMapBlocks)
+				{
+					if (gameObject.transform.position == temp)
+					{
+						gridExists = true;
+						break;
+					}
+				}
+
+
+				if (monsterCheck == true && gridExists)
 				{
 					Position = this.transform.position + new Vector3(0, 0, -1);
 					PathCount();
@@ -182,22 +194,26 @@ public class EnemyPath : MonoBehaviour
 				}
 
 				monsterCheck = true;
-
+				gridExists = false;
 
 				for (int i = 0; i < Charas.Count; i++)//向左走
 				{
 					if (((this.transform.position.z) == Charas[i].zPos) && (this.transform.position.x - 1 == Charas[i].xPos))   //如果接下來要移動的那格有怪物
 						monsterCheck = false;
 				}
-				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)//**新的迴圈,用來判斷隊友
-				{
-					if (((this.transform.position.x - 1) == PartnerPosition.partnerPosition[j].x) && (this.transform.position.z == PartnerPosition.partnerPosition[j].z))   //如果接下來要移動的那格有怪物
-						monsterCheck = false;
-				}
-				*/
 
-				if (monsterCheck == true)
+
+				temp = new Vector3(this.transform.position.x - 1, 0, this.transform.position.z);
+
+				foreach (var gameObject in TestMapManager.testMapBlocks)
+				{
+					if (gameObject.transform.position == temp)
+					{
+						gridExists = true;
+						break;
+					}
+				}
+				if (monsterCheck == true && gridExists)
 				{
 					Position = this.transform.position + new Vector3(-1, 0, 0);
 					PathCount();
@@ -206,7 +222,7 @@ public class EnemyPath : MonoBehaviour
 				}
 
 				monsterCheck = true;
-
+				gridExists = false;
 
 				//向右走
 				for (int i = 0; i < Charas.Count; i++)//向右走
@@ -214,15 +230,20 @@ public class EnemyPath : MonoBehaviour
 					if (((this.transform.position.z) == Charas[i].zPos) && (this.transform.position.x + 1 == Charas[i].xPos))   //如果接下來要移動的那格有怪物
 						monsterCheck = false;
 				}
-				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)//**新的迴圈,用來判斷隊友
-				{
-					if (((this.transform.position.x + 1) == PartnerPosition.partnerPosition[j].x) && (this.transform.position.z == PartnerPosition.partnerPosition[j].z))   //如果接下來要移動的那格有怪物
-						monsterCheck = false;
-				}
-				*/
 
-				if (monsterCheck == true)
+
+				temp = new Vector3(this.transform.position.x + 1, 0, this.transform.position.z);
+
+				foreach (var gameObject in TestMapManager.testMapBlocks)
+				{
+					if (gameObject.transform.position == temp)
+					{
+						gridExists = true;
+						break;
+					}
+				}
+
+				if (monsterCheck == true && gridExists)
 				{
 					Position = this.transform.position + new Vector3(1, 0, 0);
 					PathCount();
@@ -231,6 +252,7 @@ public class EnemyPath : MonoBehaviour
 				}
 
 				monsterCheck = true;
+				gridExists = false;
 				Count++;    //每走完一輪就+1,用以達到"更換出發點"的效果
 
 			}
@@ -246,25 +268,31 @@ public class EnemyPath : MonoBehaviour
 					if (((ppp[Count].z + 1) == Charas[i].zPos) && (ppp[Count].x == Charas[i].xPos) && (mCount[Count] > 0))   //如果接下來要移動的那格有怪物
 						monsterCheck = false;
 				}
-				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)//**新的迴圈,用來判斷隊友
+
+				Vector3 temp = new Vector3(ppp[Count].x, 0, ppp[Count].z + 1);
+
+				foreach (var gameObject in TestMapManager.testMapBlocks)
 				{
-					if (((ppp[Count].z + 1) == PartnerPosition.partnerPosition[j].z) && (ppp[Count].x == PartnerPosition.partnerPosition[j].x) && (mCount[Count] > 0))
-						monsterCheck = false;
+					if (gameObject.transform.position == temp)
+					{
+						gridExists = true;
+						break;
+					}
 				}
-				*/
-				if (monsterCheck == true)
+
+
+				if (monsterCheck == true && gridExists)
 				{
 					Position = ppp[Count] + new Vector3(0, 0, 1);   //從新出發點往上走一格,然後由Position記錄移動後的位置
 					pppCheck(); //檢查現在試探的這格,之前是否走過
 				}
 
-				if (check == true && monsterCheck == true && (mCount[Count] > 0))   //如果check = true,表示接下來這步還沒走過. monsterCheck = true,表示接下來這格沒怪物
+				if (check == true && monsterCheck == true && gridExists && (mCount[Count] > 0))   //如果check = true,表示接下來這步還沒走過. monsterCheck = true,表示接下來這格沒怪物
 					PathCount();    //記錄新位置,以及新位置的剩餘 m(行動力) 值
 
 				check = true;   //把check回歸初值
 				monsterCheck = true;    //把monsterCheck回歸初值
-
+				gridExists = false;
 
 
 				//向下走
@@ -273,26 +301,30 @@ public class EnemyPath : MonoBehaviour
 					if (((ppp[Count].z - 1) == Charas[i].zPos) && (ppp[Count].x == Charas[i].xPos) && (mCount[Count] > 0))   //如果接下來要移動的那格有怪物
 						monsterCheck = false;
 				}
-				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)//**新的迴圈,用來判斷隊友
-				{
 
-					if (((ppp[Count].z - 1) == PartnerPosition.partnerPosition[j].z) && (ppp[Count].x == PartnerPosition.partnerPosition[j].x) && (mCount[Count] > 0))
-						monsterCheck = false;
+				temp = new Vector3(ppp[Count].x, 0, ppp[Count].z - 1);
+
+				foreach (var gameObject in TestMapManager.testMapBlocks)
+				{
+					if (gameObject.transform.position == temp)
+					{
+						gridExists = true;
+						break;
+					}
 				}
-				*/
-				if (monsterCheck == true)
+
+				if (monsterCheck == true && gridExists)
 				{
 					Position = ppp[Count] + new Vector3(0, 0, -1);
 					pppCheck();
 				}
 
-				if (check == true && monsterCheck == true && (mCount[Count] > 0))
+				if (check == true && monsterCheck == true && gridExists && (mCount[Count] > 0))
 					PathCount();
 
 				check = true;
 				monsterCheck = true;
-
+				gridExists = false;
 
 				//向左走
 				for (int i = 0; i < Charas.Count; i++)
@@ -300,25 +332,32 @@ public class EnemyPath : MonoBehaviour
 					if (((ppp[Count].z) == Charas[i].zPos) && (ppp[Count].x - 1 == Charas[i].xPos) && (mCount[Count] > 0))   //如果接下來要移動的那格有怪物
 						monsterCheck = false;
 				}
-				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)//**新的迴圈,用來判斷隊友
+
+
+				temp = new Vector3(ppp[Count].x - 1, 0, ppp[Count].z);
+
+				foreach (var gameObject in TestMapManager.testMapBlocks)
 				{
-					if (((ppp[Count].x - 1) == PartnerPosition.partnerPosition[j].x) && (ppp[Count].z == PartnerPosition.partnerPosition[j].z) && (mCount[Count] > 0))
-						monsterCheck = false;
+					if (gameObject.transform.position == temp)
+					{
+						gridExists = true;
+						break;
+					}
 				}
-				*/
-				if (monsterCheck == true)
+
+
+				if (monsterCheck == true && gridExists)
 				{
 					Position = ppp[Count] + new Vector3(-1, 0, 0);
 					pppCheck();
 				}
 
-				if (check == true && monsterCheck == true && (mCount[Count] > 0))
+				if (check == true && monsterCheck == true && gridExists  && (mCount[Count] > 0))
 					PathCount();
 
 				check = true;
 				monsterCheck = true;
-
+				gridExists = false;
 
 				//向右走
 				for (int i = 0; i < Charas.Count; i++)
@@ -326,25 +365,31 @@ public class EnemyPath : MonoBehaviour
 					if (((ppp[Count].z) == Charas[i].zPos) && (ppp[Count].x + 1 == Charas[i].xPos) && (mCount[Count] > 0))   //如果接下來要移動的那格有怪物
 						monsterCheck = false;
 				}
-				/*
-				for (int j = 0; j < PartnerPosition.pIndex; j++)//**新的迴圈,用來判斷隊友
+
+
+				temp = new Vector3(ppp[Count].x + 1, 0, ppp[Count].z);
+
+				foreach (var gameObject in TestMapManager.testMapBlocks)
 				{
-					if (((ppp[Count].x + 1) == PartnerPosition.partnerPosition[j].x) && (ppp[Count].z == PartnerPosition.partnerPosition[j].z) && (mCount[Count] > 0))
-						monsterCheck = false;
+					if (gameObject.transform.position == temp)
+					{
+						gridExists = true;
+						break;
+					}
 				}
-				*/
-				if (monsterCheck == true)
+
+				if (monsterCheck == true && gridExists)
 				{
 					Position = ppp[Count] + new Vector3(1, 0, 0);
 					pppCheck();
 				}
 
-				if (check == true && monsterCheck == true && (mCount[Count] > 0))
+				if (check == true && monsterCheck == true && gridExists && (mCount[Count] > 0))
 					PathCount();
 
 				check = true;
 				monsterCheck = true;
-
+				gridExists = false;
 
 				//第一輪結束時,Count=1. 第二輪剛開始,會從第1個位置開始取出陣列值,意即ppp[1],mCount[1]
 				//第二輪結束時,把Count+1,下一輪才會取出陣列的第2個位置,意即ppp[2],mCount[2]

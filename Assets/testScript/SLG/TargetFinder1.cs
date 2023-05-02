@@ -32,6 +32,8 @@ public static class TargetFinder1
 		// 攻撃範囲リスト
 		var attackableBlocks = new List<TestMapBlock>();
 
+		TestCharactersManager testCharacters = GameObject.Find("Manager").GetComponent<TestCharactersManager>();
+
 		// 全行動プラン検索処理
 		
 			// 移動可能な場所リストを取得する
@@ -44,6 +46,21 @@ public static class TargetFinder1
 
 			Debug.Log("我要執行下面的StartEnemyPath");
 			reachableBlocks = enemyPath.StartEnemypath();
+
+
+
+        for (int i = 0; i < reachableBlocks.Count; i++)
+        {
+            for (int j = 0; j < testCharacters.testCharacters.Count; j++)
+            {
+                if (reachableBlocks[i].xPos == testCharacters.testCharacters[j].xPos && reachableBlocks[i].zPos == testCharacters.testCharacters[j].zPos)
+                {
+					reachableBlocks.Remove(reachableBlocks[i]);
+
+				}
+            }
+        }
+
 
 			// それぞれの移動可能な場所ごとの処理
 			foreach (TestMapBlock block in reachableBlocks)
