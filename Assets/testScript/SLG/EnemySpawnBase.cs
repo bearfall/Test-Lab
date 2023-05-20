@@ -14,12 +14,17 @@ namespace bearfall
         [SerializeField, Header("角色父物件")]
         private Transform charactorParent;
 
+        public int enemyAmount = 1;
 
         //生成子彈
         public void SpawnEnemy()
         {
             Instantiate(prefabBullet, pointSpawn.position, pointSpawn.rotation, charactorParent);
-
+            if (enemyAmount > 0)
+            {
+                enemyAmount--;
+            }
+            
 
         }
     }

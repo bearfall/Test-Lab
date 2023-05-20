@@ -60,7 +60,7 @@ namespace bearfall
 			EnemySpawnBase = GetComponent<EnemySpawnBase>();
 
 
-			EnemySpawnBase.SpawnEnemy();
+			//EnemySpawnBase.SpawnEnemy();
 
 
 		}
@@ -383,8 +383,13 @@ namespace bearfall
 
 		private IEnumerator EnemyCommand()
 		{
-			testCharactersManager.reFreshCharactorList();
+			
+            if (EnemySpawnBase.enemyAmount > 0)
+            {
+				EnemySpawnBase.SpawnEnemy();
+            }
 
+			testCharactersManager.reFreshCharactorList();
 			int randId;
 
 			// 生存中の敵キャラクターのリストを作成する
