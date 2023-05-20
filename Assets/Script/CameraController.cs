@@ -17,14 +17,14 @@ public class CameraController : MonoBehaviour
 		if (isCameraRotate)
 		{
 			// 回転速度を計算する
-			float speed = SPEED * Time.deltaTime;
+			float speed = SPEED * Time.deltaTime* 2;
 			// 回転方向反転フラグが立っているなら速度反転
 			if (isMirror)
 				speed *= -1.0f;
 
 			// 圍繞基點位置旋轉相機
 			transform.RotateAround(
-				Vector3.zero, // 基点の位置(0, 0, 0)
+				new Vector3(1, 0, 8), // 基点の位置(0, 0, 0)
 				Vector3.up, // 回転軸
 				speed // 回転速度
 			);

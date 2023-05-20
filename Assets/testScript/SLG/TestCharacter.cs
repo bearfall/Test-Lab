@@ -97,7 +97,7 @@ public class TestCharacter : MonoBehaviour
 	void Update()
 	{
 
-		/*
+		
 
 
 		// ビルボード処理

@@ -28,6 +28,11 @@ public class TestCharactersManager : MonoBehaviour
         
     }
 
+    public void reFreshCharactorList()
+    {
+        testCharacters = new List<TestCharacter>();
+        charactersParent.GetComponentsInChildren(testCharacters);
+    }
 
     public TestCharacter GetCharacterDataByPos(float xPos, float zPos)
     {
