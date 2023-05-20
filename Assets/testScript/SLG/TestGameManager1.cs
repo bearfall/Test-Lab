@@ -384,101 +384,106 @@ namespace bearfall
 		private IEnumerator EnemyCommand()
 		{
 			
-            if (EnemySpawnBase.enemyAmount > 0)
-            {
-				EnemySpawnBase.SpawnEnemy();
-            }
+            
+			StartCoroutine(EnemySpawnBase.SpawnEnemy());
 
-			testCharactersManager.reFreshCharactorList();
-			int randId;
+			yield return new WaitForSeconds(5f);
 
-			// 生存中の敵キャラクターのリストを作成する
-			var enemyCharas = new List<TestCharacter>(); // 敵キャラクターリスト
-			foreach (TestCharacter charaData in testCharactersManager.testCharacters)
-			{// 全生存キャラクターから敵フラグの立っているキャラクターをリストに追加
-				if (charaData.isEnemy && charaData.hasActed == false)
-				{
-					enemyCharas.Add(charaData);
-
-					print(charaData.name);
-
-				}
-			}
-
-			for (int i = 0; i < enemyCharas.Count; i++)
+			if (EnemySpawnBase.allEnemyReady)
 			{
-				print("執行第" + i + "次運算回合");
-				// 攻撃可能なキャラクター・位置の組み合わせの内１つをランダムに取得
-				var actionPlan = TargetFinder1.GetActionPlan(testMapManager, testCharactersManager, enemyCharas[i]);
-				// 組み合わせのデータが存在すれば攻撃開始
-				if (actionPlan != null)
-				{
-					enemyCharas[i].EnemyMovePosition(actionPlan.toMoveBlock.xPos, actionPlan.toMoveBlock.zPos);
-
-					enemyCharas[i].hasActed = true;
-					print(enemyCharas[i] + "行動過了");
-
-					DOVirtual.DelayedCall(
-						2.5f, // 遅延時間(秒)
-						() =>
-						{// 遅延実行する内容
-
-						CharaAttack(enemyCharas[i], actionPlan.toAttackChara);
-
-						}
-						);
-
-					CheckIsAllEnemyActive();
-
-					yield return new WaitForSeconds(3f);
-
-				}
-				else if (actionPlan == null)
-				{
-
-					//				enemyCharas[i].GetComponent<EnemyController>().delete();
+				print("gogo");
 
 
+				testCharactersManager.reFreshCharactorList();
+				int randId;
 
-
-					reachableBlocks = enemyCharas[i].GetComponent<EnemyPath>().results;
-					print(reachableBlocks.Count);
-
-
-					for (int u = 0; u < reachableBlocks.Count; u++)
+				// 生存中の敵キャラクターのリストを作成する
+				var enemyCharas = new List<TestCharacter>(); // 敵キャラクターリスト
+				foreach (TestCharacter charaData in testCharactersManager.testCharacters)
+				{// 全生存キャラクターから敵フラグの立っているキャラクターをリストに追加
+					if (charaData.isEnemy && charaData.hasActed == false)
 					{
-						for (int j = 0; j < testCharactersManager.testCharacters.Count; j++)
-						{
-							if (reachableBlocks[u].xPos == testCharactersManager.testCharacters[j].xPos && reachableBlocks[u].zPos == testCharactersManager.testCharacters[j].zPos)
-							{
-								reachableBlocks.Remove(reachableBlocks[u]);
+						enemyCharas.Add(charaData);
 
-							}
-						}
+						print(charaData.name);
+
 					}
+				}
 
-					if (reachableBlocks.Count > 0)
+				for (int i = 0; i < enemyCharas.Count; i++)
+				{
+					print("執行第" + i + "次運算回合");
+					// 攻撃可能なキャラクター・位置の組み合わせの内１つをランダムに取得
+					var actionPlan = TargetFinder1.GetActionPlan(testMapManager, testCharactersManager, enemyCharas[i]);
+					// 組み合わせのデータが存在すれば攻撃開始
+					if (actionPlan != null)
 					{
-						randId = Random.Range(0, reachableBlocks.Count);
-						TestMapBlock targetBlock = reachableBlocks[randId];
+						enemyCharas[i].EnemyMovePosition(actionPlan.toMoveBlock.xPos, actionPlan.toMoveBlock.zPos);
 
-						print(targetBlock.transform.position);
-
-
-
-						enemyCharas[i].EnemyMovePosition(targetBlock.xPos, targetBlock.zPos);
 						enemyCharas[i].hasActed = true;
 						print(enemyCharas[i] + "行動過了");
 
+						DOVirtual.DelayedCall(
+							2.5f, // 遅延時間(秒)
+							() =>
+							{// 遅延実行する内容
+
+							CharaAttack(enemyCharas[i], actionPlan.toAttackChara);
+
+							}
+							);
 
 						CheckIsAllEnemyActive();
 
+						yield return StartCoroutine(wait());
 
-						yield return new WaitForSeconds(3f);
+					}
+					else if (actionPlan == null)
+					{
+
+						//				enemyCharas[i].GetComponent<EnemyController>().delete();
+
+
+
+
+						reachableBlocks = enemyCharas[i].GetComponent<EnemyPath>().results;
+						print(reachableBlocks.Count);
+
+
+						for (int u = 0; u < reachableBlocks.Count; u++)
+						{
+							for (int j = 0; j < testCharactersManager.testCharacters.Count; j++)
+							{
+								if (reachableBlocks[u].xPos == testCharactersManager.testCharacters[j].xPos && reachableBlocks[u].zPos == testCharactersManager.testCharacters[j].zPos)
+								{
+									reachableBlocks.Remove(reachableBlocks[u]);
+
+								}
+							}
+						}
+
+						if (reachableBlocks.Count > 0)
+						{
+							randId = Random.Range(0, reachableBlocks.Count);
+							TestMapBlock targetBlock = reachableBlocks[randId];
+
+							print(targetBlock.transform.position);
+
+
+
+							enemyCharas[i].EnemyMovePosition(targetBlock.xPos, targetBlock.zPos);
+							enemyCharas[i].hasActed = true;
+							print(enemyCharas[i] + "行動過了");
+
+
+							CheckIsAllEnemyActive();
+
+
+							yield return StartCoroutine(wait());
+						}
 					}
 				}
 			}
-
 
 
 
@@ -563,7 +568,14 @@ namespace bearfall
 
 
 		}
+		private IEnumerator wait()
+		{
+			// 模擬一個耗時的操作
+			yield return new WaitForSeconds(4f);
 
+			// 耗時操作完成
+			Debug.Log("耗時操作完成");
+		}
 
 
 
