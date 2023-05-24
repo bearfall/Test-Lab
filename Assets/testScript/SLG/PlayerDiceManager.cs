@@ -4,15 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class DiceManager2 : MonoBehaviour
+public class PlayerDiceManager : MonoBehaviour
 {
     public TextMeshProUGUI TMP_Number;
     public Rigidbody rb;
     public GameObject DicePrefab;
     public Dice dice;
     public GameObject[] faceDetectors;
-    //   public List<Dice> faceDetectors = new List<Dice>();
 
+    public int playerDiceNumber;
+    public Transform spawnDicePosition;
+    //   public List<Dice> faceDetectors = new List<Dice>();
+    public int startPositionx;
+    public int startPositiony;
+    public int startPositionz;
     [Header("Debug")]
     public int defaultFaceResult = -1;
     public int alteredFaceResult = -1;
@@ -24,7 +29,7 @@ public class DiceManager2 : MonoBehaviour
         dice = GameObject.Find("PlayerDice").GetComponent<Dice>();
         TMP_Number = GameObject.Find("Number").GetComponent<TextMeshProUGUI>();
         faceDetectors = dice.faceDetectors;
-
+        spawnDicePosition =GameObject.Find("SpawnDicePosition").GetComponent<Transform>();
 
     }
 
@@ -35,10 +40,11 @@ public class DiceManager2 : MonoBehaviour
         {
             int indexResult = FindFaceResult();
             ChangeNumber(indexResult);
+            playerDiceNumber = indexResult;
         }
     }
 
-
+    
 
     private InitialState SetInitialState()
     {
@@ -75,9 +81,10 @@ public class DiceManager2 : MonoBehaviour
         
         InitialState initial = SetInitialState();
 
-
-        DicePrefab.transform.position =new Vector3(-2, 5, -1);
+        
+        DicePrefab.transform.position =new Vector3(this.transform.position.x, 5, -1);
         //   gameObject.transform.rotation = initial.rotation;
+        
         rb.useGravity = true;
         rb.isKinematic = false;
         rb.velocity = initial.force;
@@ -123,6 +130,7 @@ public class DiceManager2 : MonoBehaviour
 
     public bool CheckObjectHasStopped()
     {
+        rb = DicePrefab.GetComponent<Rigidbody>();
         if (rb.velocity == Vector3.zero &&
             rb.angularVelocity == Vector3.zero)
         {

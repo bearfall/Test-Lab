@@ -23,9 +23,13 @@ namespace bearfall
 		private TestCharacter selectingEnemy;
 		private TestCharacter testCharacter;
 
+
+		private int playerNumber;
+
+
 		public GameObject enemyPrefab;
 		private EnemySpawnBase EnemySpawnBase;
-		private DiceManager2 DiceManager2;
+		private PlayerDiceManager playerDiceManager;
 		public int indexResult;
 
 
@@ -55,13 +59,13 @@ namespace bearfall
 			nowPhase = Phase.MyTurn_Start; // 開始時の進行モード
 
 
-			DiceManager2 = GetComponent<DiceManager2>();
+			playerDiceManager = GetComponent<PlayerDiceManager>();
 
 			EnemySpawnBase = GetComponent<EnemySpawnBase>();
 
 
 			//EnemySpawnBase.SpawnEnemy();
-
+			StartCoroutine(EnemySpawnBase.SpawnEnemy());
 
 		}
 
@@ -184,6 +188,7 @@ namespace bearfall
 
 				// 自分のターン：移動後のコマンド選択中
 				case Phase.MyTurn_Command:
+					testCharactersManager.reFreshCharactorList();
 					// キャラクター攻撃処理
 					// (攻撃可能ブロックを選択した場合に攻撃処理を呼び出す)
 					if (attackableBlocks.Contains(targetBlock))
@@ -202,8 +207,10 @@ namespace bearfall
 						{// 攻撃対象のキャラクターが存在する
 						 // キャラクター攻撃処理
 
+							//ChangePhase(Phase.MyTurn_ThrowDice);
 
-
+						
+						
 							CharaAttack(selectingChara, targetChara);
 							testCharacter.hasActed = true;
 
@@ -211,6 +218,7 @@ namespace bearfall
 							// 進行モードを進める(行動結果表示へ)
 							ChangePhase(Phase.MyTurn_Result);
 							return;
+						
 						}
 
 
@@ -223,8 +231,18 @@ namespace bearfall
 						}
 					}
 					break;
+/*
+                case Phase.MyTurn_ThrowDice:
+					print("在在是骰骰子環節");
 
 
+					playerDiceManager.ThrowTheDice();
+
+					playerNumber = playerDiceManager.playerDiceNumber;
+
+					print("角色點數是" + playerDiceManager.playerDiceNumber);
+					break;
+*/
 			}
 
 
@@ -385,9 +403,9 @@ namespace bearfall
 		{
 			
             
-			StartCoroutine(EnemySpawnBase.SpawnEnemy());
+			//StartCoroutine(EnemySpawnBase.SpawnEnemy());
 
-			yield return new WaitForSeconds(5f);
+			//yield return new WaitForSeconds(5f);
 
 			if (EnemySpawnBase.allEnemyReady)
 			{
