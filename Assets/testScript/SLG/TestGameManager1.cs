@@ -25,11 +25,13 @@ namespace bearfall
 
 
 		private int playerNumber;
+		private int enemyNumber;
 
 
 		public GameObject enemyPrefab;
 		private EnemySpawnBase EnemySpawnBase;
 		private PlayerDiceManager playerDiceManager;
+		private EnemyDiceManager enemyDiceManager;
 		public int indexResult;
 
 
@@ -60,6 +62,7 @@ namespace bearfall
 
 
 			playerDiceManager = GetComponent<PlayerDiceManager>();
+			enemyDiceManager = GetComponent<EnemyDiceManager>();
 
 			EnemySpawnBase = GetComponent<EnemySpawnBase>();
 
@@ -206,12 +209,13 @@ namespace bearfall
 						if (targetChara != null)
 						{// 攻撃対象のキャラクターが存在する
 						 // キャラクター攻撃処理
-
 							//ChangePhase(Phase.MyTurn_ThrowDice);
 
+
+
 						
-						
-							CharaAttack(selectingChara, targetChara);
+					
+							StartCoroutine( CharaAttack(selectingChara, targetChara));
 							testCharacter.hasActed = true;
 
 
@@ -220,7 +224,7 @@ namespace bearfall
 							return;
 						
 						}
-
+						
 
 						else
 						{// 攻撃対象が存在しない
@@ -231,18 +235,6 @@ namespace bearfall
 						}
 					}
 					break;
-/*
-                case Phase.MyTurn_ThrowDice:
-					print("在在是骰骰子環節");
-
-
-					playerDiceManager.ThrowTheDice();
-
-					playerNumber = playerDiceManager.playerDiceNumber;
-
-					print("角色點數是" + playerDiceManager.playerDiceNumber);
-					break;
-*/
 			}
 
 
@@ -259,8 +251,34 @@ namespace bearfall
 			testGuiManager.HideStatusWindow();
 		}
 
+		private IEnumerator CheckPlayerNumber()
+        {
+			print("在在是骰骰子環節");
+
+			playerDiceManager.ThrowTheDice();
+
+			yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
+
+			playerNumber = playerDiceManager.playerDiceNumber;
+
+			print("角色點數是" + playerDiceManager.playerDiceNumber);
+
+		}
 
 
+		private IEnumerator CheckEnemyNumber()
+		{
+			print("在在是骰骰子環節");
+
+			enemyDiceManager.ThrowTheDice();
+
+			yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true);
+
+			enemyNumber = enemyDiceManager.enemyDiceNumber;
+
+			print("敵人點數是" + enemyDiceManager.enemyDiceNumber);
+
+		}
 
 
 		private void ChangePhase(Phase newPhase)
@@ -288,8 +306,15 @@ namespace bearfall
 					//			);
 					break;
 
+					/*
+				case Phase.MyTurn_ThrowDice:
 
+					StartCoroutine(CheckPlayerNumber());
+					StartCoroutine(CheckEnemyNumber());
+					CharaAttack(selectingChara, targetChara);
+					break;
 
+*/
 
 
 			}
@@ -305,6 +330,8 @@ namespace bearfall
 		{
 			// コマンドボタンを非表示にする
 			testGuiManager.HideCommandButtons();
+
+			
 
 			// 攻撃可能な場所リストを取得する
 			attackableBlocks = testMapManager.SearchAttackableBlocks(selectingChara.xPos, selectingChara.zPos);
@@ -334,12 +361,15 @@ namespace bearfall
 		/// </summary>
 		/// <param name="attackChara">攻撃側キャラデータ</param>
 		/// <param name="defenseChara">防御側キャラデータ</param>
-		private void CharaAttack(TestCharacter attackChara, TestCharacter defenseChara)
+		private IEnumerator CharaAttack(TestCharacter attackChara, TestCharacter defenseChara)
 		{
 
+			
 
+			StartCoroutine(CheckPlayerNumber());
+			StartCoroutine(CheckEnemyNumber());
 
-
+			yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true);
 			// ダメージ計算処理
 			int damageValue; // ダメージ量
 			int attackPoint = attackChara.atk; // 攻撃側の攻撃力
@@ -350,47 +380,58 @@ namespace bearfall
 			if (damageValue < 0)
 				damageValue = 0;
 
+			if (playerNumber > enemyNumber)
+			{
 
-			// キャラクター攻撃アニメーション
-			attackChara.AttackAnimation(defenseChara);
+
+				// キャラクター攻撃アニメーション
+				attackChara.AttackAnimation(defenseChara);
 
 
-			// バトル結果表示ウィンドウの表示設定
-			// (HPの変更前に行う)
-			testGuiManager.testBattleWindowUI.ShowWindow(defenseChara, damageValue);
+				// バトル結果表示ウィンドウの表示設定
+				// (HPの変更前に行う)
+				testGuiManager.testBattleWindowUI.ShowWindow(defenseChara, damageValue);
 
-			// ダメージ量分防御側のHPを減少
-			defenseChara.nowHP -= damageValue;
-			// HPが0～最大値の範囲に収まるよう補正
-			defenseChara.nowHP = Mathf.Clamp(defenseChara.nowHP, 0, defenseChara.maxHP);
+				// ダメージ量分防御側のHPを減少
+				defenseChara.nowHP -= damageValue;
+				// HPが0～最大値の範囲に収まるよう補正
+				defenseChara.nowHP = Mathf.Clamp(defenseChara.nowHP, 0, defenseChara.maxHP);
 
-			// HP0になったキャラクターを削除する
-			if (defenseChara.nowHP == 0)
-				testCharactersManager.DeleteCharaData(defenseChara);
+				// HP0になったキャラクターを削除する
+				if (defenseChara.nowHP == 0)
+					testCharactersManager.DeleteCharaData(defenseChara);
 
-			// ターン切り替え処理(遅延実行)
-			DOVirtual.DelayedCall(
-				2.0f, // 遅延時間(秒)
-				() =>
-				{// 遅延実行する内容
-				 // ウィンドウを非表示化
-				testGuiManager.testBattleWindowUI.HideWindow();
-					testGuiManager.HideStatusWindow();
-				// ターンを切り替える
-				if (nowPhase == Phase.MyTurn_Result)
-					{ // 敵のターンへ
+				// ターン切り替え処理(遅延実行)
+				DOVirtual.DelayedCall(
+					2.0f, // 遅延時間(秒)
+					() =>
+					{// 遅延実行する内容
+					 // ウィンドウを非表示化
+					testGuiManager.testBattleWindowUI.HideWindow();
+						testGuiManager.HideStatusWindow();
+					// ターンを切り替える
+					if (nowPhase == Phase.MyTurn_Result)
+						{ // 敵のターンへ
 
-					testCharacter.hasActed = true;
-						testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
-						CheckIsAllActive();
-					//ChangePhase(Phase.EnemyTurn_Start);
+						testCharacter.hasActed = true;
+							testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
+							CheckIsAllActive();
+						//ChangePhase(Phase.EnemyTurn_Start);
 
-				}
-					else if (nowPhase == Phase.EnemyTurn_Result)
-					// 自分のターンへ
-					ChangePhase(Phase.EnemyTurn_Start);
-				}
-			);
+					}
+						else if (nowPhase == Phase.EnemyTurn_Result)
+						// 自分のターンへ
+						ChangePhase(Phase.EnemyTurn_Start);
+					}
+				);
+			}
+            else
+            {
+				print("無法攻擊");
+				testCharacter.hasActed = true;
+				testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
+				CheckIsAllActive();
+			}
 
 		}
 

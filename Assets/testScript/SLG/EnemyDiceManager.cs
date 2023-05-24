@@ -4,15 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class PlayerDiceManager : MonoBehaviour
+public class EnemyDiceManager : MonoBehaviour
 {
     public TextMeshProUGUI TMP_Number;
     public Rigidbody rb;
     public GameObject DicePrefab;
     public Dice dice;
     public GameObject[] faceDetectors;
-    public bool diceStop = false;
-    public int playerDiceNumber;
+
+    public int enemyDiceNumber;
     public Transform spawnDicePosition;
     //   public List<Dice> faceDetectors = new List<Dice>();
     public int startPositionx;
@@ -40,7 +40,7 @@ public class PlayerDiceManager : MonoBehaviour
         {
             int indexResult = FindFaceResult();
             ChangeNumber(indexResult);
-            playerDiceNumber = indexResult + 1;
+            enemyDiceNumber = indexResult;
         }
     }
 
@@ -130,18 +130,13 @@ public class PlayerDiceManager : MonoBehaviour
 
     public bool CheckObjectHasStopped()
     {
-        //rb = DicePrefab.GetComponent<Rigidbody>();
+        rb = DicePrefab.GetComponent<Rigidbody>();
         if (rb.velocity == Vector3.zero &&
             rb.angularVelocity == Vector3.zero)
         {
-            diceStop = true;
             return true;
         }
-        else
-        {
-            diceStop = false;
-            return false;
-        }
+        else return false;
     }
 
 
