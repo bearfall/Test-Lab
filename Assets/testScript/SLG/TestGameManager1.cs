@@ -121,7 +121,7 @@ namespace bearfall
 			{
 				// 自分のターン：開始時
 				case Phase.MyTurn_Start:
-
+					testCharactersManager.reFreshCharactorList();
 					// 取消選擇所有塊
 					testMapManager.AllselectionModeClear();
 					// 將塊顯示為選中

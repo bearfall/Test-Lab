@@ -656,7 +656,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 52734788}
   m_LocalRotation: {x: 0.46254596, y: -0.00000002502671, z: 0.000000013056693, w: 0.88659537}
-  m_LocalPosition: {x: 0.59, y: 6.12, z: -1.78}
+  m_LocalPosition: {x: -2.99, y: 6.12, z: -1.78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2132,7 +2132,7 @@ MonoBehaviour:
   chessBoard: {fileID: 0}
   moveButton: {fileID: 0}
   results: []
-  m: 10
+  m: 5
   index: 0
   blockIndex: 0
   Count: 0
@@ -9544,7 +9544,7 @@ MonoBehaviour:
   chessBoard: {fileID: 0}
   moveButton: {fileID: 0}
   results: []
-  m: 10
+  m: 5
   index: 0
   blockIndex: 0
   Count: 0
@@ -10182,7 +10182,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081674540}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.59, y: 5, z: -1}
+  m_LocalPosition: {x: 4.09, y: 5, z: -1}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -14327,7 +14327,7 @@ MonoBehaviour:
   chessBoard: {fileID: 0}
   moveButton: {fileID: 0}
   results: []
-  m: 10
+  m: 5
   index: 0
   blockIndex: 0
   Count: 0
@@ -15217,7 +15217,7 @@ MonoBehaviour:
   chessBoard: {fileID: 0}
   moveButton: {fileID: 0}
   results: []
-  m: 10
+  m: 5
   index: 0
   blockIndex: 0
   Count: 0
@@ -18379,7 +18379,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1947853383}
   m_LocalRotation: {x: 0.46254596, y: -0.00000002502671, z: 0.000000013056693, w: 0.88659537}
-  m_LocalPosition: {x: 0.59, y: 6.07, z: -1.77}
+  m_LocalPosition: {x: 4.09, y: 6.07, z: -1.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -21972,7 +21972,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7877089594185830374}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.59, y: 5, z: -1}
+  m_LocalPosition: {x: -2.99, y: 5, z: -1}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children:
