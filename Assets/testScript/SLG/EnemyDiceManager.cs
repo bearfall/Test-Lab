@@ -24,9 +24,9 @@ public class EnemyDiceManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GameObject.Find("PlayerDice").GetComponent<Rigidbody>();
+        rb = GameObject.Find("EnemyDice").GetComponent<Rigidbody>();
       //  DicePrefab = GameObject.Find("PlayerDice").GetComponent<GameObject>();
-        dice = GameObject.Find("PlayerDice").GetComponent<Dice>();
+        dice = GameObject.Find("EnemyDice").GetComponent<Dice>();
         TMP_Number = GameObject.Find("Number").GetComponent<TextMeshProUGUI>();
         faceDetectors = dice.faceDetectors;
         spawnDicePosition =GameObject.Find("SpawnDicePosition").GetComponent<Transform>();
@@ -40,7 +40,7 @@ public class EnemyDiceManager : MonoBehaviour
         {
             int indexResult = FindFaceResult();
             ChangeNumber(indexResult);
-            enemyDiceNumber = indexResult;
+            enemyDiceNumber = indexResult+1;
         }
     }
 

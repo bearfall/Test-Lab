@@ -368,7 +368,7 @@ namespace bearfall
 
 			StartCoroutine(CheckPlayerNumber());
 			StartCoroutine(CheckEnemyNumber());
-
+			yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
 			yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true);
 			// ダメージ計算処理
 			int damageValue; // ダメージ量
