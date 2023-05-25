@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
 			//Delay time 單位:秒
 			yield return new WaitForSeconds(1/ MoveSpeed);
 			//隨時間移動目前座標
-			this.transform.position = this.transform.position + (distance * Time.deltaTime * 2); //distance是一個向量
+			this.transform.position = this.transform.position + (distance * Time.deltaTime * MoveSpeed); //distance是一個向量
 		}
 
 

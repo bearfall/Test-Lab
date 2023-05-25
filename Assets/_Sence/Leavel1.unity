@@ -2132,7 +2132,7 @@ MonoBehaviour:
   chessBoard: {fileID: 0}
   moveButton: {fileID: 0}
   results: []
-  m: 5
+  m: 10
   index: 0
   blockIndex: 0
   Count: 0
@@ -9544,7 +9544,7 @@ MonoBehaviour:
   chessBoard: {fileID: 0}
   moveButton: {fileID: 0}
   results: []
-  m: 5
+  m: 10
   index: 0
   blockIndex: 0
   Count: 0
@@ -14327,7 +14327,7 @@ MonoBehaviour:
   chessBoard: {fileID: 0}
   moveButton: {fileID: 0}
   results: []
-  m: 5
+  m: 10
   index: 0
   blockIndex: 0
   Count: 0
@@ -15217,7 +15217,7 @@ MonoBehaviour:
   chessBoard: {fileID: 0}
   moveButton: {fileID: 0}
   results: []
-  m: 5
+  m: 10
   index: 0
   blockIndex: 0
   Count: 0
@@ -21995,6 +21995,7 @@ GameObject:
   - component: {fileID: 4091915661755642725}
   - component: {fileID: 4091915661755642724}
   - component: {fileID: 8525867356796284468}
+  - component: {fileID: 8525867356796284469}
   m_Layer: 0
   m_Name: PlayerDice
   m_TagString: Untagged
@@ -22528,7 +22529,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5bcec4746fc702b428201d807dab57d0, type: 2}
+  - {fileID: 2100000, guid: e34f6758e3e41244eb64015b8236a910, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -22571,6 +22572,21 @@ MonoBehaviour:
   - {fileID: 26829733}
   defaultFaceResult: -1
   alteredFaceResult: -1
+--- !u!114 &8525867356796284469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7877089594185830374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d30deebe160260647a262fa7b6fee8ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diceMesh: {fileID: 8525867356796284467}
+  dissolveRate: 0.0125
+  refreshRate: 0.025
 --- !u!1 &9087010321378716936
 GameObject:
   m_ObjectHideFlags: 0

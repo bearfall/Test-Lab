@@ -22,8 +22,8 @@ namespace bearfall
 		private TestCharacter selectingChara; // 選中的角色（如果沒有選中則為 false）
 		private TestCharacter selectingEnemy;
 		private TestCharacter testCharacter;
-
-
+		private DiceLeave diceLeave;
+	
 		private int playerNumber;
 		private int enemyNumber;
 
@@ -66,6 +66,8 @@ namespace bearfall
 
 			EnemySpawnBase = GetComponent<EnemySpawnBase>();
 
+
+			diceLeave = GameObject.Find("PlayerDice").GetComponent<DiceLeave>();
 
 			//EnemySpawnBase.SpawnEnemy();
 			StartCoroutine(EnemySpawnBase.SpawnEnemy());
@@ -254,7 +256,7 @@ namespace bearfall
 		private IEnumerator CheckPlayerNumber()
         {
 			print("在在是骰骰子環節");
-
+			diceLeave.RefreshDiceMaterials();
 			playerDiceManager.ThrowTheDice();
 
 			yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
@@ -370,6 +372,8 @@ namespace bearfall
 			StartCoroutine(CheckEnemyNumber());
 			yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
 			yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true);
+			diceLeave.StartDissolve();
+
 			// ダメージ計算処理
 			int damageValue; // ダメージ量
 			int attackPoint = attackChara.atk; // 攻撃側の攻撃力
