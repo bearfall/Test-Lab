@@ -23,7 +23,8 @@ namespace bearfall
 		private TestCharacter selectingEnemy;
 		private TestCharacter testCharacter;
 		private DiceLeave diceLeave;
-	
+		private DiceLeave enemyDiceLeave;
+
 		private int playerNumber;
 		private int enemyNumber;
 
@@ -68,7 +69,7 @@ namespace bearfall
 
 
 			diceLeave = GameObject.Find("PlayerDice").GetComponent<DiceLeave>();
-
+			enemyDiceLeave = GameObject.Find("EnemyDice").GetComponent<DiceLeave>();
 			//EnemySpawnBase.SpawnEnemy();
 			StartCoroutine(EnemySpawnBase.SpawnEnemy());
 
@@ -271,7 +272,7 @@ namespace bearfall
 		private IEnumerator CheckEnemyNumber()
 		{
 			print("在在是骰骰子環節");
-
+			enemyDiceLeave.RefreshDiceMaterials();
 			enemyDiceManager.ThrowTheDice();
 
 			yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true);
@@ -373,7 +374,7 @@ namespace bearfall
 			yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
 			yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true);
 			diceLeave.StartDissolve();
-
+			enemyDiceLeave.StartDissolve();
 			// ダメージ計算処理
 			int damageValue; // ダメージ量
 			int attackPoint = attackChara.atk; // 攻撃側の攻撃力
@@ -401,6 +402,10 @@ namespace bearfall
 				// HPが0～最大値の範囲に収まるよう補正
 				defenseChara.nowHP = Mathf.Clamp(defenseChara.nowHP, 0, defenseChara.maxHP);
 
+
+				DamagePopUpGenerator.current.CreatePopUp(defenseChara.transform.position, damageValue.ToString(), Color.yellow);
+
+
 				// HP0になったキャラクターを削除する
 				if (defenseChara.nowHP == 0)
 					testCharactersManager.DeleteCharaData(defenseChara);
@@ -411,7 +416,10 @@ namespace bearfall
 					() =>
 					{// 遅延実行する内容
 					 // ウィンドウを非表示化
-					testGuiManager.testBattleWindowUI.HideWindow();
+					
+
+
+						testGuiManager.testBattleWindowUI.HideWindow();
 						testGuiManager.HideStatusWindow();
 					// ターンを切り替える
 					if (nowPhase == Phase.MyTurn_Result)
