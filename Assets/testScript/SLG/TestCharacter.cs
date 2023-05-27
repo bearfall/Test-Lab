@@ -14,19 +14,27 @@ public class TestCharacter : MonoBehaviour
 	private Camera mainCamera;
 
 	public bool hasActed;
-
+	[HideInInspector]
 	public  int mSave = 0;    //暫存探索位置的 m 值,用於比較大小
+	[HideInInspector]
 	public  int targetChess = 0;  //存取aaa陣列的引數
+	[HideInInspector]
 	public  int enemyTargetChess = 0;
+
 	private int i = 0;  //迴圈計數用
-
+	[HideInInspector]
 	public static bool ChessBoard = false; //為true時,隱藏大棋盤
+	[HideInInspector]
 	public  bool chose = false;   //防止移動中偵測到滑鼠"左鍵"被點擊的誤判
+	[HideInInspector]
 	public bool enemyChose = false;
+	[HideInInspector]
 	public  bool delete = false;  //用於判斷刪除棋盤的時機
+	[HideInInspector]
 	public  bool EnemyDelete = false;  //用於判斷刪除棋盤的時機
-
+	[HideInInspector]
 	public  List<Vector3> aaa = new List<Vector3>();  //用來儲存最短路徑的陣列
+	[HideInInspector]
 	public  List<Vector3> Enemyaaa = new List<Vector3>();  //用來儲存最短路徑的陣列
 
 
@@ -43,22 +51,36 @@ public class TestCharacter : MonoBehaviour
 						 // キャラクターデータ(初期ステータス)
 	[Header("キャラクター名")]
 	public string charaName; // キャラクター名
+
 	[Header("最大HP(初期HP)")]
 	public int maxHP; // 最大HP
+
+	//public int currentHealth;
+
+	public HealthBar healthBar;
+
 	[Header("攻撃力")]
 	public int atk; // 攻撃力
 	[Header("防御力")]
 	public int def; // 防御力
 	[Header("属性")]
 	public Attribute attribute; // 属性
+
+
+
+
 								// ゲーム中に変化するキャラクターデータ
 								//[HideInInspector]
 	public int xPos; // 現在のx座標
 					 //[HideInInspector]
 	public int zPos; // 現在のz座標
-	[HideInInspector]
+	//[HideInInspector]
 	public int nowHP; // 現在HP
 
+
+	public bool attackEnd = false;
+
+	public Tween currentTween;
 	// キャラクター属性定義(列挙型)
 	public enum Attribute
 	{
@@ -92,6 +114,8 @@ public class TestCharacter : MonoBehaviour
 
 		path = GetComponent<Path>();
 		enemyPath = GetComponent<EnemyPath>();
+		//healthBar = gameObject.GetComponent<HealthBar>();
+		this.healthBar.SetMaxHealth(maxHP);
 	}
 
 	void Update()
@@ -116,6 +140,12 @@ public class TestCharacter : MonoBehaviour
 		*/
 		xPos = (int)this.transform.position.x;
 		zPos = (int)this.transform.position.z;
+
+
+
+
+		CheckAttackEnd();
+
 	}
 	public void MovePosition(int targetXPos, int targetZPos)
 	{
@@ -205,11 +235,13 @@ public class TestCharacter : MonoBehaviour
 	}
 
 	/// <summary>
-	/// キャラクターの近接攻撃アニメーション
+	/// キャラクターの近接攻撃アニメーション	
 	/// </summary>
 	/// <param name="targetChara">相手キャラクター</param>
 	public void AttackAnimation(TestCharacter targetChara)
 	{
+		attackEnd = false;
+
 		// 攻撃アニメーション(DoTween)
 		// 相手キャラクターの位置へジャンプで近づき、同じ動きで元の場所に戻る
 		transform.DOJump(targetChara.transform.position, // 指定座標までジャンプしながら移動する
@@ -217,9 +249,24 @@ public class TestCharacter : MonoBehaviour
 				1, // ジャンプ回数
 				0.5f) // アニメーション時間(秒)
 			.SetEase(Ease.Linear) // イージング(変化の度合)を設定
-			.SetLoops(2, LoopType.Yoyo); // ループ回数・方式を指定
-	}
+			.SetLoops(2, LoopType.Yoyo).OnComplete(() => { attackEnd = true; }); // ループ回数・方式を指定
 
+        
+
+
+	}
+	public bool CheckAttackEnd()
+    {
+		if (attackEnd)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
 
 
 	public void EnemyMovePosition(int targetXPos, int targetZPos)
@@ -318,6 +365,16 @@ public class TestCharacter : MonoBehaviour
 		}
 	}
 
+
+
+
+
+	public void TakeDamage(int damage)
+	{
+		nowHP -= damage;
+
+		this.healthBar.SetHealth(nowHP);
+	}
 	/*
 	public IEnumerator enemyMove()
 	{

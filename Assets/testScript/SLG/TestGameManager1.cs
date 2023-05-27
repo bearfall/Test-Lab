@@ -184,7 +184,7 @@ namespace bearfall
 							0.5f, // 遅延時間(秒)
 							() =>
 							{// 遅延実行する内容
-							testGuiManager.ShowCommandButtons();
+								testGuiManager.ShowCommandButtons();
 								ChangePhase(Phase.MyTurn_Command);
 							}
 						);
@@ -212,22 +212,22 @@ namespace bearfall
 						if (targetChara != null)
 						{// 攻撃対象のキャラクターが存在する
 						 // キャラクター攻撃処理
-							//ChangePhase(Phase.MyTurn_ThrowDice);
+						 //ChangePhase(Phase.MyTurn_ThrowDice);
 
 
 
-						
-					
-							StartCoroutine( CharaAttack(selectingChara, targetChara));
+
+
+							StartCoroutine(CharaAttack(selectingChara, targetChara));
 							testCharacter.hasActed = true;
 
 
 							// 進行モードを進める(行動結果表示へ)
 							ChangePhase(Phase.MyTurn_Result);
 							return;
-						
+
 						}
-						
+
 
 						else
 						{// 攻撃対象が存在しない
@@ -255,7 +255,7 @@ namespace bearfall
 		}
 
 		private IEnumerator CheckPlayerNumber()
-        {
+		{
 			print("在在是骰骰子環節");
 			diceLeave.RefreshDiceMaterials();
 			playerDiceManager.ThrowTheDice();
@@ -334,12 +334,12 @@ namespace bearfall
 			// コマンドボタンを非表示にする
 			testGuiManager.HideCommandButtons();
 
-			
+
 
 			// 攻撃可能な場所リストを取得する
 			attackableBlocks = testMapManager.SearchAttackableBlocks(selectingChara.xPos, selectingChara.zPos);
-			print(selectingChara.xPos);
-			print(selectingChara.zPos);
+		//	print(selectingChara.xPos);
+		//	print(selectingChara.zPos);
 
 			// 攻撃可能な場所リストを表示する
 			foreach (TestMapBlock mapBlock in attackableBlocks)
@@ -367,7 +367,7 @@ namespace bearfall
 		private IEnumerator CharaAttack(TestCharacter attackChara, TestCharacter defenseChara)
 		{
 
-			
+
 
 			StartCoroutine(CheckPlayerNumber());
 			StartCoroutine(CheckEnemyNumber());
@@ -395,17 +395,18 @@ namespace bearfall
 
 				// バトル結果表示ウィンドウの表示設定
 				// (HPの変更前に行う)
-				testGuiManager.testBattleWindowUI.ShowWindow(defenseChara, damageValue);
+				//testGuiManager.testBattleWindowUI.ShowWindow(defenseChara, damageValue);
 
 				// ダメージ量分防御側のHPを減少
-				defenseChara.nowHP -= damageValue;
+				defenseChara.TakeDamage(damageValue);
+				//defenseChara.nowHP -= damageValue;
 				// HPが0～最大値の範囲に収まるよう補正
-				defenseChara.nowHP = Mathf.Clamp(defenseChara.nowHP, 0, defenseChara.maxHP);
+				//defenseChara.nowHP = Mathf.Clamp(defenseChara.nowHP, 0, defenseChara.maxHP);
 
 
 				DamagePopUpGenerator.current.CreatePopUp(defenseChara.transform.position, damageValue.ToString(), Color.yellow);
 
-
+				
 				// HP0になったキャラクターを削除する
 				if (defenseChara.nowHP == 0)
 					testCharactersManager.DeleteCharaData(defenseChara);
@@ -416,29 +417,29 @@ namespace bearfall
 					() =>
 					{// 遅延実行する内容
 					 // ウィンドウを非表示化
-					
+
 
 
 						testGuiManager.testBattleWindowUI.HideWindow();
 						testGuiManager.HideStatusWindow();
-					// ターンを切り替える
-					if (nowPhase == Phase.MyTurn_Result)
+						// ターンを切り替える
+						if (nowPhase == Phase.MyTurn_Result)
 						{ // 敵のターンへ
 
-						testCharacter.hasActed = true;
+							testCharacter.hasActed = true;
 							testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
 							CheckIsAllActive();
-						//ChangePhase(Phase.EnemyTurn_Start);
+							//ChangePhase(Phase.EnemyTurn_Start);
 
-					}
+						}
 						else if (nowPhase == Phase.EnemyTurn_Result)
-						// 自分のターンへ
-						ChangePhase(Phase.EnemyTurn_Start);
+							// 自分のターンへ
+							ChangePhase(Phase.EnemyTurn_Start);
 					}
 				);
 			}
-            else
-            {
+			else
+			{
 				print("無法攻擊");
 				testCharacter.hasActed = true;
 				testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
@@ -454,8 +455,8 @@ namespace bearfall
 
 		private IEnumerator EnemyCommand()
 		{
-			
-            
+
+
 			//StartCoroutine(EnemySpawnBase.SpawnEnemy());
 
 			//yield return new WaitForSeconds(5f);
@@ -499,11 +500,11 @@ namespace bearfall
 							() =>
 							{// 遅延実行する内容
 
-							CharaAttack(enemyCharas[i], actionPlan.toAttackChara);
+								CharaAttack(enemyCharas[i], actionPlan.toAttackChara);
 
 							}
 							);
-
+					//	yield return new WaitUntil(() => enemyCharas[i].CheckAttackEnd() == true);
 						CheckIsAllEnemyActive();
 
 						yield return StartCoroutine(wait());
