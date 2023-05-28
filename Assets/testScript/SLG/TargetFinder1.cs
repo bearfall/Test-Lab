@@ -25,6 +25,9 @@ public static class TargetFinder1
 	public static ActionPlan GetActionPlan(TestMapManager mapManager, TestCharactersManager charactersManager, TestCharacter enemyData)
 	{
 
+
+
+
 		// 全行動プラン(攻撃可能な相手が見つかる度に追加される)
 		var actionAttackPlans = new List<ActionPlan>();
 		// 移動範囲リスト
@@ -33,9 +36,9 @@ public static class TargetFinder1
 		var attackableBlocks = new List<TestMapBlock>();
 
 		TestCharactersManager testCharacters = GameObject.Find("Manager").GetComponent<TestCharactersManager>();
+		//testCharacters.reFreshCharactorList();
+			// 全行動プラン検索処理
 
-		// 全行動プラン検索処理
-		
 			// 移動可能な場所リストを取得する
 
 			EnemyPath enemyPath = enemyData.gameObject.GetComponent<EnemyPath>();
@@ -46,10 +49,10 @@ public static class TargetFinder1
 
 			Debug.Log("我要執行下面的StartEnemyPath");
 			reachableBlocks = enemyPath.StartEnemypath();
+		Debug.Log(testCharacters.testCharacters.Count);
+		Debug.Log(reachableBlocks.Count);
 
-
-
-        for (int i = 0; i < reachableBlocks.Count; i++)
+		for (int i = 0; i < reachableBlocks.Count; i++)
         {
             for (int j = 0; j < testCharacters.testCharacters.Count; j++)
             {

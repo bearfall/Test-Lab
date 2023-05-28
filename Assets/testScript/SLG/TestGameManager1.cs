@@ -71,7 +71,7 @@ namespace bearfall
 			diceLeave = GameObject.Find("PlayerDice").GetComponent<DiceLeave>();
 			enemyDiceLeave = GameObject.Find("EnemyDice").GetComponent<DiceLeave>();
 			//EnemySpawnBase.SpawnEnemy();
-			StartCoroutine(EnemySpawnBase.SpawnEnemy());
+			//StartCoroutine(EnemySpawnBase.SpawnEnemy());
 
 		}
 
@@ -124,6 +124,9 @@ namespace bearfall
 			{
 				// 自分のターン：開始時
 				case Phase.MyTurn_Start:
+
+                   
+
 					testCharactersManager.reFreshCharactorList();
 					// 取消選擇所有塊
 					testMapManager.AllselectionModeClear();
@@ -408,7 +411,7 @@ namespace bearfall
 
 				
 				// HP0になったキャラクターを削除する
-				if (defenseChara.nowHP == 0)
+				if (defenseChara.nowHP < 0)
 					testCharactersManager.DeleteCharaData(defenseChara);
 
 				// ターン切り替え処理(遅延実行)
@@ -453,7 +456,7 @@ namespace bearfall
 
 		private IEnumerator EnemyCharaAttack(TestCharacter attackChara, TestCharacter defenseChara)
 		{
-			attackChara.attackFalse = false;
+			yield return new WaitForSeconds(1f);
 
 
 			StartCoroutine(CheckPlayerNumber());
@@ -495,12 +498,12 @@ namespace bearfall
 
 
 				// HP0になったキャラクターを削除する
-				if (defenseChara.nowHP == 0)
+				if (defenseChara.nowHP < 0)
 					testCharactersManager.DeleteCharaData(defenseChara);
 
 				// ターン切り替え処理(遅延実行)
 				DOVirtual.DelayedCall(
-					2.0f, // 遅延時間(秒)
+					1.0f, // 遅延時間(秒)
 					() =>
 					{// 遅延実行する内容
 					 // ウィンドウを非表示化
@@ -509,21 +512,27 @@ namespace bearfall
 
 						
 							// 自分のターンへ
-							print("換下一個敵人行動");
+
+							print("攻擊成功");
 							attackChara.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
 							
 						
 					}
 				);
 			}
-			else
+			else if (enemyNumber <= playerNumber)
 			{
-				print("無法攻擊");
+				DOVirtual.DelayedCall(
+					1.0f, // 遅延時間(秒)
+					() =>
+					{
+						print("無法攻擊");
 				attackChara.hasActed = true;
 				attackChara.attackFalse = true;
 
 				attackChara.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
-				
+					}
+				);
 			}
 
 		}
@@ -536,17 +545,18 @@ namespace bearfall
 		private IEnumerator EnemyCommand()
 		{
 
-
+			yield return new WaitForSeconds(2f);
 			//StartCoroutine(EnemySpawnBase.SpawnEnemy());
 
 			//yield return new WaitForSeconds(5f);
 
-			if (EnemySpawnBase.allEnemyReady)
+			if (//EnemySpawnBase.allEnemyReady
+				true)
 			{
 				print("gogo");
 
 
-				testCharactersManager.reFreshCharactorList();
+				//testCharactersManager.reFreshCharactorList();
 				int randId;
 
 				// 生存中の敵キャラクターのリストを作成する
@@ -556,7 +566,7 @@ namespace bearfall
 					if (charaData.isEnemy && charaData.hasActed == false)
 					{
 						enemyCharas.Add(charaData);
-
+						charaData.attackFalse = false;
 						print(charaData.name);
 
 					}
@@ -564,7 +574,7 @@ namespace bearfall
 
 				for (int i = 0; i < enemyCharas.Count; i++)
 				{
-					testCharactersManager.reFreshCharactorList();
+					//testCharactersManager.reFreshCharactorList();
 
 					print("執行第" + i + "次運算回合");
 					// 攻撃可能なキャラクター・位置の組み合わせの内１つをランダムに取得
@@ -578,22 +588,18 @@ namespace bearfall
 						print(enemyCharas[i] + "行動過了");
 
 						// 遅延実行する内容
-
-								StartCoroutine( EnemyCharaAttack(enemyCharas[i], actionPlan.toAttackChara));
-
-							
-						//	yield return new WaitUntil(() => enemyCharas[i].CheckAttackEnd() == true);
-						DOVirtual.DelayedCall(
-								5f, // 遅延時間(秒)
-								() =>
-								{
-									CheckIsAllEnemyActive();
-								}
-							);
-
-
+						enemyCharas[i].attackFalse = false;
+						StartCoroutine( EnemyCharaAttack(enemyCharas[i], actionPlan.toAttackChara));
+						yield return new WaitForSeconds(2f);
 						yield return new WaitUntil(() => enemyCharas[i].CheckAttackEnd() == true || enemyCharas[i].attackFalse == true);
-						yield return new WaitForSeconds(2.5f);
+						//	yield return new WaitUntil(() => enemyCharas[i].CheckAttackEnd() == true);
+						
+									StartCoroutine( CheckIsAllEnemyActive());
+								
+
+
+						
+						yield return new WaitForSeconds(3.5f);
 						//yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true);
 					}
 					else if (actionPlan == null)
@@ -634,7 +640,9 @@ namespace bearfall
 							print(enemyCharas[i] + "行動過了");
 
 							enemyCharas[i].gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
-							CheckIsAllEnemyActive();
+
+							yield return new WaitForSeconds(2f);
+							StartCoroutine( CheckIsAllEnemyActive());
 
 
 							yield return StartCoroutine(wait());
@@ -692,7 +700,7 @@ namespace bearfall
 
 
 
-		public void CheckIsAllEnemyActive()
+		public IEnumerator CheckIsAllEnemyActive()
 		{
 			bool allEnemyActed = true;
 			foreach (var character in testCharactersManager.testCharacters)
@@ -719,10 +727,19 @@ namespace bearfall
 						testCharacter.hasActed = false;
 
 						testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1);
-						ChangePhase(Phase.MyTurn_Start);
-						print("Phase.MyTurn_Start");
+						//yield return new WaitForSeconds(2.5f);
+						//ChangePhase(Phase.MyTurn_Start);
+						
 					}
 				}
+				yield return new WaitForSeconds(2.5f);
+				foreach (var item in testCharactersManager.testCharacters)
+				{
+					if (item.isEnemy)
+						item.gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1);
+				}
+				ChangePhase(Phase.MyTurn_Start);
+				print("Phase.MyTurn_Start");
 			}
 
 
