@@ -448,6 +448,86 @@ namespace bearfall
 
 		}
 
+
+
+
+		private IEnumerator EnemyCharaAttack(TestCharacter attackChara, TestCharacter defenseChara)
+		{
+			attackChara.attackFalse = false;
+
+
+			StartCoroutine(CheckPlayerNumber());
+			StartCoroutine(CheckEnemyNumber());
+			yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
+			yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true);
+			diceLeave.StartDissolve();
+			enemyDiceLeave.StartDissolve();
+			// ダメージ計算処理
+			int damageValue; // ダメージ量
+			int attackPoint = attackChara.atk; // 攻撃側の攻撃力
+			int defencePoint = defenseChara.def; // 防御側の防御力
+												 // ダメージ＝攻撃力－防御力で計算
+			damageValue = attackPoint - defencePoint;
+			// ダメージ量が0以下なら0にする
+			if (damageValue < 0)
+				damageValue = 0;
+
+			if (enemyNumber > playerNumber)
+			{
+
+
+				// キャラクター攻撃アニメーション
+				attackChara.AttackAnimation(defenseChara);
+
+
+				// バトル結果表示ウィンドウの表示設定
+				// (HPの変更前に行う)
+				//testGuiManager.testBattleWindowUI.ShowWindow(defenseChara, damageValue);
+
+				// ダメージ量分防御側のHPを減少
+				defenseChara.TakeDamage(damageValue);
+				//defenseChara.nowHP -= damageValue;
+				// HPが0～最大値の範囲に収まるよう補正
+				//defenseChara.nowHP = Mathf.Clamp(defenseChara.nowHP, 0, defenseChara.maxHP);
+
+
+				DamagePopUpGenerator.current.CreatePopUp(defenseChara.transform.position, damageValue.ToString(), Color.yellow);
+
+
+				// HP0になったキャラクターを削除する
+				if (defenseChara.nowHP == 0)
+					testCharactersManager.DeleteCharaData(defenseChara);
+
+				// ターン切り替え処理(遅延実行)
+				DOVirtual.DelayedCall(
+					2.0f, // 遅延時間(秒)
+					() =>
+					{// 遅延実行する内容
+					 // ウィンドウを非表示化
+
+
+
+						
+							// 自分のターンへ
+							print("換下一個敵人行動");
+							attackChara.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
+							
+						
+					}
+				);
+			}
+			else
+			{
+				print("無法攻擊");
+				attackChara.hasActed = true;
+				attackChara.attackFalse = true;
+
+				attackChara.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
+				
+			}
+
+		}
+
 		/// (敵のターン開始時に呼出)
 		/// 敵キャラクターのうちいずれか一体を行動させてターンを終了する
 		/// </summary>
@@ -484,6 +564,8 @@ namespace bearfall
 
 				for (int i = 0; i < enemyCharas.Count; i++)
 				{
+					testCharactersManager.reFreshCharactorList();
+
 					print("執行第" + i + "次運算回合");
 					// 攻撃可能なキャラクター・位置の組み合わせの内１つをランダムに取得
 					var actionPlan = TargetFinder1.GetActionPlan(testMapManager, testCharactersManager, enemyCharas[i]);
@@ -495,20 +577,24 @@ namespace bearfall
 						enemyCharas[i].hasActed = true;
 						print(enemyCharas[i] + "行動過了");
 
+						// 遅延実行する内容
+
+								StartCoroutine( EnemyCharaAttack(enemyCharas[i], actionPlan.toAttackChara));
+
+							
+						//	yield return new WaitUntil(() => enemyCharas[i].CheckAttackEnd() == true);
 						DOVirtual.DelayedCall(
-							2.5f, // 遅延時間(秒)
-							() =>
-							{// 遅延実行する内容
-
-								CharaAttack(enemyCharas[i], actionPlan.toAttackChara);
-
-							}
+								5f, // 遅延時間(秒)
+								() =>
+								{
+									CheckIsAllEnemyActive();
+								}
 							);
-					//	yield return new WaitUntil(() => enemyCharas[i].CheckAttackEnd() == true);
-						CheckIsAllEnemyActive();
 
-						yield return StartCoroutine(wait());
 
+						yield return new WaitUntil(() => enemyCharas[i].CheckAttackEnd() == true || enemyCharas[i].attackFalse == true);
+						yield return new WaitForSeconds(2.5f);
+						//yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true);
 					}
 					else if (actionPlan == null)
 					{
@@ -547,7 +633,7 @@ namespace bearfall
 							enemyCharas[i].hasActed = true;
 							print(enemyCharas[i] + "行動過了");
 
-
+							enemyCharas[i].gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
 							CheckIsAllEnemyActive();
 
 
@@ -631,6 +717,8 @@ namespace bearfall
 					{
 						testCharacter = character.GetComponent<TestCharacter>();
 						testCharacter.hasActed = false;
+
+						testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1);
 						ChangePhase(Phase.MyTurn_Start);
 						print("Phase.MyTurn_Start");
 					}

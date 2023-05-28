@@ -79,7 +79,7 @@ public class TestCharacter : MonoBehaviour
 
 
 	public bool attackEnd = false;
-
+	public bool attackFalse = false;
 	public Tween currentTween;
 	// キャラクター属性定義(列挙型)
 	public enum Attribute
