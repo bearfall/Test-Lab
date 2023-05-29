@@ -82,7 +82,7 @@ public class PlayerDiceManager : MonoBehaviour
         InitialState initial = SetInitialState();
 
         
-        DicePrefab.transform.position =new Vector3(this.transform.position.x, 5, -1);
+        DicePrefab.transform.position =new Vector3(spawnDicePosition.position.x, spawnDicePosition.position.y, spawnDicePosition.position.z);
         //   gameObject.transform.rotation = initial.rotation;
         
         rb.useGravity = true;

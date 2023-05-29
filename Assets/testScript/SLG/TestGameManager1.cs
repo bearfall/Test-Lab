@@ -28,6 +28,7 @@ namespace bearfall
 		private int playerNumber;
 		private int enemyNumber;
 
+		
 
 		public GameObject enemyPrefab;
 		private EnemySpawnBase EnemySpawnBase;
@@ -70,6 +71,8 @@ namespace bearfall
 
 			diceLeave = GameObject.Find("PlayerDice").GetComponent<DiceLeave>();
 			enemyDiceLeave = GameObject.Find("EnemyDice").GetComponent<DiceLeave>();
+
+			
 			//EnemySpawnBase.SpawnEnemy();
 			//StartCoroutine(EnemySpawnBase.SpawnEnemy());
 
@@ -125,7 +128,7 @@ namespace bearfall
 				// 自分のターン：開始時
 				case Phase.MyTurn_Start:
 
-                   
+					
 
 					testCharactersManager.reFreshCharactorList();
 					// 取消選擇所有塊
@@ -140,6 +143,7 @@ namespace bearfall
 					{// キャラクターが存在する
 					 // 選択中のキャラクター情報に記憶
 						selectingChara = charaData;
+						selectingChara.gameObject.GetComponent<Animator>().SetBool("Idle_Click", true);
 						testGuiManager.ShowStatusWindow(selectingChara);
 
 						testCharacter = selectingChara.GetComponent<TestCharacter>();
@@ -175,6 +179,7 @@ namespace bearfall
 						//print(targetBlock.zPos);
 						selectingChara.MovePosition(targetBlock.xPos, targetBlock.zPos);
 
+						selectingChara.gameObject.GetComponent<Animator>().SetBool("Idle_Click", false);
 
 
 

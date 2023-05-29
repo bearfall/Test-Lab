@@ -11,9 +11,9 @@ public class EnemyDiceManager : MonoBehaviour
     public GameObject DicePrefab;
     public Dice dice;
     public GameObject[] faceDetectors;
-
+    public bool enemyDiceStop = false;
     public int enemyDiceNumber;
-    public Transform spawnDicePosition;
+    public Transform spawnEnemyDicePosition;
     //   public List<Dice> faceDetectors = new List<Dice>();
     public int startPositionx;
     public int startPositiony;
@@ -29,7 +29,7 @@ public class EnemyDiceManager : MonoBehaviour
         dice = GameObject.Find("EnemyDice").GetComponent<Dice>();
         TMP_Number = GameObject.Find("Number").GetComponent<TextMeshProUGUI>();
         faceDetectors = dice.faceDetectors;
-        spawnDicePosition =GameObject.Find("SpawnDicePosition").GetComponent<Transform>();
+        spawnEnemyDicePosition =GameObject.Find("SpawnEnemyDicePosition").GetComponent<Transform>();
 
     }
 
@@ -82,7 +82,7 @@ public class EnemyDiceManager : MonoBehaviour
         InitialState initial = SetInitialState();
 
         
-        DicePrefab.transform.position =new Vector3(this.transform.position.x, 5, -1);
+        DicePrefab.transform.position =new Vector3(spawnEnemyDicePosition.position.x, spawnEnemyDicePosition.position.y, spawnEnemyDicePosition.position.z);
         //   gameObject.transform.rotation = initial.rotation;
         
         rb.useGravity = true;
@@ -134,9 +134,14 @@ public class EnemyDiceManager : MonoBehaviour
         if (rb.velocity == Vector3.zero &&
             rb.angularVelocity == Vector3.zero)
         {
+            enemyDiceStop = true;
             return true;
         }
-        else return false;
+
+        else {
+            enemyDiceStop = false;
+            return false;
+             }
     }
 
 
