@@ -28,7 +28,8 @@ namespace bearfall
 		private int playerNumber;
 		private int enemyNumber;
 
-		
+		public Camera playerDiceCamera;
+		public Camera enemyDiceCamera;
 
 		public GameObject enemyPrefab;
 		private EnemySpawnBase EnemySpawnBase;
@@ -72,7 +73,7 @@ namespace bearfall
 			diceLeave = GameObject.Find("PlayerDice").GetComponent<DiceLeave>();
 			enemyDiceLeave = GameObject.Find("EnemyDice").GetComponent<DiceLeave>();
 
-			
+			HideDice();
 			//EnemySpawnBase.SpawnEnemy();
 			//StartCoroutine(EnemySpawnBase.SpawnEnemy());
 
@@ -152,7 +153,7 @@ namespace bearfall
 						//path.Startpath();
 						reachableBlocks = path.Startpath();
 
-						print("這是可以移動的格子數量" + reachableBlocks.Count);
+						//print("這是可以移動的格子數量" + reachableBlocks.Count);
 
 						/*
 						foreach (var item in reachableBlocks)
@@ -188,8 +189,10 @@ namespace bearfall
 						testMapManager.AllselectionModeClear();
 						testGuiManager.HideStatusWindow();
 						// 指定秒数経過後に処理を実行する(DoTween)
+
+
 						DOVirtual.DelayedCall(
-							0.5f, // 遅延時間(秒)
+							1.0f, // 遅延時間(秒)
 							() =>
 							{// 遅延実行する内容
 								testGuiManager.ShowCommandButtons();
@@ -227,7 +230,7 @@ namespace bearfall
 
 
 							StartCoroutine(CharaAttack(selectingChara, targetChara));
-							testCharacter.hasActed = true;
+							selectingChara.hasActed = true;
 
 
 							// 進行モードを進める(行動結果表示へ)
@@ -375,7 +378,7 @@ namespace bearfall
 		private IEnumerator CharaAttack(TestCharacter attackChara, TestCharacter defenseChara)
 		{
 
-
+			ShowDice();
 
 			StartCoroutine(CheckPlayerNumber());
 			StartCoroutine(CheckEnemyNumber());
@@ -434,15 +437,19 @@ namespace bearfall
 						if (nowPhase == Phase.MyTurn_Result)
 						{ // 敵のターンへ
 
-							testCharacter.hasActed = true;
+							//testCharacter.hasActed = true;
 							testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
+							HideDice();
 							CheckIsAllActive();
 							//ChangePhase(Phase.EnemyTurn_Start);
 
 						}
 						else if (nowPhase == Phase.EnemyTurn_Result)
+						{
 							// 自分のターンへ
+							HideDice();
 							ChangePhase(Phase.EnemyTurn_Start);
+						}
 					}
 				);
 			}
@@ -451,6 +458,7 @@ namespace bearfall
 				print("無法攻擊");
 				testCharacter.hasActed = true;
 				testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
+				HideDice();
 				CheckIsAllActive();
 			}
 
@@ -463,6 +471,7 @@ namespace bearfall
 		{
 			yield return new WaitForSeconds(1f);
 
+			ShowDice();
 
 			StartCoroutine(CheckPlayerNumber());
 			StartCoroutine(CheckEnemyNumber());
@@ -759,10 +768,25 @@ namespace bearfall
 			Debug.Log("耗時操作完成");
 		}
 
+		public void ShowDice()
+        {
+
+			playerDiceCamera.enabled = true;
+			enemyDiceCamera.enabled = true;
 
 
+		}
 
 
+		public void HideDice()
+        {
+
+
+			playerDiceCamera.enabled = false;
+			enemyDiceCamera.enabled = false;
+
+
+		}
 
 	}
 }
