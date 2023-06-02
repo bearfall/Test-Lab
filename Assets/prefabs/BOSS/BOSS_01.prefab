@@ -541,7 +541,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6cfbcde560fc49d488f62519c59e2337, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 77d880cf3a3af9f43a3231beeabfc6fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -589,6 +589,8 @@ MonoBehaviour:
   xPos: 0
   zPos: 0
   nowHP: 0
+  attackEnd: 0
+  attackFalse: 0
 --- !u!114 &5593982904428562470
 MonoBehaviour:
   m_ObjectHideFlags: 0

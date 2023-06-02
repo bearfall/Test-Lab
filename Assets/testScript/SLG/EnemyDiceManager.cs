@@ -21,6 +21,10 @@ public class EnemyDiceManager : MonoBehaviour
     [Header("Debug")]
     public int defaultFaceResult = -1;
     public int alteredFaceResult = -1;
+
+
+
+    public ShowDiceNumber showEnemyDiceNumber;
     // Start is called before the first frame update
     void Start()
     {
@@ -105,7 +109,12 @@ public class EnemyDiceManager : MonoBehaviour
                 maxIndex = i;
             }
         }
+        showEnemyDiceNumber = faceDetectors[maxIndex].gameObject.GetComponent<ShowDiceNumber>();
+
+
         defaultFaceResult = maxIndex;
+
+
         return maxIndex;
     }
 

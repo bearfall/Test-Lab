@@ -387,6 +387,7 @@ namespace bearfall
 			diceLeave.StartDissolve();
 			playerDiceManager.showDiceNumber.GoShowDiceNumber();
 			enemyDiceLeave.StartDissolve();
+			enemyDiceManager.showEnemyDiceNumber.GoShowDiceNumber();
 			// ダメージ計算処理
 			int damageValue; // ダメージ量
 			int attackPoint = attackChara.atk; // 攻撃側の攻撃力
