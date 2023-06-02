@@ -272,7 +272,7 @@ namespace bearfall
 			playerDiceManager.ThrowTheDice();
 
 			yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
-			playerDiceManager.showDiceNumber.GoShowDiceNumber();
+			
 			playerNumber = playerDiceManager.playerDiceNumber;
 
 			print("角色點數是" + playerDiceManager.playerDiceNumber);
@@ -385,6 +385,7 @@ namespace bearfall
 			yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
 			yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true);
 			diceLeave.StartDissolve();
+			playerDiceManager.showDiceNumber.GoShowDiceNumber();
 			enemyDiceLeave.StartDissolve();
 			// ダメージ計算処理
 			int damageValue; // ダメージ量
@@ -458,7 +459,13 @@ namespace bearfall
 				print("無法攻擊");
 				testCharacter.hasActed = true;
 				testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
-				HideDice();
+				DOVirtual.DelayedCall(
+					2.0f, // 遅延時間(秒)
+					() =>
+					{
+						HideDice();
+					}
+				);
 				CheckIsAllActive();
 			}
 
