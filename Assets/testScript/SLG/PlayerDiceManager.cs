@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using UnityEngine.VFX;
 public class PlayerDiceManager : MonoBehaviour
 {
     public TextMeshProUGUI TMP_Number;
@@ -21,6 +21,9 @@ public class PlayerDiceManager : MonoBehaviour
     [Header("Debug")]
     public int defaultFaceResult = -1;
     public int alteredFaceResult = -1;
+
+
+    public ShowDiceNumber showDiceNumber;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +42,11 @@ public class PlayerDiceManager : MonoBehaviour
         if (CheckObjectHasStopped() == true)
         {
             int indexResult = FindFaceResult();
+            
+            
+
+
+
             ChangeNumber(indexResult);
             playerDiceNumber = indexResult + 1;
         }
@@ -105,6 +113,9 @@ public class PlayerDiceManager : MonoBehaviour
                 maxIndex = i;
             }
         }
+
+        showDiceNumber = faceDetectors[maxIndex].gameObject.GetComponent<ShowDiceNumber>();
+      
         defaultFaceResult = maxIndex;
         return maxIndex;
     }

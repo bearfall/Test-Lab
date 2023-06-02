@@ -272,7 +272,7 @@ namespace bearfall
 			playerDiceManager.ThrowTheDice();
 
 			yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
-
+			playerDiceManager.showDiceNumber.GoShowDiceNumber();
 			playerNumber = playerDiceManager.playerDiceNumber;
 
 			print("角色點數是" + playerDiceManager.playerDiceNumber);
