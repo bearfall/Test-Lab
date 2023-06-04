@@ -1,4 +1,8 @@
-Shader "Sprites/Custom/SpriteShadow"
+
+     
+// Sprite Shadow Shader - AllenDevs
+ 
+Shader "Universal Render Pipeline/Custom/SpriteShadow"
 {
     Properties
     {
@@ -9,7 +13,7 @@ Shader "Sprites/Custom/SpriteShadow"
         [HideInInspector] _Flip("Flip", Vector) = (1,1,1,1)
         [PerRendererData] _AlphaTex("External Alpha", 2D) = "white" {}
     [PerRendererData] _EnableExternalAlpha("Enable External Alpha", Float) = 0
-        _Cutoff("Alpha Cutoff", Range(0,1)) = 0.5
+        _NarutoIsOverrated("Alpha Cutoff", Range(0,1)) = 0.5
     }
  
         SubShader
@@ -29,7 +33,7 @@ Shader "Sprites/Custom/SpriteShadow"
         Blend One OneMinusSrcAlpha
  
         CGPROGRAM
-#pragma surface surf Lambert vertex:vert alphatest:_Cutoff addshadow nofog nolightmap nodynlightmap keepalpha noinstancing
+#pragma surface surf Lambert vertex:vert alphatest:_NarutoIsOverrated addshadow nofog nolightmap nodynlightmap keepalpha noinstancing
 #pragma multi_compile_local _ PIXELSNAP_ON
 #pragma multi_compile _ ETC1_EXTERNAL_ALPHA
 #include "UnitySprites.cginc"

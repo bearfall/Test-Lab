@@ -103,10 +103,11 @@ public class TestCharacter : MonoBehaviour
 		transform.position = pos; // オブジェクトの座標を変更
 
 		// オブジェクトを左右反転(ビルボードの処理にて一度反転してしまう為)
+		/*
 		Vector2 scale = transform.localScale;
 		scale.x *= -1.0f; // X方向の大きさを正負入れ替える
 		transform.localScale = scale;
-
+		*/
 		// その他変数初期化
 		xPos = initPos_X;
 		zPos = initPos_Z;
@@ -126,9 +127,11 @@ public class TestCharacter : MonoBehaviour
 
 		// ビルボード処理
 		// (スプライトオブジェクトをメインカメラの方向に向ける)
+		/*
 		Vector3 cameraPos = mainCamera.transform.position; // 現在のカメラ座標を取得
-		cameraPos.y = transform.position.y; // キャラが地面と垂直に立つようにする
+		//cameraPos.y = transform.position.y; // キャラが地面と垂直に立つようにする
 		transform.LookAt(cameraPos);
+		*/
 
 		/*
 		if (enemyChose == true)    //按下滑鼠左鍵,而且判定是點擊了ChessBox
