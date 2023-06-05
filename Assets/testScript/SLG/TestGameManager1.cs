@@ -486,7 +486,9 @@ namespace bearfall
 			yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
 			yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true);
 			diceLeave.StartDissolve();
+			playerDiceManager.showDiceNumber.GoShowDiceNumber();
 			enemyDiceLeave.StartDissolve();
+			enemyDiceManager.showEnemyDiceNumber.GoShowDiceNumber();
 			// ダメージ計算処理
 			int damageValue; // ダメージ量
 			int attackPoint = attackChara.atk; // 攻撃側の攻撃力
