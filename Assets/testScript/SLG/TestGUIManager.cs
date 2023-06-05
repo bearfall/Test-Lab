@@ -28,7 +28,7 @@ public class TestGUIManager : MonoBehaviour
 	// 各種ロゴ画像
 	public Image playerTurnImage; // プレイヤーターン開始時画像
 	public Image enemyTurnImage; // 敵ターン開始時画像
-
+	public Image winImage;
 
 	void Start()
 	{
@@ -125,6 +125,15 @@ public class TestGUIManager : MonoBehaviour
 	{
 		// 徐々に表示→非表示を行うアニメーション(Tween)
 		enemyTurnImage
+			.DOFade(1.0f, // 指定数値まで画像のalpha値を変化
+				1.0f) // アニメーション時間(秒)
+			.SetEase(Ease.OutCubic) // イージング(変化の度合)を設定
+			.SetLoops(2, LoopType.Yoyo); // ループ回数・方式を指定
+	}
+
+	public void ShowLogo_Win()
+    {
+		winImage
 			.DOFade(1.0f, // 指定数値まで画像のalpha値を変化
 				1.0f) // アニメーション時間(秒)
 			.SetEase(Ease.OutCubic) // イージング(変化の度合)を設定

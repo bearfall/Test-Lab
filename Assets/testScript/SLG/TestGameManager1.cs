@@ -10,6 +10,10 @@ namespace bearfall
 
 	public class TestGameManager1 : MonoBehaviour
 	{
+		public int enemyCount = 4;
+
+
+
 		private TestMapManager testMapManager;
 		private TestCharactersManager testCharactersManager;
 		private TestGUIManager testGuiManager; // GUIマネージャ
@@ -98,6 +102,12 @@ namespace bearfall
 
 				// タップ先にあるブロックを取得して選択処理を開始する
 				GetMapBlockByTapPos();
+
+
+
+                
+
+
 			}
 		}
 		private void GetMapBlockByTapPos()
@@ -419,11 +429,14 @@ namespace bearfall
 
 				DamagePopUpGenerator.current.CreatePopUp(defenseChara.transform.position, damageValue.ToString(), Color.yellow);
 
-				
+
 				// HP0になったキャラクターを削除する
 				if (defenseChara.nowHP < 0)
+				{
 					testCharactersManager.DeleteCharaData(defenseChara);
-
+					enemyCount--;
+					CheckIsEnemyAlive();
+				}
 				// ターン切り替え処理(遅延実行)
 				DOVirtual.DelayedCall(
 					2.0f, // 遅延時間(秒)
@@ -523,8 +536,10 @@ namespace bearfall
 
 				// HP0になったキャラクターを削除する
 				if (defenseChara.nowHP < 0)
+				{
 					testCharactersManager.DeleteCharaData(defenseChara);
-
+					
+				}
 				// ターン切り替え処理(遅延実行)
 				DOVirtual.DelayedCall(
 					1.0f, // 遅延時間(秒)
@@ -798,5 +813,23 @@ namespace bearfall
 
 		}
 
+		public void CheckIsEnemyAlive()
+        {
+
+
+
+			if (enemyCount == 0)
+			{
+				DOVirtual.DelayedCall(
+											1.0f, // 遅延時間(秒)
+											() =>
+											{// 遅延実行する内容
+													testGuiManager.ShowLogo_Win();
+											}
+										);
+			}
+
+
+		}
 	}
 }
