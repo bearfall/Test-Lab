@@ -12,6 +12,7 @@ namespace bearfall
 	{
 		public int enemyCount = 4;
 
+		private bool isShowPlayerTurnLogo = true;
 
 
 		private TestMapManager testMapManager;
@@ -65,8 +66,9 @@ namespace bearfall
 			attackableBlocks = new List<TestMapBlock>();
 
 			testGuiManager = GetComponent<TestGUIManager>();
-			nowPhase = Phase.MyTurn_Start; // 開始時の進行モード
 
+			nowPhase = Phase.MyTurn_Start; // 開始時の進行モード
+			ChangePhase(Phase.MyTurn_Start);
 
 			playerDiceManager = GetComponent<PlayerDiceManager>();
 			enemyDiceManager = GetComponent<EnemyDiceManager>();
@@ -313,14 +315,19 @@ namespace bearfall
 			{
 				// 自分のターン：開始時
 				case Phase.MyTurn_Start:
-					// 自分のターン開始時のロゴを表示
-					testGuiManager.ShowLogo_PlayerTurn();
+                    // 自分のターン開始時のロゴを表示
+                    if (isShowPlayerTurnLogo)
+                    {
+						testGuiManager.ShowLogo_PlayerTurn();
+						isShowPlayerTurnLogo = false;
+					}
+					
 					break;
 				// 敵のターン：開始時
 				case Phase.EnemyTurn_Start:
 					// 敵のターン開始時のロゴを表示
 					testGuiManager.ShowLogo_EnemyTurn();
-
+					HideDice();
 
 
 					print(gameObject.name + "我要執行下面的EnemyCommand");
@@ -398,8 +405,9 @@ namespace bearfall
 			playerDiceManager.showDiceNumber.GoShowDiceNumber();
 			enemyDiceLeave.StartDissolve();
 			enemyDiceManager.showEnemyDiceNumber.GoShowDiceNumber();
-			// ダメージ計算処理
-			int damageValue; // ダメージ量
+			
+						// ダメージ計算処理
+						int damageValue; // ダメージ量
 			int attackPoint = attackChara.atk; // 攻撃側の攻撃力
 			int defencePoint = defenseChara.def; // 防御側の防御力
 												 // ダメージ＝攻撃力－防御力で計算
@@ -730,6 +738,7 @@ namespace bearfall
 				}
 
 				ChangePhase(Phase.EnemyTurn_Start);
+				isShowPlayerTurnLogo = true;
 			}
 
 
