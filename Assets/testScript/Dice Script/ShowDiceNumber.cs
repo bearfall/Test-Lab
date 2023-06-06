@@ -24,9 +24,5 @@ public class ShowDiceNumber : MonoBehaviour
     {
         VFXGraph.Play();
 
-
-
-
-
     }
 }

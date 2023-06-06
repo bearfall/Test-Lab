@@ -318,6 +318,8 @@ namespace bearfall
                     // 自分のターン開始時のロゴを表示
                     if (isShowPlayerTurnLogo)
                     {
+
+						
 						testGuiManager.ShowLogo_PlayerTurn();
 						isShowPlayerTurnLogo = false;
 					}
@@ -439,10 +441,11 @@ namespace bearfall
 
 
 				// HP0になったキャラクターを削除する
-				if (defenseChara.nowHP < 0)
+				if (defenseChara.nowHP <= 0)
 				{
 					testCharactersManager.DeleteCharaData(defenseChara);
 					enemyCount--;
+					testCharactersManager.reFreshCharactorList();
 					CheckIsEnemyAlive();
 				}
 				// ターン切り替え処理(遅延実行)
@@ -543,10 +546,10 @@ namespace bearfall
 
 
 				// HP0になったキャラクターを削除する
-				if (defenseChara.nowHP < 0)
+				if (defenseChara.nowHP <= 0)
 				{
 					testCharactersManager.DeleteCharaData(defenseChara);
-					
+					testCharactersManager.reFreshCharactorList();
 				}
 				// ターン切り替え処理(遅延実行)
 				DOVirtual.DelayedCall(
@@ -561,23 +564,24 @@ namespace bearfall
 							// 自分のターンへ
 
 							print("攻擊成功");
-							attackChara.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
-							
-						
+							//attackChara.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
+						HideDice();
+
 					}
 				);
 			}
-			else if (enemyNumber <= playerNumber)
+			else
 			{
 				DOVirtual.DelayedCall(
-					1.0f, // 遅延時間(秒)
+					1.5f, // 遅延時間(秒)
 					() =>
 					{
 						print("無法攻擊");
-				attackChara.hasActed = true;
+						HideDice();
+						attackChara.hasActed = true;
 				attackChara.attackFalse = true;
 
-				attackChara.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
+				//attackChara.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
 					}
 				);
 			}
@@ -780,13 +784,19 @@ namespace bearfall
 						
 					}
 				}
-				yield return new WaitForSeconds(2.5f);
+				
 				foreach (var item in testCharactersManager.testCharacters)
 				{
 					if (item.isEnemy)
+					{
+						testCharacter = item.GetComponent<TestCharacter>();
 						item.gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1);
+						testCharacter.hasActed = false;
+					}
 				}
+				yield return new WaitForSeconds(3f);
 				ChangePhase(Phase.MyTurn_Start);
+				
 				print("Phase.MyTurn_Start");
 			}
 

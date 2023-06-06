@@ -32,6 +32,8 @@ public class TestCharactersManager : MonoBehaviour
     {
         testCharacters = new List<TestCharacter>();
         charactersParent.GetComponentsInChildren(testCharacters);
+
+        
     }
 
     public TestCharacter GetCharacterDataByPos(float xPos, float zPos)
