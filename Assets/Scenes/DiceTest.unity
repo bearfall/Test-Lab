@@ -428,7 +428,8 @@ MonoBehaviour:
   snapDistance: 1
   launchForceMultiplier: 6.5
   projectile: {fileID: 839512128}
-  pointCount: 100
+  rotationSpeed: 300
+  pointCount: 27
 --- !u!120 &839512136
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -518,7 +519,7 @@ LineRenderer:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    numCornerVertices: 0
+    numCornerVertices: 90
     numCapVertices: 0
     alignment: 0
     textureMode: 0

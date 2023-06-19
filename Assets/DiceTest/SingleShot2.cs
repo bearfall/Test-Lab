@@ -14,6 +14,7 @@ public class SingleShot2 : MonoBehaviour
     private float launchForce;
 
 
+    public float rotationSpeed = 10f;
     LineRenderer lineRenderer; // 儲存 LineRenderer 組件的引用
     public int pointCount = 100; // 彈射曲線上的點數量
     Vector3 mousePosition;
@@ -36,9 +37,9 @@ public class SingleShot2 : MonoBehaviour
             dragDirection = (mousePosition - originalPosition).normalized;
             dragDistance = Vector3.Distance(originalPosition, mousePosition);
 
+            transform.Rotate(Vector3.one, rotationSpeed * Time.deltaTime);
 
-            
-            
+
 
             // 設置預覽線的點數量
             lineRenderer.positionCount = pointCount;
@@ -99,6 +100,8 @@ public class SingleShot2 : MonoBehaviour
         isDragging = true;
         lineRenderer.enabled = true;
         projectile.velocity = Vector3.zero;
+
+        
     }
 
     private void OnMouseUp()
