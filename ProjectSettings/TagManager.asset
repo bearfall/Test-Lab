@@ -6,6 +6,11 @@ TagManager:
   tags:
   - 666
   - CinemachineTarget
+  - speed+
+  - Hit
+  - Ball
+  - Dice
+  - EnemyDice
   layers:
   - Default
   - TransparentFX
