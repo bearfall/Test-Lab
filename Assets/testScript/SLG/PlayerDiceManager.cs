@@ -22,6 +22,7 @@ public class PlayerDiceManager : MonoBehaviour
     public int defaultFaceResult = -1;
     public int alteredFaceResult = -1;
 
+    public GameObject diceUseNow;
 
     public ShowDiceNumber showDiceNumber;
     // Start is called before the first frame update
@@ -86,7 +87,8 @@ public class PlayerDiceManager : MonoBehaviour
     public void ThrowTheDice()
     {
 
-        
+      
+
         InitialState initial = SetInitialState();
 
         

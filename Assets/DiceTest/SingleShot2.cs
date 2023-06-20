@@ -12,7 +12,7 @@ public class SingleShot2 : MonoBehaviour
 
     private Vector3 launchDirection;
     private float launchForce;
-
+    private Rigidbody rig;
 
     public float rotationSpeed = 10f;
     LineRenderer lineRenderer; // 儲存 LineRenderer 組件的引用
@@ -24,7 +24,7 @@ public class SingleShot2 : MonoBehaviour
     private void Start()
     {
         originalPosition = transform.position;
-
+        rig = gameObject.GetComponent<Rigidbody>();
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = pointCount;
     }
@@ -107,6 +107,8 @@ public class SingleShot2 : MonoBehaviour
     private void OnMouseUp()
     {
         isDragging = false;
+
+        rig.useGravity = true;
 
         // Launch the projectile in the opposite direction with the stored launch force
         projectile.velocity = launchDirection * -launchForce;

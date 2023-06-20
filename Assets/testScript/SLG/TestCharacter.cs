@@ -66,11 +66,7 @@ public class TestCharacter : MonoBehaviour
 	[Header("属性")]
 	public Attribute attribute; // 属性
 
-
-
-
-								// ゲーム中に変化するキャラクターデータ
-								//[HideInInspector]
+								// ゲーム中に変化するキャラクターデー						
 	public int xPos; // 現在のx座標
 					 //[HideInInspector]
 	public int zPos; // 現在のz座標
@@ -82,6 +78,11 @@ public class TestCharacter : MonoBehaviour
 	public bool attackFalse = false;
 	public Tween currentTween;
 	// キャラクター属性定義(列挙型)
+
+
+	public GameObject playerDice;
+	public Transform playerDiceSpawnPoint;
+
 	public enum Attribute
 	{
 		Water, // 水属性
