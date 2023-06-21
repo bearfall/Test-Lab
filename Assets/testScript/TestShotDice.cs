@@ -6,7 +6,7 @@ public class TestShotDice : MonoBehaviour
 {
 
     public TestCharacter player;
-
+    public GameObject playerOwnDice;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,10 +16,12 @@ public class TestShotDice : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.F))
         {
             ShotDice(player);
         }
+        */
     }
 
 
@@ -27,15 +29,17 @@ public class TestShotDice : MonoBehaviour
     {
 
         var diceUseNow = throwDicePlayer.playerDice;
-        Vector3 diceSpawnPoint = throwDicePlayer.playerDiceSpawnPoint.position;
-        Instantiate(diceUseNow, diceSpawnPoint, new Quaternion(0, 0, 0, 0));
 
-        
+        // Instantiate(diceUseNow, diceSpawnPoint, new Quaternion(0, 0, 0, 0));
+        playerOwnDice.SetActive(true);
+        Vector3 diceSpawnPoint = throwDicePlayer.playerDiceSpawnPoint.position;
+        diceUseNow.transform.position = diceSpawnPoint;
+
 
 
        // DicePrefab.transform.position = new Vector3(spawnDicePosition.position.x, spawnDicePosition.position.y, spawnDicePosition.position.z);
-        //   gameObject.transform.rotation = initial.rotation;
+       //   gameObject.transform.rotation = initial.rotation;
 
-        
+
     }
 }

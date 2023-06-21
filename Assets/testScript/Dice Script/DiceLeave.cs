@@ -9,7 +9,7 @@ public class DiceLeave : MonoBehaviour
     public MeshRenderer diceMesh;
     public float dissolveRate = 0.0125f;
     public float refreshRate = 0.025f;
-    private Material[] diceMaterials;
+    public Material[] diceMaterials;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -49,7 +49,7 @@ public class DiceLeave : MonoBehaviour
 
     public void RefreshDiceMaterials()
     {
-
+        diceMaterials = diceMesh.materials;
         diceMaterials[0].SetFloat("_DissolveAmount", 0);
 
     }

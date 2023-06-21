@@ -25,14 +25,20 @@ public class PlayerDiceManager : MonoBehaviour
     public GameObject diceUseNow;
 
     public ShowDiceNumber showDiceNumber;
+
+    
+
+    public TestCharacter player;
+
+    public bool isThrowDice = false;
     // Start is called before the first frame update
     void Start()
     {
-        rb = GameObject.Find("PlayerDice").GetComponent<Rigidbody>();
+        //rb = GameObject.Find("PlayerDice").GetComponent<Rigidbody>();
       //  DicePrefab = GameObject.Find("PlayerDice").GetComponent<GameObject>();
-        dice = GameObject.Find("PlayerDice").GetComponent<Dice>();
+       // dice = GameObject.Find("PlayerDice").GetComponent<Dice>();
         TMP_Number = GameObject.Find("Number").GetComponent<TextMeshProUGUI>();
-        faceDetectors = dice.faceDetectors;
+       // faceDetectors = dice.faceDetectors;
         spawnDicePosition =GameObject.Find("SpawnDicePosition").GetComponent<Transform>();
 
     }
@@ -143,16 +149,25 @@ public class PlayerDiceManager : MonoBehaviour
 
     public bool CheckObjectHasStopped()
     {
-        //rb = DicePrefab.GetComponent<Rigidbody>();
-        if (rb.velocity == Vector3.zero &&
-            rb.angularVelocity == Vector3.zero)
+        if (isThrowDice)
         {
-            diceStop = true;
-            return true;
+            //rb = DicePrefab.GetComponent<Rigidbody>();
+            if (rb.velocity == Vector3.zero &&
+                rb.angularVelocity == Vector3.zero)
+            {
+                diceStop = true;
+                //isThrowDice = false;
+                return true;
+                
+            }
+            else
+            {
+                diceStop = false;
+                return false;
+            }
         }
         else
         {
-            diceStop = false;
             return false;
         }
     }
@@ -183,6 +198,30 @@ public class PlayerDiceManager : MonoBehaviour
 
         }
 
+
+
+    }
+
+
+    public void ShotDice(TestCharacter throwDicePlayer)
+    {
+        /*
+        var diceUseNow = throwDicePlayer.playerDice;
+        Vector3 diceSpawnPoint = throwDicePlayer.playerDiceSpawnPoint.position;
+        Instantiate(diceUseNow, diceSpawnPoint, new Quaternion(0, 0, 0, 0));
+        */
+        var diceUseNow = throwDicePlayer.playerDice;
+
+        // Instantiate(diceUseNow, diceSpawnPoint, new Quaternion(0, 0, 0, 0));
+        diceUseNow.SetActive(true);
+
+        /*
+        Vector3 diceSpawnPoint = throwDicePlayer.playerDiceSpawnPoint.position;
+        diceUseNow.transform.position = diceSpawnPoint;
+*/
+
+        // DicePrefab.transform.position = new Vector3(spawnDicePosition.position.x, spawnDicePosition.position.y, spawnDicePosition.position.z);
+        //   gameObject.transform.rotation = initial.rotation;
 
 
     }

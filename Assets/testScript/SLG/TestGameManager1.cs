@@ -10,6 +10,9 @@ namespace bearfall
 
 	public class TestGameManager1 : MonoBehaviour
 	{
+		public TestCharacter nowActionPlayer;
+
+
 		public int enemyCount = 4;
 
 		private bool isShowPlayerTurnLogo = true;
@@ -42,7 +45,9 @@ namespace bearfall
 		private EnemyDiceManager enemyDiceManager;
 		public int indexResult;
 
+		public bool isUseSingleShot;
 
+		public bool isJudgmentDiceNumber;
 
 		private enum Phase
 		{
@@ -76,7 +81,7 @@ namespace bearfall
 			EnemySpawnBase = GetComponent<EnemySpawnBase>();
 
 
-			diceLeave = GameObject.Find("PlayerDice").GetComponent<DiceLeave>();
+			//diceLeave = GameObject.Find("PlayerDice").GetComponent<DiceLeave>();
 			enemyDiceLeave = GameObject.Find("EnemyDice").GetComponent<DiceLeave>();
 
 			HideDice();
@@ -277,14 +282,24 @@ namespace bearfall
 			testGuiManager.HideStatusWindow();
 		}
 
-		private IEnumerator CheckPlayerNumber()
+		public IEnumerator CheckPlayerNumber()
 		{
 			print("在在是骰骰子環節");
-			diceLeave.RefreshDiceMaterials();
-			playerDiceManager.ThrowTheDice();
-
-			yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
+			print(nowActionPlayer.name);
+			playerDiceManager.ShotDice(nowActionPlayer);
+			playerDiceManager.dice = nowActionPlayer.playerDice.GetComponent<Dice>();
+			playerDiceManager.faceDetectors = playerDiceManager.dice.faceDetectors;
+			playerDiceManager.player = nowActionPlayer;
+			playerDiceManager.rb = nowActionPlayer.playerDice.GetComponent<Rigidbody>();
 			
+			nowActionPlayer.playerDice.GetComponent<DiceLeave>().RefreshDiceMaterials();
+
+
+
+			//playerDiceManager.ThrowTheDice();
+			yield return new WaitUntil(() => playerDiceManager.isThrowDice == true);
+			yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
+			print("開始讀取點數");
 			playerNumber = playerDiceManager.playerDiceNumber;
 
 			print("角色點數是" + playerDiceManager.playerDiceNumber);
@@ -292,11 +307,11 @@ namespace bearfall
 		}
 
 
-		private IEnumerator CheckEnemyNumber()
+		public IEnumerator CheckEnemyNumber()
 		{
 			print("在在是骰骰子環節");
 			enemyDiceLeave.RefreshDiceMaterials();
-			enemyDiceManager.ThrowTheDice();
+			//enemyDiceManager.ThrowTheDice();
 
 			yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true);
 
@@ -398,12 +413,16 @@ namespace bearfall
 		{
 
 			ShowDice();
+			nowActionPlayer = attackChara;
+
+			enemyDiceManager.ThrowTheDice();
 
 			StartCoroutine(CheckPlayerNumber());
+
 			StartCoroutine(CheckEnemyNumber());
-			yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
-			yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true);
-			diceLeave.StartDissolve();
+			//yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
+			yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true && playerDiceManager.CheckObjectHasStopped() == true);
+			attackChara.playerDice.GetComponent<DiceLeave>().StartDissolve();
 			playerDiceManager.showDiceNumber.GoShowDiceNumber();
 			enemyDiceLeave.StartDissolve();
 			enemyDiceManager.showEnemyDiceNumber.GoShowDiceNumber();
