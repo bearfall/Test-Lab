@@ -11,6 +11,7 @@ TagManager:
   - Ball
   - Dice
   - EnemyDice
+  - Building
   layers:
   - Default
   - TransparentFX
@@ -18,6 +19,8 @@ TagManager:
   - ' Dice'
   - Water
   - UI
+  - 
+  - Building
   - ground
   - 
   - 
@@ -42,12 +45,10 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
   m_SortingLayers:
+  - name: Building
+    uniqueID: 1520835115
+    locked: 0
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: ground
-    uniqueID: 2098994269
     locked: 0

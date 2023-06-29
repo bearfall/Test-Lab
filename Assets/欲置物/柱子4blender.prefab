@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5478631220012095847}
   - component: {fileID: 8910329548904634050}
   - component: {fileID: 6648208936693424648}
+  - component: {fileID: 2112591973}
   m_Layer: 0
   m_Name: "\u67F1\u5B504blender"
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5135179712923943901}
-  m_LocalRotation: {x: -8.659563e-17, y: 0.70724535, z: 1.6959684e-20, w: 0.7069682}
+  m_LocalRotation: {x: 0, y: 0.7072425, z: 0, w: 0.70697105}
   m_LocalPosition: {x: -2, y: 0.869, z: 12}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8f60916c4a24d0d49a38ccf993cd3665, type: 2}
+  - {fileID: 2100000, guid: 19284ae20b4365b4a9313651193b0f12, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2112591973
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5135179712923943901}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
