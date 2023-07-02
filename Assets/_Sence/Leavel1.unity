@@ -857,7 +857,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &52734789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2301,7 +2301,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
+        value: 0.03076172
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -2360,11 +2360,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 281b99d4569b59a4bbfbb2eb8b6234f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDragDistance: 5
-  snapDistance: 2
-  launchForceMultiplier: 10
+  maxDragDistance: 2
+  snapDistance: 0.5
+  launchForceMultiplier: 5
   projectile: {fileID: 150464321}
-  rotationSpeed: 10
+  rotationSpeed: 300
   lineRenderer: {fileID: 150464315}
   pointCount: 100
   hitCount: 1
