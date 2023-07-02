@@ -146,7 +146,7 @@ namespace bearfall
 				// 自分のターン：開始時
 				case Phase.MyTurn_Start:
 
-					
+					playerDiceManager.isThrowDice = false;
 
 					testCharactersManager.reFreshCharactorList();
 					// 取消選擇所有塊

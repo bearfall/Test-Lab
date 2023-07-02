@@ -857,7 +857,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &52734789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -980,7 +980,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 52734788}
   m_LocalRotation: {x: 0.58778524, y: 0, z: 0, w: 0.809017}
-  m_LocalPosition: {x: 12.15, y: 1.7600002, z: 6.65}
+  m_LocalPosition: {x: 0, y: 1.7600002, z: 6.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -20940,7 +20940,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1365410769}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.854, y: 2.201, z: 9.731}
+  m_LocalPosition: {x: 2.61, y: 2.201, z: 9.156}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23049,7 +23049,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
+        value: 0.03076172
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -23108,13 +23108,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 281b99d4569b59a4bbfbb2eb8b6234f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDragDistance: 5
-  snapDistance: 2
-  launchForceMultiplier: 10
+  maxDragDistance: 2
+  snapDistance: 0.5
+  launchForceMultiplier: 5
   projectile: {fileID: 1540915221}
-  rotationSpeed: 10
+  rotationSpeed: 300
   lineRenderer: {fileID: 1540915215}
-  pointCount: 100
+  pointCount: 27
   hitCount: 1
   TestGameManager1: {fileID: 0}
   playerDiceManager: {fileID: 0}
@@ -24488,7 +24488,6 @@ GameObject:
   - component: {fileID: 1596256517}
   - component: {fileID: 1596256518}
   - component: {fileID: 1596256519}
-  - component: {fileID: 1596256520}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -24535,7 +24534,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 503
+    m_Bits: 511
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -24554,14 +24553,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1596256513}
-  m_LocalRotation: {x: -0, y: 0.5986561, z: -0, w: 0.80100614}
-  m_LocalPosition: {x: -6.64, y: 0.8, z: 9.39}
+  m_LocalRotation: {x: 0.4740851, y: -0, z: -0, w: 0.88047904}
+  m_LocalPosition: {x: 0.36, y: 4.93, z: 4.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 73.547, z: 0}
+  m_LocalEulerAnglesHint: {x: 56.6, y: 0, z: 0}
 --- !u!114 &1596256517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24626,40 +24625,6 @@ MonoBehaviour:
   cam_rotate_speed: 2
   cam_move_speed: 2
   cam_zoom_speed: 2
---- !u!114 &1596256520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1596256513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowDebugText: 0
-  m_ShowCameraFrustum: 1
-  m_IgnoreTimeScale: 0
-  m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
-  m_BlendUpdateMethod: 1
-  m_DefaultBlend:
-    m_Style: 1
-    m_Time: 2
-    m_CustomCurve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-  m_CustomBlends: {fileID: 0}
-  m_CameraCutEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_CameraActivatedEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1596962310
 GameObject:
   m_ObjectHideFlags: 0
@@ -37997,9 +37962,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 281b99d4569b59a4bbfbb2eb8b6234f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDragDistance: 1
-  snapDistance: 1
-  launchForceMultiplier: 10
+  maxDragDistance: 2
+  snapDistance: 0.5
+  launchForceMultiplier: 5
   projectile: {fileID: 4091915661755642722}
   rotationSpeed: 300
   lineRenderer: {fileID: 8525867356796284470}

@@ -64,7 +64,7 @@ namespace bearfall
                     mousePosition = originalPosition + dragDirection * maxDragDistance;
                 }
 
-                transform.position = originalPosition - dragDirection * dragDistance; // Update the position // Update the position
+                transform.position = mousePosition; // Update the position // Update the position
 
 
 
@@ -81,7 +81,7 @@ namespace bearfall
 
                 if (dragDistance >= snapDistance)
                 {
-                    launchDirection = -dragDirection; // Update the launch direction
+                    launchDirection = dragDirection; // Update the launch direction
                     launchForce = dragDistance * launchForceMultiplier;
 
                     // Apply force to the projectile in the opposite direction of the drag
@@ -141,7 +141,7 @@ namespace bearfall
         private Vector3 GetWorldMousePosition()
         {
             Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = Camera.main.transform.position.z;
+           mousePosition.z = Camera.main.transform.position.z;
             return Camera.main.ScreenToWorldPoint(mousePosition);
         }
 
