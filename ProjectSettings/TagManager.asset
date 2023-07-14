@@ -12,6 +12,7 @@ TagManager:
   - Dice
   - EnemyDice
   - Building
+  - Ground
   layers:
   - Default
   - TransparentFX
