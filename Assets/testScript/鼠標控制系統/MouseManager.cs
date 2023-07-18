@@ -56,7 +56,7 @@ public class MouseManager : MonoBehaviour
 
     void MouseControl()
     {
-        if (Input.GetMouseButtonDown(0) && hitInfo.collider != null)
+        if (Input.GetMouseButtonDown(0) && hitInfo.collider != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
             if (hitInfo.collider.gameObject.CompareTag("Ground"))
             {
