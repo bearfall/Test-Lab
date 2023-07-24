@@ -2,24 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public class MousePlayerController : MonoBehaviour
+
+namespace bearfall
 {
-    private NavMeshAgent agent;
-
-
-    private void Awake()
+    public class MousePlayerController : MonoBehaviour
     {
-        agent = GetComponent<NavMeshAgent>();
+        private NavMeshAgent agent;
+
+
+        private void Awake()
+        {
+            agent = GetComponent<NavMeshAgent>();
 
 
 
-    }
-    private void Start()
-    {
-        MouseManager.Instance.OnMouseClicked += MoveToTarget;
-    }
-    public void MoveToTarget(Vector3 target)
-    {
-        agent.destination = target;
+        }
+        private void Start()
+        {
+            MouseManager.Instance.OnMouseClicked += MoveToTarget;
+        }
+        public void MoveToTarget(Vector3 target)
+        {
+            agent.destination = target;
+        }
     }
 }

@@ -5,11 +5,11 @@ using UnityEngine;
 public class Mission1_Box : MonoBehaviour
 {
     public bool canTake = false;
-    MissonManager missonManager;
+    MissonManager1 missonManager;
     // Start is called before the first frame update
     void Start()
     {
-        missonManager = GameObject.Find("任務管理器").GetComponent<MissonManager>();
+        missonManager = GameObject.Find("任務管理器").GetComponent<MissonManager1>();
     }
 
     // Update is called once per frame

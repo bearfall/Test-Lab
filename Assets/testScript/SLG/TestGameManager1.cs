@@ -49,6 +49,8 @@ namespace bearfall
 
 		public bool isJudgmentDiceNumber;
 
+		
+
 		private enum Phase
 		{
 			MyTurn_Start,       // 我的回合：開始時
@@ -61,9 +63,20 @@ namespace bearfall
 			EnemyTurn_Result    // 敵方的回合：行動結果表示中
 		}
 		private Phase nowPhase; // 現在の進行モード
-								// Start is called before the first frame update
+
+
+		public enum AreaType
+		{
+			FreeExplore,
+			TurnBasedCombat
+		}
+		public AreaType currentArea;
+
+
 		void Start()
 		{
+			
+
 			testMapManager = GetComponent<TestMapManager>();
 			testCharactersManager = GetComponent<TestCharactersManager>();
 
@@ -85,6 +98,9 @@ namespace bearfall
 			enemyDiceLeave = GameObject.Find("EnemyDice").GetComponent<DiceLeave>();
 
 			HideDice();
+
+
+			currentArea = AreaType.FreeExplore;
 			//EnemySpawnBase.SpawnEnemy();
 			//StartCoroutine(EnemySpawnBase.SpawnEnemy());
 
@@ -93,7 +109,7 @@ namespace bearfall
 		// Update is called once per frame
 		void Update()
 		{
-			if (Input.GetMouseButtonDown(0) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) // (←UIへのタップを検出する) )
+		    if (currentArea == AreaType.TurnBasedCombat && Input.GetMouseButtonDown(0) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) // (←UIへのタップを検出する) )
 			{// タップが行われた
 			 // バトル結果表示ウィンドウが出ている時の処理
 				/*
@@ -106,16 +122,11 @@ namespace bearfall
 					   return;
 				   }
 				*/
-
-				// タップ先にあるブロックを取得して選択処理を開始する
 				GetMapBlockByTapPos();
-
-
-
-                
-
-
 			}
+			 
+            
+           
 		}
 		private void GetMapBlockByTapPos()
 		{
