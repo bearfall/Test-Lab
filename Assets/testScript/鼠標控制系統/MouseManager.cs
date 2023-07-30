@@ -18,7 +18,7 @@ namespace bearfall
 
         RaycastHit hitInfo;
 
-        public event Action<Vector3> OnMouseClicked;
+        public event Action<Vector3Int> OnMouseClicked;
 
         private void Awake()
         {
@@ -70,12 +70,26 @@ namespace bearfall
             {
                 if (hitInfo.collider.gameObject.CompareTag("Ground"))
                 {
-                    OnMouseClicked?.Invoke(hitInfo.point);
+                    OnMouseClicked?.Invoke(MousePoint());
                 }
             }
 
 
 
+
+        }
+
+        Vector3Int MousePoint()
+        {
+            Vector3 hitPosition = hitInfo.point;
+
+            Vector3Int hitPositionInt = new Vector3Int(
+                Mathf.RoundToInt(hitPosition.x),
+                Mathf.RoundToInt(hitPosition.y),
+                Mathf.RoundToInt(hitPosition.z)
+            );
+            print(hitPositionInt);
+            return hitPositionInt;
 
         }
     }

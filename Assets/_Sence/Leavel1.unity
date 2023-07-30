@@ -5503,7 +5503,7 @@ VisualEffect:
       - m_Value: {x: -0, y: 0, z: 0}
         m_Name: Transform_angles
         m_Overridden: 1
-      - m_Value: {x: -1.92, y: 1.48, z: 2.86}
+      - m_Value: {x: -5, y: 1.48, z: 2.86}
         m_Name: Transform_position
         m_Overridden: 1
       - m_Value: {x: 1, y: 1, z: 1}
@@ -12561,7 +12561,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1042405213}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.92, y: 0.48, z: 2.86}
+  m_LocalPosition: {x: -5, y: 0.48, z: 2.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12777,7 +12777,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: 0.5
+  m_BaseOffset: 0.48
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1042405224
@@ -12816,8 +12816,8 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -15822,6 +15822,7 @@ GameObject:
   - component: {fileID: 1175946097}
   - component: {fileID: 1175946096}
   - component: {fileID: 1175946099}
+  - component: {fileID: 1175946100}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Ground
@@ -15901,7 +15902,21 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 50.510147, y: 0.48405546, z: 50.89174}
-  m_Center: {x: 24.755074, y: -0.25797227, z: 24.94587}
+  m_Center: {x: 24.755074, y: 0, z: 24.94587}
+--- !u!64 &1175946100
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175946095}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1001 &1178896205
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21032,7 +21047,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1596256513}
   m_LocalRotation: {x: 0.41179034, y: -0, z: -0, w: 0.91127867}
-  m_LocalPosition: {x: 0.36, y: 5.27, z: 1.9}
+  m_LocalPosition: {x: 0.36, y: 3.9999995, z: -0.9999999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

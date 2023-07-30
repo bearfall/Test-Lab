@@ -21,7 +21,7 @@ namespace bearfall
         {
             MouseManager.Instance.OnMouseClicked += MoveToTarget;
         }
-        public void MoveToTarget(Vector3 target)
+        public void MoveToTarget(Vector3Int target)
         {
             agent.destination = target;
         }
