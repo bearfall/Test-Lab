@@ -5294,6 +5294,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 404599708552815478, guid: 2827b16b3f8240641be3ef3c65fdc461, type: 3}
   m_PrefabInstance: {fileID: 472481822}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &477282263
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 477282267}
+  - component: {fileID: 477282264}
+  m_Layer: 2
+  m_Name: BattleArea
+  m_TagString: BattleArea
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &477282264
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477282263}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &477282267
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477282263}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8, y: 2.5, z: 0}
+  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 32
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &482261600 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 404599708552815478, guid: 2827b16b3f8240641be3ef3c65fdc461, type: 3}
@@ -5503,7 +5548,7 @@ VisualEffect:
       - m_Value: {x: -0, y: 0, z: 0}
         m_Name: Transform_angles
         m_Overridden: 1
-      - m_Value: {x: -5, y: 1.48, z: 2.86}
+      - m_Value: {x: -5, y: 1, z: 2.86}
         m_Name: Transform_position
         m_Overridden: 1
       - m_Value: {x: 1, y: 1, z: 1}
@@ -9525,6 +9570,9 @@ MonoBehaviour:
   point: {fileID: 0}
   target: {fileID: 0}
   doorway: {fileID: 0}
+  raycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!114 &761092893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12561,7 +12609,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1042405213}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5, y: 0.48, z: 2.86}
+  m_LocalPosition: {x: -5, y: 0, z: 2.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12777,7 +12825,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: 0.48
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1042405224
@@ -12803,8 +12851,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.908703, z: 0.2}
-  m_Center: {x: 0, y: 0.045648485, z: 0}
+  m_Size: {x: 1, y: 0.89, z: 0.2}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!54 &1042405227
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13755,7 +13803,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.7}
+  m_AnchoredPosition: {x: 0, y: 1.2}
   m_SizeDelta: {x: 81.9817, y: 32.3599}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1086131885
@@ -15823,7 +15871,7 @@ GameObject:
   - component: {fileID: 1175946096}
   - component: {fileID: 1175946099}
   - component: {fileID: 1175946100}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Terrain
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -21047,7 +21095,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1596256513}
   m_LocalRotation: {x: 0.41179034, y: -0, z: -0, w: 0.91127867}
-  m_LocalPosition: {x: 0.36, y: 3.9999995, z: -0.9999999}
+  m_LocalPosition: {x: 0.36, y: 6.06, z: -0.9999999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -14,6 +14,7 @@ TagManager:
   - Building
   - Ground
   - "\u73A9\u5BB6"
+  - BattleArea
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - Building
   - ground
   - player
-  - 
+  - BattleArea
   - 
   - 
   - 

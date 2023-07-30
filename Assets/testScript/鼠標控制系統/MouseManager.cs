@@ -18,6 +18,8 @@ namespace bearfall
 
         RaycastHit hitInfo;
 
+        public LayerMask raycastLayerMask;
+
         public event Action<Vector3Int> OnMouseClicked;
 
         private void Awake()
@@ -66,11 +68,21 @@ namespace bearfall
 
         void MouseControl()
         {
-            if (Input.GetMouseButtonDown(1) && hitInfo.collider != null && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            if (Input.GetMouseButtonDown(1))
             {
-                if (hitInfo.collider.gameObject.CompareTag("Ground"))
+                // 建立一條從滑鼠位置發射的射線
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hitInfo;
+
+                // 使用LayerMask進行射線檢測，忽略指定的層
+                if (Physics.Raycast(ray, out hitInfo, raycastLayerMask) && hitInfo.collider != null &&
+                    !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                 {
-                    OnMouseClicked?.Invoke(MousePoint());
+                    print(hitInfo.collider.name);
+                    if (hitInfo.collider.gameObject.CompareTag("Ground"))
+                    {
+                        OnMouseClicked?.Invoke(MousePoint());
+                    }
                 }
             }
 
