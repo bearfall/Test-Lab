@@ -17,7 +17,7 @@ public class BuildingTransparent : MonoBehaviour
     {
         // 从角色位置发射射线
         Ray ray = new Ray(transform.position, Camera.main.transform.position - transform.position);
-        print(Camera.main.transform.position);
+        //print(Camera.main.transform.position);
         RaycastHit hitInfo;
         RaycastHit[] hits;
         // 检测射线与所有碰撞物体的交点

@@ -106,7 +106,7 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
+    agentRadius: 0.08
     agentHeight: 2
     agentSlope: 45
     agentClimb: 0.4
@@ -114,7 +114,7 @@ NavMeshSettings:
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.026666665
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -5332,9 +5332,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 477282263}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 2.5, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 1, y: 2.5, z: 9.41}
+  m_LocalScale: {x: 9, y: 5, z: 7}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 32
@@ -5548,7 +5548,7 @@ VisualEffect:
       - m_Value: {x: -0, y: 0, z: 0}
         m_Name: Transform_angles
         m_Overridden: 1
-      - m_Value: {x: -5, y: 1, z: 2.86}
+      - m_Value: {x: -5, y: 1.5, z: 3}
         m_Name: Transform_position
         m_Overridden: 1
       - m_Value: {x: 1, y: 1, z: 1}
@@ -9464,6 +9464,9 @@ MonoBehaviour:
   indexResult: 0
   isUseSingleShot: 0
   isJudgmentDiceNumber: 0
+  playerLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
   currentArea: 0
 --- !u!114 &761092888
 MonoBehaviour:
@@ -12609,7 +12612,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1042405213}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5, y: 0, z: 2.86}
+  m_LocalPosition: {x: -5, y: 0.5, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12677,8 +12680,8 @@ MonoBehaviour:
   EnemyDelete: 0
   aaa: []
   Enemyaaa: []
-  initPos_X: 0
-  initPos_Z: 7
+  initPos_X: -5
+  initPos_Z: 3
   isEnemy: 0
   charaName: "\u51F1\u6069"
   maxHP: 30
@@ -12825,7 +12828,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: 0
+  m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &1042405224
@@ -12852,7 +12855,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 0.89, z: 0.2}
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1042405227
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15949,7 +15952,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 50.510147, y: 0.48405546, z: 50.89174}
+  m_Size: {x: 50.510147, y: 0.1, z: 50.89174}
   m_Center: {x: 24.755074, y: 0, z: 24.94587}
 --- !u!64 &1175946100
 MeshCollider:
@@ -21094,14 +21097,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1596256513}
-  m_LocalRotation: {x: 0.41179034, y: -0, z: -0, w: 0.91127867}
-  m_LocalPosition: {x: 0.36, y: 6.06, z: -0.9999999}
+  m_LocalRotation: {x: 0.39654154, y: -0, z: -0, w: 0.9180168}
+  m_LocalPosition: {x: 0.36, y: 5.48, z: 1.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 48.635, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 46.724, y: 0, z: 0}
 --- !u!114 &1596256517
 MonoBehaviour:
   m_ObjectHideFlags: 0

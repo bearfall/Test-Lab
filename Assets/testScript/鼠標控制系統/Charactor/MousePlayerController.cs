@@ -8,12 +8,12 @@ namespace bearfall
     public class MousePlayerController : MonoBehaviour
     {
         private NavMeshAgent agent;
-        
+        private TestGameManager1 testGameManager1;
 
         private void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
-            
+            testGameManager1 = GameObject.Find("Manager").GetComponent<TestGameManager1>();
 
 
         }
@@ -46,6 +46,11 @@ namespace bearfall
         {
             if (other.CompareTag("BattleArea"))
             {
+                this.GetComponent<NavMeshAgent>().enabled = false;
+                this.GetComponent<Collider>().enabled = false;
+                testGameManager1.currentArea = TestGameManager1.AreaType.TurnBasedCombat;
+                
+
                 print("進入戰鬥區域");
             }
         }

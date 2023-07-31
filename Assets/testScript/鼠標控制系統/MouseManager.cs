@@ -79,7 +79,7 @@ namespace bearfall
                     !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
                 {
                     print(hitInfo.collider.name);
-                    if (hitInfo.collider.gameObject.CompareTag("Ground"))
+                    if (hitInfo.collider.gameObject.CompareTag("Ground") || hitInfo.collider.gameObject.CompareTag("666"))
                     {
                         OnMouseClicked?.Invoke(MousePoint());
                     }

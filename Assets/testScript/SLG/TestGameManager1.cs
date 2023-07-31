@@ -49,7 +49,7 @@ namespace bearfall
 
 		public bool isJudgmentDiceNumber;
 
-		
+		public LayerMask playerLayerMask;
 
 		private enum Phase
 		{
@@ -122,6 +122,7 @@ namespace bearfall
 					   return;
 				   }
 				*/
+				print("1");
 				GetMapBlockByTapPos();
 			}
 			 
@@ -135,9 +136,10 @@ namespace bearfall
 			// 從相機向點擊的方向投射光線
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit = new RaycastHit();
-			if (Physics.Raycast(ray, out hit))
+			if (Physics.Raycast(ray, out hit, playerLayerMask))
 			{// Rayに当たる位置に存在するオブジェクトを取得(対象にColliderが付いている必要がある)
 				targetObject = hit.collider.gameObject;
+				print(targetObject.name);
 			}
 
 			// 対象オブジェクト(マップブロック)が存在する場合の処理
