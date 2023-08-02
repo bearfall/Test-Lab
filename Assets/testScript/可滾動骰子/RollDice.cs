@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+
 public class RollDice : MonoBehaviour
 {
     public TextMeshProUGUI TMP_Number;
@@ -9,14 +11,16 @@ public class RollDice : MonoBehaviour
     public int defaultFaceResult = -1;
     private Rigidbody rb;
     private Vector3 force;
-
+    private PlayerEnergyBar playerEnergyBar;
     public bool isThrowDice = false;
     public bool diceStop = false;
+    private int energyAmount;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         TMP_Number = GameObject.Find("DiceNumber").GetComponent<TextMeshProUGUI>();
+        playerEnergyBar = GameObject.Find("EnergyBarSlider").GetComponent<PlayerEnergyBar>();
 
 
     }
@@ -24,7 +28,15 @@ public class RollDice : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isThrowDice == true)
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            RollTheDice();
+
+        }
+
+
+
+            if (isThrowDice == true)
         {
             print("DiceStop");
             int indexResult = FindFaceResult();
@@ -63,6 +75,7 @@ public class RollDice : MonoBehaviour
 
     public void RollTheDice()
     {
+        //this.transform.rotation = Quaternion.Euler(18, 0, 0);
         isThrowDice = true;
 
             SetDiceForce();
@@ -122,33 +135,53 @@ public class RollDice : MonoBehaviour
         {
             case 0:
                 TMP_Number.text = "1";
+                energyAmount = 9;
+                playerEnergyBar.SetEnergy(energyAmount);
                 break;
             case 1:
                 TMP_Number.text = "2";
+                energyAmount = 8;
+                playerEnergyBar.SetEnergy(energyAmount);
                 break;
             case 2:
                 TMP_Number.text = "3";
+                energyAmount = 7;
+                playerEnergyBar.SetEnergy(energyAmount);
                 break;
             case 3:
                 TMP_Number.text = "4";
+                energyAmount = 6;
+                playerEnergyBar.SetEnergy(energyAmount);
                 break;
             case 4:
                 TMP_Number.text = "5";
+                energyAmount = 5;
+                playerEnergyBar.SetEnergy(energyAmount);
                 break;
             case 5:
                 TMP_Number.text = "6";
+                energyAmount = 4;
+                playerEnergyBar.SetEnergy(energyAmount);
                 break;
             case 6:
                 TMP_Number.text = "7";
+                energyAmount = 3;
+                playerEnergyBar.SetEnergy(energyAmount);
                 break;
             case 7:
                 TMP_Number.text = "8";
+                energyAmount = 2;
+                playerEnergyBar.SetEnergy(energyAmount);
                 break;
             case 8:
                 TMP_Number.text = "9";
+                energyAmount = 1;
+                playerEnergyBar.SetEnergy(energyAmount);
                 break;
             case 9:
                 TMP_Number.text = "10";
+                energyAmount = 0;
+                playerEnergyBar.SetEnergy(energyAmount);
                 break;
             
 
