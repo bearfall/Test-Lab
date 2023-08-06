@@ -312,7 +312,7 @@ public class TestGameManager : MonoBehaviour
 
 		// バトル結果表示ウィンドウの表示設定
 		// (HPの変更前に行う)
-		testGuiManager.testBattleWindowUI.ShowWindow(defenseChara, damageValue);
+		testGuiManager.testBattleWindowUI.ShowWindow();
 
 		// ダメージ量分防御側のHPを減少
 		defenseChara.nowHP -= damageValue;

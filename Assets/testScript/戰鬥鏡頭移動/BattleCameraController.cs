@@ -15,7 +15,7 @@ public class BattleCameraController : MonoBehaviour
     private void Start()
     {
         // 初始化目標位置
-        InitializeCameraTarget();
+        //InitializeCameraTarget();
         print(transform.forward);
     }
 
@@ -40,6 +40,7 @@ public class BattleCameraController : MonoBehaviour
     // 移動鏡頭到目標位置的方法
     private void MoveCameraToTarget()
     {
+        InitializeCameraTarget();
         // 計算目標位置
         Vector3 center = (player1.position + player2.position) / 2f;
         float distance = Vector3.Distance(player1.position, player2.position) / 2f;
@@ -63,8 +64,10 @@ public class BattleCameraController : MonoBehaviour
        
 }
     // 在需要的時候呼叫此方法，例如在特定事件觸發時
-        public void StartCameraMovement()
+        public void StartCameraMovement(Transform Player1, Transform Player2)
     {
+        player1 = Player1;
+        player2 = Player2;
         needToMoveCamera = true;
     }
 

@@ -15,6 +15,9 @@ public class RollDice : MonoBehaviour
     public bool isThrowDice = false;
     public bool diceStop = false;
     private int energyAmount;
+    public bool canCharge = false;
+
+    public int playerDiceNumber;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +31,7 @@ public class RollDice : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0) && canCharge == true)
         {
             RollTheDice();
 
@@ -38,7 +41,7 @@ public class RollDice : MonoBehaviour
 
             if (isThrowDice == true)
         {
-            print("DiceStop");
+            //print("DiceStop");
             int indexResult = FindFaceResult();
 
             ChangeNumber(indexResult);
@@ -50,9 +53,10 @@ public class RollDice : MonoBehaviour
 
         if (CheckObjectHasStopped() == true)
         {
-            
+            playerDiceNumber = FindFaceResult();
+            playerDiceNumber += 1;
             isThrowDice = false;
-
+            print("»ë¨ìªº¬O" + playerDiceNumber);
            // playerDiceNumber = indexResult + 1;
         }
     }

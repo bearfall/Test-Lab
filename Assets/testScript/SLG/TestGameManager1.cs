@@ -34,7 +34,7 @@ namespace bearfall
 		private DiceLeave enemyDiceLeave;
 
 		private int playerNumber;
-		private int enemyNumber;
+		private int enemyNumber = 5;
 
 		public Camera playerDiceCamera;
 		public Camera enemyDiceCamera;
@@ -51,6 +51,7 @@ namespace bearfall
 
 		public LayerMask playerLayerMask;
 
+		private RollDice rollDice;
 		private enum Phase
 		{
 			MyTurn_Start,       // 我的回合：開始時
@@ -75,8 +76,8 @@ namespace bearfall
 
 		void Start()
 		{
-			
 
+			rollDice = GameObject.Find("玩家滾動骰子").GetComponent<RollDice>();
 			testMapManager = GetComponent<TestMapManager>();
 			testCharactersManager = GetComponent<TestCharactersManager>();
 
@@ -424,24 +425,20 @@ namespace bearfall
 		/// <param name="defenseChara">防御側キャラデータ</param>
 		private IEnumerator CharaAttack(TestCharacter attackChara, TestCharacter defenseChara)
 		{
+			testGuiManager.testBattleWindowUI.ShowWindow();
+			Camera.main.GetComponent<BattleCameraController>().StartCameraMovement(attackChara.transform, defenseChara.transform);
+			yield return new WaitForSeconds(1.5f);
+			rollDice.canCharge = true;
 
-			ShowDice();
-			nowActionPlayer = attackChara;
+			yield return new WaitUntil(() => rollDice.diceStop == true);
 
-			enemyDiceManager.ThrowTheDice();
+			playerNumber = rollDice.playerDiceNumber;
 
-			StartCoroutine(CheckPlayerNumber());
 
-			StartCoroutine(CheckEnemyNumber());
-			//yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
-			yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true && playerDiceManager.CheckObjectHasStopped() == true);
-			attackChara.playerDice.GetComponent<DiceLeave>().StartDissolve();
-			playerDiceManager.showDiceNumber.GoShowDiceNumber();
-			enemyDiceLeave.StartDissolve();
-			enemyDiceManager.showEnemyDiceNumber.GoShowDiceNumber();
-			
-						// ダメージ計算処理
-						int damageValue; // ダメージ量
+
+
+			// ダメージ計算処理
+			int damageValue; // ダメージ量
 			int attackPoint = attackChara.atk; // 攻撃側の攻撃力
 			int defencePoint = defenseChara.def; // 防御側の防御力
 												 // ダメージ＝攻撃力－防御力で計算
