@@ -143,7 +143,9 @@ public class TestCharacter : MonoBehaviour
 		}
 		*/
 		xPos = (int)this.transform.position.x;
-		zPos = (int)this.transform.position.z;
+
+		zPos = (int)gameObject.transform.position.z;
+		//print(transform.position);
 
 
 
@@ -451,4 +453,15 @@ public class TestCharacter : MonoBehaviour
 
 	}
 	*/
+
+
+public void LookAtTarget(GameObject target)
+    {
+		Vector3 directionToTarget = target.transform.position - transform.position;
+
+		// 以 x 軸為軸心，將物體朝向目標物體
+		transform.LookAt(transform.position + new Vector3(directionToTarget.x, 0, 0), Vector3.up);
+
+
+	}
 }

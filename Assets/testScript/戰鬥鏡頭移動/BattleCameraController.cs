@@ -21,9 +21,11 @@ public class BattleCameraController : MonoBehaviour
 
     private void Update()
     {
+        
         // 如果需要移動鏡頭，則執行移動
         if (needToMoveCamera)
         {
+            
             MoveCameraToTarget();
         }
     }
@@ -60,9 +62,12 @@ public class BattleCameraController : MonoBehaviour
         targetRotation *= Quaternion.Euler(0f, additionalRotationY, 0f);
         // 平滑旋轉攝影機到目標方向
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation  , smoothSpeed * Time.deltaTime);
-        
-       
-}
+        Vector3 currentRotation = transform.eulerAngles;
+        currentRotation.z = 0;
+        transform.eulerAngles = currentRotation;
+
+
+    }
     // 在需要的時候呼叫此方法，例如在特定事件觸發時
         public void StartCameraMovement(Transform Player1, Transform Player2)
     {

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpriteBillBoard : MonoBehaviour
 {
+    public bool isBillBoard = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +15,11 @@ public class SpriteBillBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.rotation = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f);
+        if (isBillBoard)
+        {
+
+
+            transform.rotation = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f);
+        }
     }
 }

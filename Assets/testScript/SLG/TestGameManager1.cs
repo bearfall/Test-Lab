@@ -34,7 +34,7 @@ namespace bearfall
 		private DiceLeave enemyDiceLeave;
 
 		private int playerNumber;
-		private int enemyNumber = 5;
+		private int enemyNumber = 10;
 
 		public Camera playerDiceCamera;
 		public Camera enemyDiceCamera;
@@ -147,8 +147,9 @@ namespace bearfall
 			if (targetObject != null && targetObject.tag.Contains("666"))
 			{
 				// ブロック選択時処理
-				SelectBlock(targetObject.GetComponent<TestMapBlock>());
 				print("hi");
+				SelectBlock(targetObject.GetComponent<TestMapBlock>());
+				
 			}
 		}
 
@@ -170,7 +171,7 @@ namespace bearfall
 					// 選択した位置に居るキャラクターのデータを取得
 					var charaData =
 						testCharactersManager.GetCharacterDataByPos(targetBlock.xPos, targetBlock.zPos);
-					//				print(charaData.name);
+									//print(charaData.name);
 					if (charaData != null && !charaData.isEnemy && charaData.hasActed == false)
 					{// キャラクターが存在する
 					 // 選択中のキャラクター情報に記憶
@@ -428,6 +429,9 @@ namespace bearfall
 			testGuiManager.testBattleWindowUI.ShowWindow();
 			Camera.main.GetComponent<BattleCameraController>().StartCameraMovement(attackChara.transform, defenseChara.transform);
 			yield return new WaitForSeconds(1.5f);
+
+			attackChara.GetComponent<Animator>().SetBool("isBattle", true);
+
 			rollDice.canCharge = true;
 
 			yield return new WaitUntil(() => rollDice.diceStop == true);
@@ -495,7 +499,10 @@ namespace bearfall
 							//testCharacter.hasActed = true;
 							testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
 							HideDice();
+
+							attackChara.GetComponent<Animator>().SetBool("isBattle", false);
 							CheckIsAllActive();
+							
 							//ChangePhase(Phase.EnemyTurn_Start);
 
 						}
@@ -520,28 +527,23 @@ namespace bearfall
 						HideDice();
 					}
 				);
+				attackChara.GetComponent<Animator>().SetBool("isBattle", false);
 				CheckIsAllActive();
 			}
 
 		}
 
-
+		
 
 
 		private IEnumerator EnemyCharaAttack(TestCharacter attackChara, TestCharacter defenseChara)
 		{
 			yield return new WaitForSeconds(1f);
-
-			ShowDice();
-
-			StartCoroutine(CheckPlayerNumber());
-			StartCoroutine(CheckEnemyNumber());
-			yield return new WaitUntil(() => playerDiceManager.CheckObjectHasStopped() == true);
-			yield return new WaitUntil(() => enemyDiceManager.CheckObjectHasStopped() == true);
-			diceLeave.StartDissolve();
-			playerDiceManager.showDiceNumber.GoShowDiceNumber();
-			enemyDiceLeave.StartDissolve();
-			enemyDiceManager.showEnemyDiceNumber.GoShowDiceNumber();
+			Camera.main.GetComponent<BattleCameraController>().StartCameraMovement(defenseChara.transform, attackChara.transform);
+			defenseChara.GetComponent<Animator>().SetBool("isBattle", true);
+			yield return new WaitForSeconds(3f);
+			
+			
 			// ダメージ計算処理
 			int damageValue; // ダメージ量
 			int attackPoint = attackChara.atk; // 攻撃側の攻撃力
@@ -552,10 +554,10 @@ namespace bearfall
 			if (damageValue < 0)
 				damageValue = 0;
 
-			if (enemyNumber > playerNumber)
+			if (enemyNumber > 5)
 			{
 
-
+				Camera.main.GetComponent<BattleCameraController>().StopCameraMovement();
 				// キャラクター攻撃アニメーション
 				attackChara.AttackAnimation(defenseChara);
 
@@ -577,8 +579,14 @@ namespace bearfall
 				// HP0になったキャラクターを削除する
 				if (defenseChara.nowHP <= 0)
 				{
+					//float time = defenseChara.GetComponent<Animation>().GetClip("die").length;
+					defenseChara.GetComponent<Animator>().SetBool("die", true);
+					yield return new WaitForSeconds(2f);
+
 					testCharactersManager.DeleteCharaData(defenseChara);
 					testCharactersManager.reFreshCharactorList();
+					attackChara.GetComponent<SpriteBillBoard>().isBillBoard = true;
+					defenseChara.GetComponent<SpriteBillBoard>().isBillBoard = true;
 				}
 				// ターン切り替え処理(遅延実行)
 				DOVirtual.DelayedCall(
