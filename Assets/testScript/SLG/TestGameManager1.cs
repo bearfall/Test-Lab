@@ -49,6 +49,7 @@ namespace bearfall
 
 		public bool isJudgmentDiceNumber;
 
+		public bool isNowActionCharactorAlive = true;
 		public LayerMask playerLayerMask;
 
 		private RollDice rollDice;
@@ -175,6 +176,7 @@ namespace bearfall
 					if (charaData != null && !charaData.isEnemy && charaData.hasActed == false)
 					{// キャラクターが存在する
 					 // 選択中のキャラクター情報に記憶
+						
 						selectingChara = charaData;
 						selectingChara.gameObject.GetComponent<Animator>().SetBool("Idle_Click", true);
 						testGuiManager.ShowStatusWindow(selectingChara);
@@ -427,6 +429,8 @@ namespace bearfall
 		private IEnumerator CharaAttack(TestCharacter attackChara, TestCharacter defenseChara)
 		{
 			testGuiManager.testBattleWindowUI.ShowWindow();
+			Camera.main.GetComponent<BattleCameraController>().SetTempCameraTransform();
+			print(Camera.main.GetComponent<BattleCameraController>().tempCameraPosition);
 			Camera.main.GetComponent<BattleCameraController>().StartCameraMovement(attackChara.transform, defenseChara.transform);
 			yield return new WaitForSeconds(1.5f);
 			Camera.main.GetComponent<BattleCameraController>().StopCameraMovement();
@@ -508,11 +512,21 @@ namespace bearfall
 
 			if (attackChara.nowHP <= 0)
 			{
+				isNowActionCharactorAlive = false;
 				attackChara.GetComponent<Animator>().SetBool("die", true);
 				yield return new WaitForSeconds(2f);
 				testCharactersManager.DeleteCharaData(attackChara);
+				yield return new WaitForSeconds(1f);
 				enemyCount--;
 				testCharactersManager.reFreshCharactorList();
+				
+
+
+				foreach (var item in testCharactersManager.testCharacters)
+                {
+					print(item.name);
+				}
+				
 				CheckIsEnemyAlive();
 			}
 			DOVirtual.DelayedCall(
@@ -528,14 +542,20 @@ namespace bearfall
 						// ターンを切り替える
 						if (nowPhase == Phase.MyTurn_Result)
 						{ // 敵のターンへ
-
-							//testCharacter.hasActed = true;
-							testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
+							Camera.main.GetComponent<BattleCameraController>().ReplaceCamera();
+							print("相機返回");
+                            //testCharacter.hasActed = true;
+                            if (isNowActionCharactorAlive)
+                            {
+								attackChara.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
+								attackChara.GetComponent<Animator>().SetBool("isBattle", false);
+							}
+							
 							HideDice();
 
-							attackChara.GetComponent<Animator>().SetBool("isBattle", false);
-							CheckIsAllActive();
 							
+							CheckIsAllActive();
+							isNowActionCharactorAlive = true;
 							//ChangePhase(Phase.EnemyTurn_Start);
 
 						}
@@ -771,7 +791,7 @@ namespace bearfall
 				if (!character.isEnemy)
 				{
 
-
+					print(character.name);
 					testCharacter = character.GetComponent<TestCharacter>();
 					if (!testCharacter.hasActed)
 					{

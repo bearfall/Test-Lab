@@ -11,7 +11,8 @@ public class BattleCameraController : MonoBehaviour
     public bool needToMoveCamera = false;
     private Transform target; // 目標位置
     public float additionalRotationY = 90f;
-
+    public Vector3 tempCameraPosition;
+    public Quaternion tempCameraRotation;
     private void Start()
     {
         // 初始化目標位置
@@ -42,6 +43,7 @@ public class BattleCameraController : MonoBehaviour
     // 移動鏡頭到目標位置的方法
     private void MoveCameraToTarget()
     {
+
         InitializeCameraTarget();
         // 計算目標位置
         Vector3 center = (player1.position + player2.position) / 2f;
@@ -80,5 +82,21 @@ public class BattleCameraController : MonoBehaviour
     public void StopCameraMovement()
     {
         needToMoveCamera = false;
+    }
+
+    public void SetTempCameraTransform()
+    {
+        tempCameraPosition = this.transform.position;
+        tempCameraRotation = this.transform.rotation;
+    }
+
+    public void ReplaceCamera()
+    {
+        Camera.main.transform.position = tempCameraPosition;
+        Camera.main.transform.rotation = tempCameraRotation;
+        //Camera.main.transform.rotation = tempCameraTransform.rotation;
+
+
+
     }
 }

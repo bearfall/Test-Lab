@@ -5136,6 +5136,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1125159812}
+  - {fileID: 1042405214}
   - {fileID: 81544115}
   m_Father: {fileID: 0}
   m_RootOrder: 8
@@ -6223,7 +6224,7 @@ VisualEffect:
       - m_Value: {x: -0, y: 0, z: 0}
         m_Name: Transform_angles
         m_Overridden: 1
-      - m_Value: {x: -5, y: 1.5, z: 3}
+      - m_Value: {x: -1, y: 1.5, z: 7}
         m_Name: Transform_position
         m_Overridden: 1
       - m_Value: {x: 1, y: 1, z: 1}
@@ -10159,6 +10160,7 @@ MonoBehaviour:
   indexResult: 0
   isUseSingleShot: 0
   isJudgmentDiceNumber: 0
+  isNowActionCharactorAlive: 1
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 512
@@ -11432,7 +11434,6 @@ Transform:
   m_Children:
   - {fileID: 716408188}
   - {fileID: 578722513}
-  - {fileID: 1042405214}
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13378,15 +13379,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1042405213}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5, y: 0.5, z: 3}
+  m_LocalPosition: {x: -1, y: 0.5, z: 7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1086131884}
   - {fileID: 1928411719}
   - {fileID: 7357434751410443612}
-  m_Father: {fileID: 875373948}
-  m_RootOrder: 2
+  m_Father: {fileID: 431051707}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1042405215
 Animator:
@@ -13446,8 +13447,8 @@ MonoBehaviour:
   EnemyDelete: 0
   aaa: []
   Enemyaaa: []
-  initPos_X: -5
-  initPos_Z: 3
+  initPos_X: -1
+  initPos_Z: 7
   isEnemy: 0
   charaName: "\u51F1\u6069"
   maxHP: 30
@@ -13610,7 +13611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5629d1e70f723f24e854511d764ce368, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 1086131883}
 --- !u!65 &1042405226
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13647,7 +13648,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1042405213}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e110b6bb534a3f449b7c21321a8eb7e3, type: 3}
   m_Name: 
@@ -22765,6 +22766,8 @@ MonoBehaviour:
   minDistance: 2
   needToMoveCamera: 0
   additionalRotationY: 90
+  tempCameraPosition: {x: 0, y: 0, z: 0}
+  tempCameraRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!23 &1602940176
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23446,7 +23449,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
