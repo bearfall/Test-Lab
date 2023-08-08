@@ -9,13 +9,15 @@ namespace bearfall
     {
         private NavMeshAgent agent;
         private TestGameManager1 testGameManager1;
+        private TestGUIManager testGUIManager;
+        public GameObject healthBar;
 
         private void Awake()
         {
             agent = GetComponent<NavMeshAgent>();
             testGameManager1 = GameObject.Find("Manager").GetComponent<TestGameManager1>();
-
-
+            testGUIManager = GameObject.Find("Manager").GetComponent<TestGUIManager>();
+            healthBar.SetActive(false);
         }
         private void Start()
         {
@@ -49,7 +51,8 @@ namespace bearfall
                 this.GetComponent<NavMeshAgent>().enabled = false;
                 this.GetComponent<Collider>().enabled = false;
                 testGameManager1.currentArea = TestGameManager1.AreaType.TurnBasedCombat;
-                
+                healthBar.SetActive(true);
+                testGUIManager.ShowLogo_PlayerTurn();
 
                 print("進入戰鬥區域");
             }

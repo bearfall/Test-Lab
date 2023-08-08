@@ -34,7 +34,7 @@ namespace bearfall
 		private DiceLeave enemyDiceLeave;
 
 		private int playerNumber;
-		private int enemyNumber = 10;
+		private int enemyNumber = 6;
 
 		public Camera playerDiceCamera;
 		public Camera enemyDiceCamera;
@@ -429,7 +429,7 @@ namespace bearfall
 			testGuiManager.testBattleWindowUI.ShowWindow();
 			Camera.main.GetComponent<BattleCameraController>().StartCameraMovement(attackChara.transform, defenseChara.transform);
 			yield return new WaitForSeconds(1.5f);
-
+			Camera.main.GetComponent<BattleCameraController>().StopCameraMovement();
 			attackChara.GetComponent<Animator>().SetBool("isBattle", true);
 
 			rollDice.canCharge = true;
@@ -446,32 +446,31 @@ namespace bearfall
 			int attackPoint = attackChara.atk; // 攻撃側の攻撃力
 			int defencePoint = defenseChara.def; // 防御側の防御力
 												 // ダメージ＝攻撃力－防御力で計算
-			damageValue = attackPoint - defencePoint;
-			// ダメージ量が0以下なら0にする
-			if (damageValue < 0)
-				damageValue = 0;
-
+			
 			if (playerNumber > enemyNumber)
 			{
+				attackPoint = Mathf.RoundToInt(attackPoint*1.3f);
+			}
 
+			if (playerNumber < enemyNumber)
+			{
+				attackPoint = Mathf.RoundToInt(attackPoint * 0.7f);
+			}
 
-				// キャラクター攻撃アニメーション
-				attackChara.AttackAnimation(defenseChara);
-
-
+			damageValue = attackPoint - defencePoint;
+			if (damageValue < 0)
+				damageValue = 0;
+			// キャラクター攻撃アニメーション
+			attackChara.AttackAnimation(defenseChara);
 				// バトル結果表示ウィンドウの表示設定
 				// (HPの変更前に行う)
 				//testGuiManager.testBattleWindowUI.ShowWindow(defenseChara, damageValue);
-
 				// ダメージ量分防御側のHPを減少
-				defenseChara.TakeDamage(damageValue);
+			defenseChara.TakeDamage(damageValue);
 				//defenseChara.nowHP -= damageValue;
 				// HPが0～最大値の範囲に収まるよう補正
 				//defenseChara.nowHP = Mathf.Clamp(defenseChara.nowHP, 0, defenseChara.maxHP);
-
-
-				DamagePopUpGenerator.current.CreatePopUp(defenseChara.transform.position, damageValue.ToString(), Color.yellow);
-
+			DamagePopUpGenerator.current.CreatePopUp(defenseChara.transform.position, damageValue.ToString(), Color.yellow);
 
 				// HP0になったキャラクターを削除する
 				if (defenseChara.nowHP <= 0)
@@ -481,14 +480,48 @@ namespace bearfall
 					testCharactersManager.reFreshCharactorList();
 					CheckIsEnemyAlive();
 				}
-				// ターン切り替え処理(遅延実行)
-				DOVirtual.DelayedCall(
+			// ターン切り替え処理(遅延実行)
+			yield return new WaitForSeconds(2f);
+
+			 // ダメージ量
+			attackPoint = defenseChara.atk; // 攻撃側の攻撃力
+			defencePoint = attackChara.def; // 防御側の防御力
+
+			if (playerNumber > enemyNumber)
+			{
+				attackPoint = Mathf.RoundToInt(attackPoint * 0.7f);
+			}
+
+			if (playerNumber < enemyNumber)
+			{
+				attackPoint = Mathf.RoundToInt(attackPoint * 1.3f);
+			}
+
+			damageValue = attackPoint - defencePoint;
+			if (damageValue < 0)
+				damageValue = 0;
+
+			defenseChara.AttackAnimation(attackChara);
+			attackChara.TakeDamage(damageValue);
+
+			DamagePopUpGenerator.current.CreatePopUp(attackChara.transform.position, damageValue.ToString(), Color.yellow);
+
+			if (attackChara.nowHP <= 0)
+			{
+				attackChara.GetComponent<Animator>().SetBool("die", true);
+				yield return new WaitForSeconds(2f);
+				testCharactersManager.DeleteCharaData(attackChara);
+				enemyCount--;
+				testCharactersManager.reFreshCharactorList();
+				CheckIsEnemyAlive();
+			}
+			DOVirtual.DelayedCall(
 					2.0f, // 遅延時間(秒)
 					() =>
 					{// 遅延実行する内容
 					 // ウィンドウを非表示化
 
-
+						attackChara.hasActed = true;
 
 						testGuiManager.testBattleWindowUI.HideWindow();
 						testGuiManager.HideStatusWindow();
@@ -514,22 +547,6 @@ namespace bearfall
 						}
 					}
 				);
-			}
-			else
-			{
-				print("無法攻擊");
-				testCharacter.hasActed = true;
-				testCharacter.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.1f, 0.1f, 0.1f, 1);
-				DOVirtual.DelayedCall(
-					2.0f, // 遅延時間(秒)
-					() =>
-					{
-						HideDice();
-					}
-				);
-				attackChara.GetComponent<Animator>().SetBool("isBattle", false);
-				CheckIsAllActive();
-			}
 
 		}
 
